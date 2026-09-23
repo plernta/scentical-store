@@ -2,258 +2,156 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png"><meta name="theme-color" content="#1C1C1A"><title>บอร์ดใหญ่ทั้งบ้าน</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Prompt:wght@200;300;400;500;600&family=Trirong:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>หน้าตัดสินใจ — บอร์ดทั้งบ้าน</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500&family=Trirong:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#FAFAF9;--panel:#ffffff;--ink:#1C1C1A;--muted:#8A877E;--gold:#D4AF37;--line:rgba(212,175,55,.25);--green:#7fb069;--red:#c86b5a}
+:root{--bg:#FAFAF9;--ink:#1C1C1A;--mut:#6B685E;--line:#E8E8E3;--gold:#8A6D24;--panel:#ffffff}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:'Prompt',sans-serif;line-height:1.7}
-.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-header{padding:46px 0 20px;text-align:center;border-bottom:1px solid var(--line);background:var(--bg)}
-.brand{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;letter-spacing:.07em;background:linear-gradient(105deg,#f5e3a8,#d4af37 45%,#f8ecc0 60%,#b8933a);-webkit-background-clip:text;background-clip:text;color:transparent}
-.sub{color:var(--muted);font-weight:300;margin-top:4px}
-h2{font-family:'Trirong',serif;font-weight:500;font-size:25px;color:#1C1C1A;margin:44px 0 6px;display:flex;align-items:center;gap:14px}
-h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(212,175,55,.5),transparent)}
-.secsub{color:var(--muted);font-size:14px;margin-bottom:18px}
-.card{background:#fff;border:1px solid #E8E8E3;border-radius:14px;padding:18px 20px;margin-bottom:14px}
-.card.done{border-color:rgba(127,176,105,.55)}
-.card .head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.card .num{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:22px;font-weight:700}
-.card .title{font-weight:500;color:#1C1C1A;font-size:16.5px}
-.chip{font-size:12px;padding:2px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
-.chip.time{color:#D8CBA0;border-color:rgba(212,175,55,.4)}
-.choices{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.choices button{background:transparent;border:1px solid rgba(212,175,55,.4);color:var(--muted);border-radius:999px;padding:7px 16px;font-family:'Prompt';font-size:14px;cursor:pointer;transition:.15s}
-.choices button:hover{border-color:var(--gold);color:var(--gold)}
-.choices button.sel{background:var(--gold);color:#0C0A06;border-color:var(--gold);font-weight:500}
-.projbar{position:sticky;top:0;z-index:50;background:rgba(12,10,6,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 0}
-.projbar .wrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.projbar .copy{margin-left:auto}
-.copybtn{background:var(--gold);color:#0C0A06;border:none;border-radius:999px;padding:9px 22px;font-family:'Prompt';font-weight:500;font-size:14.5px;cursor:pointer}
-.copybtn:hover{background:#e8c95e}
-.summary{background:#F3F1EA;border:1px dashed rgba(212,175,55,.4);border-radius:12px;padding:14px 18px;margin:14px 0;font-size:14.5px;white-space:pre-wrap;color:#D8CBA0;display:none}
-.custom{display:flex;gap:8px;margin-top:10px}
-.custom input{flex:1;border:1px solid #E8E8E3;border-radius:999px;padding:7px 16px;font-family:'Prompt';font-size:13.5px;font-weight:300;min-width:110px;background:#fff}
-.custom button{border:1px solid #E8E8E3;background:#fff;color:#8A877E;border-radius:999px;padding:6px 15px;font-family:'Prompt';font-size:13px;cursor:pointer}
-.custom button:hover{border-color:#B8933A;color:#B8933A}
-.custom button.micon{background:#B8933A;color:#fff;border-color:#B8933A}
-.dock{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid #E8E8E3;display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:80}
-.dock a{display:flex;flex-direction:column;align-items:center;gap:1px;font-size:10.5px;color:#8A877E;padding:2px 5px;border-radius:10px}
-.dock a .ic{font-size:19px;line-height:1.2}
-.dock a.on{color:#B8933A;font-weight:400}
-body{padding-bottom:74px}
-@media(min-width:768px){.dock{display:none}body{padding-bottom:0}}
-.navlinks{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
-.navlinks a{padding:5px 12px;border-radius:999px;font-size:13.5px;color:#8A877E}
-.navlinks a:hover{color:#B8933A}
-.rules{border:1px solid #E8E8E3;border-radius:10px;background:#fff;padding:18px 22px}
-.rules li{margin-bottom:7px;font-weight:300}
-.rules li b{font-weight:500}
-
+body{background:var(--bg);color:var(--ink);font-family:'Prompt',sans-serif;line-height:1.75;font-weight:300}
+a{color:inherit}
+.wrap{max-width:780px;margin:0 auto;padding:0 20px}
+.top{padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
+.top a{text-decoration:none}
+.top a:hover{color:var(--gold)}
+h1{font-family:'Trirong',serif;font-weight:500;font-size:30px;margin:30px 0 2px}
+.sub{color:var(--mut);margin-bottom:26px;font-size:14.5px}
+.card{border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:14px;background:#fff}
+.card.done{border-color:var(--gold)}
+.row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.num{font-family:'Trirong',serif;color:var(--gold);font-size:19px}
+.tt{font-weight:400;font-size:16.5px}
+.choices{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.choices button{background:#fff;border:1.5px solid #C9C6BD;color:var(--ink);border-radius:12px;padding:13px 20px;font-family:'Prompt';font-size:15px;font-weight:400;cursor:pointer;min-height:48px;transition:.12s}
+.choices button:hover{border-color:var(--gold)}
+.choices button.sel{background:#1C1C1A;color:#fff;border-color:#1C1C1A}
+.feedback{display:none;margin-top:10px;font-size:14px;color:#3E7C3E}
+.feedback.show{display:block}
+.custom{display:flex;gap:8px;margin-top:12px}
+.custom input{flex:1;border:1.5px solid #C9C6BD;border-radius:12px;padding:12px 16px;font-family:'Prompt';font-size:15px;font-weight:300;min-width:120px;background:#fff}
+.custom input:focus{outline:none;border-color:var(--gold)}
+.custom button{border:1.5px solid #C9C6BD;background:#fff;color:var(--ink);border-radius:12px;padding:10px 16px;font-family:'Prompt';font-size:14px;cursor:pointer;min-height:48px;white-space:nowrap}
+.custom button:hover{border-color:var(--gold);color:var(--gold)}
+.bar{position:sticky;top:0;z-index:60;background:rgba(250,250,249,.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:10px;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
+.bar .btitle{font-family:'Trirong',serif;font-size:19px}
+.bar nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.bar nav a{padding:6px 13px;border-radius:999px;font-size:13.5px;color:var(--mut);text-decoration:none}
+.bar nav a.on{background:#1C1C1A;color:#fff}
+.summary{border:1.5px solid var(--gold);border-radius:12px;padding:16px 20px;margin:18px 0;font-size:15px;white-space:pre-wrap;color:#3E3A2E;display:none;background:#FFFDF6;font-weight:400}
 .summary.show{display:block}
-.stat{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:10px}
-.dot{width:11px;height:11px;border-radius:50%;flex:none}
-.dot.g{background:var(--green)}.dot.y{background:var(--gold)}.dot.r{background:var(--red)}.dot.w{background:#666}
-.stat .nm{font-weight:500;color:#1C1C1A;min-width:180px}
-.stat .st{color:var(--muted);font-size:14px;flex:1}
-.stat .blk{font-size:13px;color:#D8CBA0;border:1px dashed rgba(212,175,55,.35);border-radius:8px;padding:2px 10px}
-.task{display:flex;gap:12px;align-items:baseline;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:10px}
-.task .num{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:20px;font-weight:700;flex:none}
-.task .t{flex:1}
-.task .t b{color:#1C1C1A;font-weight:500}
-.task .t span{color:var(--muted);font-size:14px}
-.task .when{font-size:13px;color:#D8CBA0;border:1px dashed rgba(212,175,55,.35);border-radius:8px;padding:2px 10px;white-space:nowrap}
-footer{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 46px;color:var(--muted);font-size:13.5px;text-align:center}
-.gold{color:var(--gold)}
-@media(max-width:640px){.stat .blk{display:none}.projbar .wrap{justify-content:center}}
+.savefile{display:flex;gap:10px;margin:0 0 30px;flex-wrap:wrap}
+.savefile button{background:#5B8C5A;color:#fff;border:none;border-radius:12px;padding:13px 24px;font-family:'Prompt';font-size:15px;cursor:pointer}
+.savefile button:hover{background:#4a7349}
+.rules{border:1px solid var(--line);border-radius:10px;background:#fff;padding:18px 22px}
+.rules li{margin-bottom:8px;font-weight:300}
+.rules li b{font-weight:500}
+footer{margin-top:50px;padding:20px 0 40px;border-top:1px solid var(--line);color:var(--mut);font-size:12.5px}
 </style>
 </head>
 <body>
-
-<div class="projbar"><div class="wrap"><div style="padding-top:16px"><a href="board.html" style="font-size:13.5px;color:#8A877E;text-decoration:none">← กลับหน้ารวม</a></div>
-  <span class="gold" style="font-family:'Cormorant Garamond';font-size:22px;letter-spacing:3px">บอร์ดทั้งบ้าน</span>
-  <button class="copybtn" onclick="copySummary()">📋 คัดลอกสรุปคำตอบ ส่งให้โชกุน</button>
-<button class="copybtn" style="background:#5B8C5A" onclick="saveFile()">💾 บันทึกไฟล์สั่งงาน (ลงเครื่องบ้าน)</button>
-</div></div>
-
-<header class="wrap">
-  <div class="brand">บอร์ดใหญ่ทั้งบ้าน</div>
-  <div class="sub">ทุกโปรเจค · งานค้างที่แม่ตัดสินใจ · งานที่โชกุนลงมือ — อัปเดต 23 ก.ย. 2026</div>
-</header>
-
+<div class="bar"><div class="wrap"><span class="btitle">บอร์ดทั้งบ้าน</span><nav>
+<a href="board.html">หน้าแรก</a><a href="board-scentical.html">Scentical</a><a href="board-patent.html">สิทธิบัตร</a><a href="board-chip.html">ชิป</a><a href="board-kobo.html">Kobo</a><a href="board-voice.html">เสียง</a>
+</nav></div></div>
 <div class="wrap">
-  <div class="summary" id="summaryBox"></div>
-
-  <h2>📬 A — รอแม่ตัดสินใจ</h2>
-  <div class="secsub">แตะเลือกได้เลยครับ — เลือกแล้วระบบจะสรุปคำตอบให้กดคัดลอกส่งกลับมาหาโชกุน</div>
-  <div id="aCards"></div>
-
-  <h2>🤖 B — โชกุนกำลังทำ/เสนอตัว (ไม่ต้องรอแม่)</h2>
-  <div class="secsub">งานเหล่านี้โชกุนทำเองได้ — จะรายงานผลทุกเช้า</div>
-  <div id="bCards"></div>
-
-  <h2>📊 C — สถานะโปรเจคทั้งบ้าน</h2>
-  <div class="secsub">สี = 🟢 วิ่งอยู่ · 🟡 รอจังหวะ · 🔴 พัก/รอ · ⚪ แนวคิด</div>
-  <div id="cCards"></div>
+<h1>หน้าตัดสินใจ</h1>
+<div class="sub">แตะเลือกคำตอบ หรือพิมพ์/กดไมค์พูดแทนได้ — เสร็จแล้วกด "บันทึกไฟล์สั่งงาน" ด้านล่าง ลูกจะรับไปทำต่อให้ครับ</div>
+<div id="aCards"></div>
+<h2>กฎการใช้บอร์ด</h2>
+<div class="rules"><ul style="padding-left:20px">
+<li><b>เพิ่มงานเข้าโปรเจค เมื่อ:</b> แม่ตัดสินใจแล้ว / เจอบั๊กที่ลูกค้าหรือแม่เห็น / ขั้นถัดไปชัดเจนของงานที่เสร็จ — ทุกงานต้องมีผลลัพธ์วัดได้+ผู้ทำ</li>
+<li><b>ขึ้นโปรเจคใหม่ เมื่อครบ 3 ข้อ:</b> รู้ปลายทาง · ไม่ซ้ำงานที่วิ่งอยู่ · มีผู้ดูแลหลัก+งาน active ยังไม่ล้น (WIP=1 ต่อคน)</li>
+<li><b>พัก/ปิดโปรเจค เมื่อ:</b> เงียบ 7 วัน+ไม่มีผู้รับผิดชอบ → พักอัตโนมัติ (จดเหตุผล แก้คืนได้เสมอ)</li>
+<li><b>ตลอดเวลา:</b> ของจริง &gt; ของแต่ง · เจตนาแม่ถามตัวจริง · จบที่รุ่นที่ผู้รับว่าดีสุด</li>
+</ul></div>
+<div class="savefile"><button onclick="saveFile()">💾 บันทึกไฟล์สั่งงาน (ลงเครื่องบ้าน)</button></div>
 </div>
-
-<footer><div class="wrap">บอร์ดนี้อ่านได้ทุกคนที่มีลิงก์ · การตัดสินใจของแม่เก็บในเบราว์เซอร์ของแม่เอง (ไม่ส่งขึ้น server) · อัปเดตบอร์ดโดยโชกุน GL ⚫🔺⚪</div></footer>
-
+<footer><div class="wrap">บอร์ดทั้งบ้าน · ข้อมูลการตัดสินใจเก็บในเครื่องแม่เอง · อัปเดตโดยโชกุน GL 23 ก.ย. 2026</div></footer>
 <script>
-const A = [
- {n:"A1", t:"เปิดบัญชีขาย Lazada/Shopee", p:"Scentical", time:"30-40 นาที (โชกุนนั่งสอน)", c:["นั่งกับโชกุนเลย","ค่อยทำ"]},
- {n:"A2", t:"ยืนยันราคา THB บนเว็บ (฿129-499)", p:"Scentical", time:"5 นาที", c:["โอเคตามที่เสนอ","ลดราคา","ปรับราคาอื่น"]},
- {n:"A3", t:"เปิด LINE OA + QR พร้อมเพย์", p:"Scentical", time:"~20 นาที", c:["เปิดเลย","ค่อยทำ"]},
- {n:"A4", t:"Forex: เปิด gate แก้บั๊ก + 50 ไม้ demo", p:"Shokun Capital", time:"1 ประโยค", c:["เปิด gate","ปิดถาวร","คิวก่อน"]},
- {n:"A5", t:"AI-Trend-Engineers: เริ่มรันครั้งแรก", p:"Trend Engineers", time:"1 ประโยค", c:["เริ่มรัน","ปิดถาวร","พัก"]},
- {n:"A6", t:"กติกาบ้าน 6 ข้อ", p:"ทั้งบ้าน", time:"1 ประโยค", c:["อนุมัติ","ปรับบางข้อ"]},
- {n:"A7", t:"สิทธิบัตร: ยื่นแฟ้มไหนก่อน", p:"สิทธิบัตร", time:"คุยกับพ่อ", c:["ยื่น OctaV เต็ม","ยื่น VC-90 petty","รอคุยพ่อ"]},
- {n:"A8", t:"PhytoMatter: ฟื้น/ปิดถาวร", p:"Content", time:"1 ประโยค", c:["ปิดถาวร","ฟื้นแบบเบา","พักต่อ"]},
- {n:"A9", t:"จักรเย็บ: ซื้อเลยไหม (เย็บให้พ่อ)", p:"ส่วนตัว", time:"1 ประโยค", c:["ซื้อเลย","ไม่ซื้อ","คิวก่อน"]},
- {n:"A10", t:"งบโฆษณาเปิดร้าน", p:"Scentical", time:"1 ประโยค", c:["มีงบเล็กน้อย","ไม่ใช้ organic ก่อน"]},
+"use strict";
+var A = [
+ {n:"A1", t:"เปิดบัญชีขาย Lazada/Shopee", c:["นั่งกับโชกุนเลย","ค่อยทำ"]},
+ {n:"A2", t:"ยืนยันราคา THB บนเว็บ (฿129-499)", c:["โอเคตามที่เสนอ","ลดราคา","ปรับราคาอื่น"]},
+ {n:"A3", t:"เปิด LINE OA + QR พร้อมเพย์", c:["เปิดเลย","ค่อยทำ"]},
+ {n:"A4", t:"Forex: เปิด gate แก้บั๊ก + 50 ไม้ demo", c:["เปิด gate","ปิดถาวร","คิวก่อน"]},
+ {n:"A5", t:"AI-Trend-Engineers: เริ่มรันครั้งแรก", c:["เริ่มรัน","ปิดถาวร","พัก"]},
+ {n:"A6", t:"กติกาบ้าน 6 ข้อ", c:["อนุมัติ","ปรับบางข้อ"]},
+ {n:"A7", t:"สิทธิบัตร: ยื่นแฟ้มไหนก่อน", c:["ยื่น OctaV เต็ม","ยื่น VC-90 petty","รอคุยพ่อ"]},
+ {n:"A8", t:"PhytoMatter: ฟื้น/ปิดถาวร", c:["ปิดถาวร","ฟื้นแบบเบา","พักต่อ"]},
+ {n:"A9", t:"จักรเย็บ: ซื้อเลยไหม (เย็บให้พ่อ)", c:["ซื้อเลย","ไม่ซื้อ","คิวก่อน"]},
+ {n:"A10", t:"งบโฆษณาเปิดร้าน", c:["มีงบเล็กน้อย","ไม่ใช้ organic ก่อน"]}
 ];
-const B = [
- ["B1","ร่างลิสต์ Lazada 3 ฮีโร่ (แบบฟอร์ม+คำบรรยาย+รูป)","เซสชันหน้า"],
- ["B2","คอนเทนต์เปิดร้าน (แคปชั่น+แผนคลิป)","ต่อจาก B1"],
- ["B3","ตรวจ gallery รองทีละใบ (มือ/ตัวหนังสือ/ของลอย)","เซสชันหน้า"],
- ["B4","VC-90 petty patent เติมรูปเขียน+เลขอ้างอิง+หลักฐาน sim","เซสชันสิทธิบัตร"],
- ["B5","คัดคลัง 6,509 นิพจน์ (สายพานพร้อม)","รอคิว"],
- ["B6","FDTD 3D","รอคิว"],
- ["B7","ฝั่งยา E-ยา (prototype มีแล้ว)","รอคิว"],
- ["B8","ComfyUI เจนฉาก AI รายสินค้า","ได้ตลอด"],
-];
-const C = [
- ["g","Scentical (ร้าน+เว็บ)","เว็บ live สองภาษา · รูป v11 · CS Kit · แผนส่งของ+ปฏิทินจีน","A1-A3"],
- ["y","สิทธิบัตร (Octa-V + VC-90)","3 แฟ้ม · OctaV FILING_READY · VC-90 เหลือ ~50% · ยังไม่ยื่น DPI","A7"],
- ["y","ชิป/Chip FPGA","vc90_core.sv ผ่าน 213 ข้อ · บอร์ดจริงยังไม่มี","คอร์สแม่ 28-30 ต.ค."],
- ["g","Kobo (AI OS บ้าน)","L17 COMPLETE 5,606 tests · leader integration รอแม่","B10"],
- ["y","เรียน (แม่)","คอร์ส FPGA 28-30 ต.ค. · EV3→Arduino ร่างแล้ว","เวลาแม่"],
- ["r","Content (PhytoMatter+TikTok)","เงียบ 3+ เดือน · Gemini pipeline เคยรันจริง","A8"],
- ["r","Forex/Shokun Capital","12 ไม้ demo -$19.61 · บั๊ก lot 27 เท่า","A4"],
- ["r","AI-Trend-Engineers","90% ready ไม่เคยรัน","A5"],
- ["w","Borderless Trade","แนวคิด ยังไม่มี deliverable","—"],
- ["g","เครื่องมือบ้าน (ComfyUI/sumi/build)","เจนภาพได้จริง · สคริปต์รันซ้ำได้","ใช้งาน"],
-];
-function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
-document.getElementById('aCards').innerHTML = A.map(a=>`
- <div class="card" id="c${a.n}">
-  <div class="head"><span class="num">${a.n}</span><span class="title">${esc(a.t)}</span>
-  <span class="chip">${esc(a.p)}</span><span class="chip time">⏱ ${esc(a.time)}</span></div>
-  <div class="choices">${a.c.map(o=>`<button onclick="pick('${a.n}','${o.replace(/'/g,"\\'")}',this)">${esc(o)}</button>`).join("")}</div>
- </div>`).join("");
-const savedB = JSON.parse(localStorage.getItem('board_b') || '{}');
-document.getElementById('bCards').innerHTML = B.map(b=>{
-  const cm = savedB[b[0]] || '';
-  return `<div class="task"><span class="num">${b[0]}</span><div class="t" style="flex:1"><b>${esc(b[1])}</b>
-  <div style="margin-top:6px"><input style="width:100%;border:1px solid #E8E8E3;border-radius:8px;padding:6px 12px;font-family:'Prompt';font-size:13.5px;font-weight:300" placeholder="💬 ความเห็น/คำถามของแม่…" value="${esc(cm)}" oninput="saveB('${b[0]}',this.value)"></div></div>
-  <span class="when">📅 ${esc(b[2])}</span></div>`;
-}).join("");
-function saveB(n, v){
-  const o = JSON.parse(localStorage.getItem('board_b') || '{}');
-  if (v.trim()) o[n] = v; else delete o[n];
-  localStorage.setItem('board_b', JSON.stringify(o));
-}
-</script>
-document.getElementById('cCards').innerHTML = C.map(c=>`
- <div class="stat"><span class="dot ${c[0]}"></span><span class="nm">${esc(c[1])}</span><span class="st">${esc(c[2])}</span>${c[3]!=="—"?`<span class="blk">รอ: ${esc(c[3])}</span>`:""}</div>`).join("");
-const saved = JSON.parse(localStorage.getItem('board24') || '{}');
-function pick(n, choice, btn){
-  saved[n] = choice;
-  localStorage.setItem('board24', JSON.stringify(saved));
-  const card = btn.closest('.card');
-  card.querySelectorAll('.choices button').forEach(b => b.classList.remove('sel'));
-  btn.classList.add('sel');
-  card.classList.add('done');
-  showSummary();
-}
-function showSummary(){
-  const ans = A.filter(a => saved[a.n]).map(a => `${a.n}: ${saved[a.n]}`);
-  const box = document.getElementById('summaryBox');
-  if (ans.length){
-    box.classList.add('show');
-    box.textContent = '📋 สรุปคำตอบของแม่:\n' + ans.join('\n');
-  } else box.classList.remove('show');
-}
-// restore เลือกเดิม
-document.querySelectorAll('#aCards .card').forEach(card => {
-  const n = card.id.slice(1);
-  if (saved[n]) card.classList.add('done');
-});
-setLangDefault();
-function setLangDefault(){
-  A.forEach(a => {
-    const card = document.getElementById('c'+a.n);
-    if (!card || !saved[a.n]) return;
-    const i = a.c.indexOf(saved[a.n]);
-    if (i >= 0) card.querySelectorAll('.choices button')[i].classList.add('sel');
+var saved = JSON.parse(localStorage.getItem("board24") || "{}");
+var rec = null;
+function el(id){ return document.getElementById(id); }
+function renderAll(){
+  var grid = el("aCards");
+  grid.innerHTML = "";
+  A.forEach(function(a){
+    var val = saved[a.n] || "";
+    var card = document.createElement("div");
+    card.className = "card"; card.id = "c" + a.n;
+    var h = "<div class=\"row\"><span class=\"num\">" + a.n + "</span><span class=\"tt\">" + a.t + "</span></div><div class=\"choices\">";
+    a.c.forEach(function(o){
+      var sel = (val === o) ? " sel" : "";
+      h += "<button class=\"ch" + sel + "\" data-n=\"" + a.n + "\" data-v=\"" + o + "\">" + o + "</button>";
+    });
+    h += "</div><div class=\"custom\"><input data-n=\"" + a.n + "\" placeholder=\"หรือพิมพ์/กดไมค์พูดแทน…\" value=\"" + val + "\">" +
+         "<button class=\"mic\" data-mic=\"" + a.n + "\" title=\"พูดแทนพิมพ์\">🎙</button>" +
+         "<button data-save=\"" + a.n + "\">บันทึก</button></div>";
+    card.innerHTML = h;
+    card.querySelectorAll("button.ch").forEach(function(b){
+      b.addEventListener("click", function(){ pick(b.dataset.n, b.dataset.v, b); });
+    });
+    card.querySelector("button.mic").addEventListener("click", function(){ startSTT(a.n, this); });
+    card.querySelector("button[data-save]").addEventListener("click", function(){ saveCustom(a.n, this); });
+    grid.appendChild(card);
   });
-  showSummary();
 }
+function pick(n, choice, btn){
+  saved[n] = choice; save();
+  var card = el("c" + n);
+  card.querySelectorAll("button.ch").forEach(function(b){ b.classList.remove("sel"); });
+  btn.classList.add("sel"); card.classList.add("done");
+  flash(card, "บันทึกแล้วครับแม่ ✓");
+}
+function saveCustom(n, inp){
+  var v = inp.value.trim(); if (!v){ inp.focus(); return; }
+  saved[n] = v; save();
+  var card = el("c" + n);
+  card.classList.add("done"); flash(card, "บันทึกแล้วครับแม่ ✓");
+}
+function flash(card, msg){
+  var f = card.querySelector(".feedback");
+  if (!f){ f = document.createElement("div"); f.className = "feedback"; card.appendChild(f); }
+  f.textContent = msg; f.classList.add("show");
+  setTimeout(function(){ f.classList.remove("show"); }, 2600);
+}
+function save(){ localStorage.setItem("board24", JSON.stringify(saved)); }
 function saveFile(){
-  const ans = A.filter(a => saved[a.n]).map(a => a.n + ': ' + saved[a.n]);
-  const cm = Object.entries(JSON.parse(localStorage.getItem('board_b') || '{}')).map(([k,v]) => k + ': ' + v);
-  if (!ans.length && !cm.length){ alert('ยังไม่มีคำตอบ/ความเห็นให้บันทึกครับแม่'); return; }
-  let out = 'คำสั่งงานจากแม่ ' + new Date().toLocaleString('th-TH') + '
-';
-  if (ans.length) out += '[คำตอบ]
-' + ans.join('
-') + '
-';
-  if (cm.length) out += '[ความเห็น]
-' + cm.join('
-') + '
-';
-  const b = new Blob([out], {type:'text/plain;charset=utf-8'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(b);
-  a.download = 'คำสั่งงานแม่-' + new Date().toISOString().slice(0,10) + '.txt';
+  var ans = A.filter(function(a){ return saved[a.n]; }).map(function(a){ return a.n + ": " + saved[a.n]; });
+  if (!ans.length){ alert("ยังไม่มีคำตอบให้บันทึกครับแม่"); return; }
+  var out = "คำสั่งงานจากแม่ " + new Date().toLocaleString("th-TH") + "\n[คำตอบ]\n" + ans.join("\n") + "\n";
+  var blob = new Blob([out], {type:"text/plain;charset=utf-8"});
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "คำสั่งงานแม่-" + new Date().toISOString().slice(0,10) + ".txt";
   a.click();
 }
-function copySummary(){
-  const ans = A.filter(a => saved[a.n]).map(a => `${a.n}: ${saved[a.n]}`);
-  if (!ans.length){ alert('ยังไม่ได้เลือกอะไรเลยครับแม่'); return; }
-  const txt = 'คำตอบบอร์ดใหญ่ 23 ก.ย.:\n' + ans.join('\n');
-  if (navigator.clipboard) navigator.clipboard.writeText(txt).then(()=>alert('คัดลอกแล้วครับ — วางส่งให้โชกุนในแชทได้เลย'));
-  else { const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); alert('คัดลอกแล้วครับ — วางส่งให้โชกุนได้เลย'); }
-}
-
-function saveCustom(n, btn){
-  const inp = btn.parentElement.querySelector('input');
-  const v = inp.value.trim(); if (!v) { inp.focus(); return; }
-  pick(n, v, btn); inp.value = '';
-}
-document.querySelectorAll('#aCards .card').forEach(card => {
-  const n = card.id.slice(1);
-  const div = document.createElement('div');
-  div.className = 'custom';
-  div.innerHTML = '<div class="custom"><input placeholder="พิมพ์หรือกดไมค์ 🎙️ พูดแทนได้เลย…" onkeydown="if(event.key===\'Enter\')saveCustom(\'' + n + '\',this)"><button title="พูดแทนพิมพ์ (STT)" onclick="startSTT(this,\'' + n + '\')">🎙️</button><button onclick="saveCustom(\'' + n + '\',this)">บันทึก</button></div>';
-  card.appendChild(div);
-});
-
-let rec = null;
 function startSTT(btn, n){
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR){ alert('เบราว์เซอร์นี้ไม่รองรับไมค์ — ใช้ Chrome หรือพิมพ์แทนครับ'); return; }
-  const card = btn.closest('.card');
-  const input = card.querySelector('.custom input');
-  if (rec){ rec.stop(); rec = null; btn.textContent = '🎙️'; return; }
-  rec = new SR(); rec.lang = 'th-TH'; rec.interimResults = true; rec.continuous = true;
-  btn.textContent = '🔴 ฟังอยู่';
-  rec.onresult = e => {
-    let t = '';
-    for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript;
-    input.value = t;
-  };
-  rec.onerror = () => { btn.textContent = '🎙️'; };
-  rec.onend = () => { btn.textContent = '🎙️'; rec = null; };
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR){ alert("เบราว์เซอร์นี้ไม่รองรับไมค์ — ใช้ Chrome แล้วพิมพ์แทนครับ"); return; }
+  var input = document.querySelector("#c" + n + " .custom input");
+  if (rec){ rec.stop(); rec = null; btn.textContent = "🎙"; return; }
+  rec = new SR(); rec.lang = "th-TH"; rec.interimResults = true; rec.continuous = true;
+  btn.textContent = "🔴 ฟังอยู่…";
+  rec.onresult = function(e){ var t = ""; for (var i = 0; i < e.results.length; i++) t += e.results[i][0].transcript; input.value = t; };
+  rec.onerror = function(){ btn.textContent = "🎙"; rec = null; };
+  rec.onend = function(){ btn.textContent = "🎙"; rec = null; };
   rec.start();
 }
-function saveCustom(n, btn){
-  const input = btn.parentElement.querySelector('input');
-  const v = input.value.trim(); if (!v) { input.focus(); return; }
-  pick(n, v, btn); input.value = ''; btn.textContent = '🎙️';
-}
+renderAll();
 </script>
 </body></html>
