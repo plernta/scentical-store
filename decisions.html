@@ -38,7 +38,7 @@ h1{font-family:'Trirong',serif;font-weight:500;font-size:30px;margin:30px 0 2px}
 .bar .wrap{display:flex;align-items:center;gap:10px;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
 .bar .btitle{font-family:'Trirong',serif;font-size:19px}
 .bar nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
-.bar nav a{padding:6px 13px;border-radius:999px;font-size:13.5px;color:var(--mut);text-decoration:none}
+.bar nav a{padding:10px 14px;border-radius:999px;font-size:13.5px;color:var(--mut);text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
 .bar nav a.on{background:#1C1C1A;color:#fff}
 .summary{border:1.5px solid var(--gold);border-radius:12px;padding:16px 20px;margin:18px 0;font-size:15px;white-space:pre-wrap;color:#3E3A2E;display:none;background:#FFFDF6;font-weight:400}
 .summary.show{display:block}
@@ -86,19 +86,20 @@ var A = [
 var saved = JSON.parse(localStorage.getItem("board24") || "{}");
 var rec = null;
 function el(id){ return document.getElementById(id); }
+function escAttr(s){ return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
 function renderAll(){
   var grid = el("aCards");
   grid.innerHTML = "";
   A.forEach(function(a){
     var val = saved[a.n] || "";
     var card = document.createElement("div");
-    card.className = "card"; card.id = "c" + a.n;
+    card.className = "card" + (val ? " done" : ""); card.id = "c" + a.n;
     var h = "<div class=\"row\"><span class=\"num\">" + a.n + "</span><span class=\"tt\">" + a.t + "</span></div><div class=\"choices\">";
     a.c.forEach(function(o){
       var sel = (val === o) ? " sel" : "";
       h += "<button class=\"ch" + sel + "\" data-n=\"" + a.n + "\" data-v=\"" + o + "\">" + o + "</button>";
     });
-    h += "</div><div class=\"custom\"><input data-n=\"" + a.n + "\" placeholder=\"หรือพิมพ์/กดไมค์พูดแทน…\" value=\"" + val + "\">" +
+    h += "</div><div class=\"custom\"><input data-n=\"" + a.n + "\" placeholder=\"หรือพิมพ์/กดไมค์พูดแทน…\" value=\"" + escAttr(val) + "\">" +
          "<button class=\"mic\" data-mic=\"" + a.n + "\" title=\"พูดแทนพิมพ์\">🎙</button>" +
          "<button data-save=\"" + a.n + "\">บันทึก</button></div>";
     card.innerHTML = h;
@@ -117,7 +118,8 @@ function pick(n, choice, btn){
   btn.classList.add("sel"); card.classList.add("done");
   flash(card, "บันทึกแล้วครับแม่ ✓");
 }
-function saveCustom(n, inp){
+function saveCustom(n, btn){
+  var inp = btn.parentElement.querySelector('input');
   var v = inp.value.trim(); if (!v){ inp.focus(); return; }
   saved[n] = v; save();
   var card = el("c" + n);
@@ -140,7 +142,7 @@ function saveFile(){
   a.download = "คำสั่งงานแม่-" + new Date().toISOString().slice(0,10) + ".txt";
   a.click();
 }
-function startSTT(btn, n){
+function startSTT(n, btn){
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR){ alert("เบราว์เซอร์นี้ไม่รองรับไมค์ — ใช้ Chrome แล้วพิมพ์แทนครับ"); return; }
   var input = document.querySelector("#c" + n + " .custom input");
