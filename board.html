@@ -38,19 +38,22 @@ h2{font-size:14px;font-weight:500;letter-spacing:.14em;color:var(--mut);text-tra
 .copybtn:hover{background:var(--gold)}
 .summary{border:1px dashed var(--line);border-radius:10px;padding:14px 18px;margin:0 0 14px;font-size:14px;white-space:pre-wrap;color:#6b6659;display:none;background:#fff}
 .summary.show{display:block}
-.hubcard{display:block;border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin-bottom:12px;background:#fff;transition:.12s}
+.hubgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.hubcard{display:block;border:1px solid var(--line);border-radius:10px;padding:18px 20px;background:#fff;transition:.12s}
+.hubcard .nm{font-family:'Trirong',serif;font-size:21px;font-weight:500}
+.hubcard .ds{font-size:13px;color:var(--mut);font-weight:300;margin-top:4px;line-height:1.6}
+.hubcard .pend{font-size:12px;color:var(--gold);margin-top:10px}
+.hubwrap{max-width:1080px}
 .hubcard:hover{border-color:var(--gold)}
-.hubcard .nm{font-family:'Trirong',serif;font-size:23px;font-weight:500}
-.hubcard .ds{font-size:14.5px;color:var(--mut);font-weight:300;margin-top:2px}
-.hubcard .pend{font-size:12.5px;color:var(--gold);margin-top:8px}
 footer{margin-top:56px;padding:22px 0 44px;border-top:1px solid var(--line);color:var(--mut);font-size:12.5px}
-</style></head><body><div class="wrap">
-<h1 style="margin-top:52px">บอร์ดทั้งบ้าน</h1>
+</style></head><body><div class="wrap hubwrap">
+<h1 style="margin-top:44px">บอร์ดทั้งบ้าน</h1>
 <div class="sub">ทุกโปรเจค · แยกหน้ารายโปรเจค · แตะการตัดสินใจได้เลย — 23 ก.ย. 2026</div>
+<div class="hubgrid">
 <a class="hubcard" href="board-scentical.html"><div class="nm"><span class="dot g"></span>Scentical</div><div class="ds">ร้านของหอม — เปิดร้าน pre-order ทุน 0 · เว็บ live · รอเปิดบัญชีขาย</div><div class="pend">📬 รอแม่ตัดสิน 4 ข้อ</div></a>
 <a class="hubcard" href="board-patent.html"><div class="nm"><span class="dot y"></span>สิทธิบัตร</div><div class="ds">Octa-V + VC-90 + petty patent — 3 แฟ้มพร้อม ยังไม่ยื่นกรมสิทธิบัตรจริง</div><div class="pend">📬 รอแม่ตัดสิน 1 ข้อ</div></a>
 <a class="hubcard" href="board-chip.html"><div class="nm"><span class="dot y"></span>ชิป / Chip</div><div class="ds">vc90_core.sv → บอร์ด FPGA — รอคอร์สแม่ 28-30 ต.ค.</div><div class="pend">โชกุนดูแลเอง — ไม่ต้องรอ</div></a>
 <a class="hubcard" href="board-kobo.html"><div class="nm"><span class="dot g"></span>Kobo</div><div class="ds">AI OS ของบ้าน — L17 จบสมบูรณ์ · รอแม่ตัดสินเรื่อง leader integration</div><div class="pend">📬 รอแม่ตัดสิน 1 ข้อ</div></a>
-<a class="hubcard" href="board-voice.html"><div class="nm"><span class="dot g"></span>เสียง / Voice</div><div class="ds">เสียงแม่ใช้งานจริงใน kobo chat แล้ว · GPT-SoVITS รอแม่อัดคลิปเสียงเพิ่ม</div><div class="pend">📬 รอแม่ตัดสิน 1 ข้อ</div></a>
+<a class="hubcard" href="board-voice.html"><div class="nm"><span class="dot g"></span>เสียง / Voice</div><div class="ds">เสียงแม่ใช้งานจริงใน kobo chat แล้ว · GPT-SoVITS รอแม่อัดคลิปเสียงเพิ่ม</div><div class="pend">📬 รอแม่ตัดสิน 1 ข้อ</div></a></div>
 <footer>อัปเดตโดยโชกุน GL · รายงานทุกเช้า ⚫🔺⚪</footer>
 </div></body></html>
