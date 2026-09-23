@@ -94,6 +94,7 @@ footer b{color:var(--gold)}
 </div></header>
 
 <section class="hero"><div class="frame"><div class="wrap">
+  <div class="en" id="t-hero-sub"></div>
   <img class="hero-prod" src="ai/cutout-burner.png" alt="">
   <div class="hero-brand">SCENTICAL</div>
   <div class="orn"><span class="l"></span><span class="d">◆</span><span class="r"></span></div>
@@ -150,7 +151,7 @@ function renderProducts(){
   document.getElementById('feat').innerHTML = P.filter(p=>p.featured).map(card).join('');
   document.getElementById('grid').innerHTML = P.filter(p=>!p.featured).map(card).join('');
 }
-function setText(id, val){ document.getElementById(id).innerHTML = val; }
+function setText(id, val){ const el = document.getElementById(id); if (el) el.innerHTML = val; }
 function setLang(l){
   LANG = l; localStorage.setItem('lang', l);
   document.documentElement.lang = l; document.body.className = l==='en'?'en':'';
