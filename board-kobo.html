@@ -31,6 +31,13 @@ h2{font-size:14px;font-weight:500;letter-spacing:.14em;color:var(--mut);text-tra
 .item .t{flex:1;font-weight:400;font-size:15.5px}
 .item .t span{display:block;font-weight:300;font-size:13.5px;color:var(--mut)}
 .stat{display:flex;gap:10px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.dock{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid #E8E8E3;display:flex;justify-content:space-around;padding:9px 6px calc(9px + env(safe-area-inset-bottom));z-index:80}
+.dock a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11.5px;color:#55524a;padding:3px 7px;border-radius:10px;text-decoration:none;font-weight:400}
+.dock a .ic{font-size:21px;line-height:1.2}
+.dock a:hover{color:#B8933A}
+.dock a.on{color:#B8933A;font-weight:500}
+@media(min-width:768px){.dock{display:none}}
+
 .stat:last-child{border-bottom:none}
 .stat b{font-weight:400;min-width:150px;flex:none;font-size:15px}
 .stat span{color:var(--mut);font-weight:300}

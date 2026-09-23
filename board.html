@@ -32,6 +32,13 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(212
 .projbar .wrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .projbar .copy{margin-left:auto}
 .copybtn{background:var(--gold);color:#0C0A06;border:none;border-radius:999px;padding:9px 22px;font-family:'Prompt';font-weight:500;font-size:14.5px;cursor:pointer}
+.dock{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid #E8E8E3;display:flex;justify-content:space-around;padding:9px 6px calc(9px + env(safe-area-inset-bottom));z-index:80}
+.dock a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11.5px;color:#55524a;padding:3px 7px;border-radius:10px;text-decoration:none;font-weight:400}
+.dock a .ic{font-size:21px;line-height:1.2}
+.dock a:hover{color:#B8933A}
+.dock a.on{color:#B8933A;font-weight:500}
+@media(min-width:768px){.dock{display:none}}
+
 .copybtn:hover{background:#e8c95e}
 .summary{background:#080704;border:1px dashed rgba(212,175,55,.4);border-radius:12px;padding:14px 18px;margin:14px 0;font-size:14.5px;white-space:pre-wrap;color:#D8CBA0;display:none}
 .summary.show{display:block}
@@ -55,7 +62,7 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 46px;colo
 <body>
 
 <div class="projbar"><div class="wrap">
-  <span class="gold" style="font-family:'Cormorant Garamond';font-size:22px;letter-spacing:3px">SCENTICAL × โชกุน</span>
+  <span class="gold" style="font-family:'Cormorant Garamond';font-size:22px;letter-spacing:3px">บอร์ดทั้งบ้าน</span>
   <button class="copybtn" onclick="copySummary()">📋 คัดลอกสรุปคำตอบ ส่งให้โชกุน</button>
 </div></div>
 
