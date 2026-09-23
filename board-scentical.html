@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scentical — บอร์ดบ้านโชกุน</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500&family=Trirong:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAF9;--ink:#1C1C1A;--mut:#8A877E;--line:#E8E8E3;--gold:#B8933A;--g:#5B8C5A;--r:#C0654F;--y:#C9A227}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Prompt',sans-serif;line-height:1.8;font-weight:300}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px}
+.top{padding:14px 0;border-bottom:1px solid var(--line);font-size:13.5px;color:var(--mut)}
+.top a:hover{color:var(--gold)}
+h1{font-family:'Trirong',serif;font-weight:500;font-size:34px;margin:44px 0 2px}
+.sub{color:var(--mut);margin-bottom:36px}
+h2{font-size:14px;font-weight:500;letter-spacing:.14em;color:var(--mut);text-transform:uppercase;margin:38px 0 14px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:9px;vertical-align:2px}
+.dot.g{background:var(--g)}.dot.y{background:var(--y)}.dot.r{background:var(--r)}.dot.w{background:#BBB}
+.card{border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:12px;background:#fff}
+.card.done{border-color:var(--g)}
+.row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.num{font-family:'Trirong',serif;color:var(--gold);font-size:19px}
+.tt{font-weight:400;font-size:16.5px}
+.meta{font-size:13px;color:var(--mut)}
+.choices{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.choices button{background:#fff;border:1px solid var(--line);color:var(--mut);border-radius:999px;padding:6px 16px;font-family:'Prompt';font-size:13.5px;font-weight:300;cursor:pointer}
+.choices button:hover{border-color:var(--gold);color:var(--gold)}
+.choices button.sel{background:var(--ink);color:#fff;border-color:var(--ink)}
+.item{display:flex;gap:12px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .num{flex:none;width:34px}
+.item .t{flex:1;font-weight:400;font-size:15.5px}
+.item .t span{display:block;font-weight:300;font-size:13.5px;color:var(--mut)}
+.stat{display:flex;gap:10px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.stat:last-child{border-bottom:none}
+.stat b{font-weight:400;min-width:150px;flex:none;font-size:15px}
+.stat span{color:var(--mut);font-weight:300}
+.copybtn{position:sticky;top:10px;float:right;background:var(--ink);color:#fff;border:none;border-radius:999px;padding:8px 20px;font-family:'Prompt';font-size:13.5px;cursor:pointer;margin-top:-6px}
+.copybtn:hover{background:var(--gold)}
+.summary{border:1px dashed var(--line);border-radius:10px;padding:14px 18px;margin:0 0 14px;font-size:14px;white-space:pre-wrap;color:#6b6659;display:none;background:#fff}
+.summary.show{display:block}
+.hubcard{display:block;border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin-bottom:12px;background:#fff;transition:.12s}
+.hubcard:hover{border-color:var(--gold)}
+.hubcard .nm{font-family:'Trirong',serif;font-size:23px;font-weight:500}
+.hubcard .ds{font-size:14.5px;color:var(--mut);font-weight:300;margin-top:2px}
+.hubcard .pend{font-size:12.5px;color:var(--gold);margin-top:8px}
+footer{margin-top:56px;padding:22px 0 44px;border-top:1px solid var(--line);color:var(--mut);font-size:12.5px}
+</style></head><body>
+<div class="wrap">
+<div class="top"><a href="board.html">← บอร์ดหลัก</a></div>
+<h1><span class="dot g"></span>Scentical</h1>
+<div class="sub">ร้านของหอม — เปิดร้าน pre-order ทุน 0 · เว็บ live · รอเปิดบัญชีขาย</div>
+<button class="copybtn" onclick="cp()">📋 คัดลอกสรุป</button>
+<div class="summary" id="sum"></div>
+<h2>รอแม่ตัดสินใจ</h2>
+<div class="card" id="cA1" data-n="A1"><div class="row"><span class="num">A1</span><span class="tt">เปิดบัญชีขาย Lazada/Shopee</span><span class="meta">⏱ 30-40 นาที</span></div><div class="choices"><button onclick="pick('A1','นั่งกับโชกุนเลย',this)">นั่งกับโชกุนเลย</button><button onclick="pick('A1','ค่อยทำ',this)">ค่อยทำ</button></div></div>
+<div class="card" id="cA2" data-n="A2"><div class="row"><span class="num">A2</span><span class="tt">ยืนยันราคา THB บนเว็บ (฿129-499)</span><span class="meta">⏱ 5 นาที</span></div><div class="choices"><button onclick="pick('A2','โอเคตามที่เสนอ',this)">โอเคตามที่เสนอ</button><button onclick="pick('A2','ลดราคา',this)">ลดราคา</button><button onclick="pick('A2','ปรับราคาอื่น',this)">ปรับราคาอื่น</button></div></div>
+<div class="card" id="cA3" data-n="A3"><div class="row"><span class="num">A3</span><span class="tt">เปิด LINE OA + QR พร้อมเพย์</span><span class="meta">⏱ 20 นาที</span></div><div class="choices"><button onclick="pick('A3','เปิดเลย',this)">เปิดเลย</button><button onclick="pick('A3','ค่อยทำ',this)">ค่อยทำ</button></div></div>
+<div class="card" id="cA10" data-n="A10"><div class="row"><span class="num">A10</span><span class="tt">งบโฆษณาเปิดร้าน</span><span class="meta">⏱ 1 ประโยค</span></div><div class="choices"><button onclick="pick('A10','มีงบเล็กน้อย',this)">มีงบเล็กน้อย</button><button onclick="pick('A10','ไม่ใช้ organic ก่อน',this)">ไม่ใช้ organic ก่อน</button></div></div>
+<script>
+const D = [{"n": "A1", "t": "เปิดบัญชีขาย Lazada/Shopee", "time": "30-40 นาที", "c": ["นั่งกับโชกุนเลย", "ค่อยทำ"]}, {"n": "A2", "t": "ยืนยันราคา THB บนเว็บ (฿129-499)", "time": "5 นาที", "c": ["โอเคตามที่เสนอ", "ลดราคา", "ปรับราคาอื่น"]}, {"n": "A3", "t": "เปิด LINE OA + QR พร้อมเพย์", "time": "20 นาที", "c": ["เปิดเลย", "ค่อยทำ"]}, {"n": "A10", "t": "งบโฆษณาเปิดร้าน", "time": "1 ประโยค", "c": ["มีงบเล็กน้อย", "ไม่ใช้ organic ก่อน"]}];
+const KEY = 'b_' + location.pathname.split('/').pop();
+const saved = JSON.parse(localStorage.getItem(KEY) || '{}');
+function pick(n, choice, btn){
+  saved[n] = choice; localStorage.setItem(KEY, JSON.stringify(saved));
+  const card = btn.closest('.card');
+  card.querySelectorAll('.choices button').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel'); card.classList.add('done'); showSum();
+}
+function showSum(){
+  const ans = D.filter(d => saved[d.n]).map(d => d.n + ': ' + saved[d.n]);
+  const box = document.getElementById('sum');
+  if (ans.length) { box.classList.add('show'); box.textContent = 'คำตอบของแม่:\n' + ans.join('\n'); }
+  else box.classList.remove('show');
+}
+function cp(){
+  const ans = D.filter(d => saved[d.n]).map(d => d.n + ': ' + saved[d.n]);
+  if (!ans.length) { alert('ยังไม่ได้เลือกครับแม่'); return; }
+  const t = 'คำตอบบอร์ด Scentical:\n' + ans.join('\n');
+  (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(
+    () => alert('คัดลอกแล้ว วางส่งโชกุนได้เลย'),
+    () => { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); alert('คัดลอกแล้ว'); });
+}
+document.querySelectorAll('.card').forEach(c => {
+  const n = c.dataset.n; if (saved[n]) c.classList.add('done');
+  if (saved[n]) c.querySelectorAll('.choices button').forEach(b => b.classList.contains('b_' + b.dataset.v.replace(/\W/g,'')) || null);
+});
+D.forEach(d => {
+  if (!saved[d.n]) return;
+  const i = d.c.indexOf(saved[d.n]);
+  const card = document.getElementById('c' + d.n);
+  if (card && i >= 0) card.querySelectorAll('.choices button')[i].classList.add('sel');
+});
+showSum();
+</script><h2>โชกุนกำลังทำ</h2><div class="item"><span class="num">B1</span><div class="t">ร่างลิสต์ Lazada 3 ฮีโร่<span>แบบฟอร์ม+คำบรรยาย+รูป — ค้าง 2 รอบ ทำเซสชันหน้า</span></div></div><div class="item"><span class="num">B2</span><div class="t">คอนเทนต์เปิดร้าน<span>แคปชั่นแรก+แผนคลิป+ข้อความแนะนำร้าน</span></div></div><div class="item"><span class="num">B3</span><div class="t">ตรวจ gallery รองทีละใบ<span>กันมือ/นิ้ว/ตัวหนังสือซัพพลายเออร์ (บทเรียน 23 ก.ย.)</span></div></div><h2>สถานะ / ความคืบหน้า</h2><div class="stat"><b>เว็บร้าน</b><span>live สองภาษา ธีมดำหรู+เซน ฟอนต์ Cormorant/Trirong — ?v=11</span></div><div class="stat"><b>รูปสินค้า</b><span>85 รูป มาตรฐาน sumi + defringe + คัด gallery 6 สินค้าแล้ว</span></div><div class="stat"><b>CS Kit</b><span>คำตอบสำเร็จรูป 8 สถานการณ์ + FAQ พร้อม</span></div><div class="stat"><b>แผนส่งของ</b><span>2 ทาง (ส่งตรงจีน / ล็อตเข้าบ้าน) + นโยบายยกเลิก + ปฏิทินวันหยุดจีน</span></div><div class="stat"><b>งานวิจัยตลาด</b><span>10 หมวด + คู่แข่ง Hanky House วิเคราะห์แล้ว</span></div><div class="stat"><b>ปลายเปิด</b><span>เป้าหมาย: pre-order แรกก่อน 15 ต.ค. (ก่อนของอืดเทศกาลจีน)</span></div>
+<footer>อัปเดต 23 ก.ย. 2026 · ดูแลโดยโชกุน GL ⚫🔺⚪</footer>
+</div></body></html>
