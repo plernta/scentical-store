@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>เทียบ 2 แบบ: เซนดำ vs ดำหรู</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Prompt:wght@200;300;400&family=Playfair+Display:wght@700;900&family=Trirong:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#111}
+.sec{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 24px;position:relative;overflow:hidden}
+.label{position:absolute;top:18px;left:24px;font-size:13px;letter-spacing:2px;color:#888;font-family:sans-serif}
+/* ===== แบบ 1: เซนดำ (Sumi) ===== */
+.zen{background:radial-gradient(ellipse 85% 65% at 50% 38%, #141419 0%, #0A0A0C 68%)}
+.zen .box{text-align:center;max-width:640px}
+.zen img{width:min(58vw,420px);display:block;margin:0 auto 54px;filter:none}
+.zen .brand{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:40px;letter-spacing:.45em;margin-right:-.45em;color:#C9A84C}
+.zen .line{width:56px;height:1px;background:#C9A84C;opacity:.7;margin:30px auto}
+.zen .th{font-family:'Prompt',sans-serif;font-weight:200;font-size:19px;color:#D8D2C0;line-height:2}
+/* ===== แบบ 2: ดำหรู (Luxe) ===== */
+.luxe{background:radial-gradient(ellipse 80% 60% at 50% 30%, #26200f 0%, #0C0A06 62%)}
+.luxe::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(212,175,55,.05) 50%,transparent 70%)}
+.luxe .box{text-align:center;max-width:760px;position:relative}
+.luxe img{width:min(60vw,460px);display:block;margin:0 auto 40px;filter:drop-shadow(0 36px 70px rgba(212,175,55,.22)) brightness(1.06)}
+.luxe .brand{font-family:'Playfair Display',serif;font-weight:900;font-size:62px;background:linear-gradient(105deg,#f5e3a8 10%,#d4af37 40%,#f8ecc0 55%,#b8933a 80%);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.06em}
+.luxe .orn{display:flex;align-items:center;gap:14px;justify-content:center;margin:26px 0}
+.luxe .orn .l{width:110px;height:1px;background:linear-gradient(90deg,transparent,#d4af37)}
+.luxe .orn .r{width:110px;height:1px;background:linear-gradient(90deg,#d4af37,transparent)}
+.luxe .orn .d{color:#d4af37;font-size:12px}
+.luxe .th{font-family:'Trirong',serif;font-weight:500;font-size:26px;color:#E8D9A8}
+.luxe .frame{border:1px solid rgba(212,175,55,.35);padding:70px 60px;position:relative}
+.luxe .frame::before,.luxe .frame::after{content:"";position:absolute;width:26px;height:26px;border-color:#d4af37;border-style:solid}
+.luxe .frame::before{top:-2px;left:-2px;border-width:2px 0 0 2px}
+.luxe .frame::after{bottom:-2px;right:-2px;border-width:0 2px 2px 0}
+.luxe .note{position:absolute;bottom:22px;left:0;right:0;text-align:center;font-size:12px;color:#666;font-family:sans-serif}
+</style></head><body>
+
+<section class="sec zen">
+  <div class="label">แบบที่ 1 — เซนดำ (SUMI)</div>
+  <div class="box">
+    <img src="cutout-burner.png" alt="เตาธูปกลิ้ง">
+    <div class="brand">SCENTICAL</div>
+    <div class="line"></div>
+    <div class="th">ความสงบ ไม่ต้องมีเสียง<br>กลิ่นที่ดี พูดแทนใจเอง</div>
+  </div>
+</section>
+
+<section class="sec luxe">
+  <div class="label">แบบที่ 2 — ดำหรู (LUXE)</div>
+  <div class="box"><div class="frame">
+    <img src="cutout-burner.png" alt="เตาธูปกลิ้ง">
+    <div class="brand">SCENTICAL</div>
+    <div class="orn"><span class="l"></span><span class="d">◆</span><span class="r"></span></div>
+    <div class="th">เปล่งประกายในทุกมิติ ทุกลมหายใจ</div>
+  </div></div>
+  <div class="note">โหมดเทียบ — ภาพเดียวกัน คนละ mood คนละฟอนต์</div>
+</section>
+
+</body></html>
