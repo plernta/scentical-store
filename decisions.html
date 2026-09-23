@@ -38,6 +38,7 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(212
 .custom input{flex:1;border:1px solid #E8E8E3;border-radius:999px;padding:7px 16px;font-family:'Prompt';font-size:13.5px;font-weight:300;min-width:110px;background:#fff}
 .custom button{border:1px solid #E8E8E3;background:#fff;color:#8A877E;border-radius:999px;padding:6px 15px;font-family:'Prompt';font-size:13px;cursor:pointer}
 .custom button:hover{border-color:#B8933A;color:#B8933A}
+.custom button.micon{background:#B8933A;color:#fff;border-color:#B8933A}
 .dock{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid #E8E8E3;display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:80}
 .dock a{display:flex;flex-direction:column;align-items:center;gap:1px;font-size:10.5px;color:#8A877E;padding:2px 5px;border-radius:10px}
 .dock a .ic{font-size:19px;line-height:1.2}
@@ -141,8 +142,19 @@ document.getElementById('aCards').innerHTML = A.map(a=>`
   <span class="chip">${esc(a.p)}</span><span class="chip time">⏱ ${esc(a.time)}</span></div>
   <div class="choices">${a.c.map(o=>`<button onclick="pick('${a.n}','${o.replace(/'/g,"\\'")}',this)">${esc(o)}</button>`).join("")}</div>
  </div>`).join("");
-document.getElementById('bCards').innerHTML = B.map(b=>`
- <div class="task"><span class="num">${b[0]}</span><div class="t"><b>${esc(b[1])}</b></div><span class="when">📅 ${esc(b[2])}</span></div>`).join("");
+const savedB = JSON.parse(localStorage.getItem('board_b') || '{}');
+document.getElementById('bCards').innerHTML = B.map(b=>{
+  const cm = savedB[b[0]] || '';
+  return `<div class="task"><span class="num">${b[0]}</span><div class="t" style="flex:1"><b>${esc(b[1])}</b>
+  <div style="margin-top:6px"><input style="width:100%;border:1px solid #E8E8E3;border-radius:8px;padding:6px 12px;font-family:'Prompt';font-size:13.5px;font-weight:300" placeholder="💬 ความเห็น/คำถามของแม่…" value="${esc(cm)}" oninput="saveB('${b[0]}',this.value)"></div></div>
+  <span class="when">📅 ${esc(b[2])}</span></div>`;
+}).join("");
+function saveB(n, v){
+  const o = JSON.parse(localStorage.getItem('board_b') || '{}');
+  if (v.trim()) o[n] = v; else delete o[n];
+  localStorage.setItem('board_b', JSON.stringify(o));
+}
+</script>
 document.getElementById('cCards').innerHTML = C.map(c=>`
  <div class="stat"><span class="dot ${c[0]}"></span><span class="nm">${esc(c[1])}</span><span class="st">${esc(c[2])}</span>${c[3]!=="—"?`<span class="blk">รอ: ${esc(c[3])}</span>`:""}</div>`).join("");
 const saved = JSON.parse(localStorage.getItem('board24') || '{}');
@@ -195,8 +207,32 @@ document.querySelectorAll('#aCards .card').forEach(card => {
   const n = card.id.slice(1);
   const div = document.createElement('div');
   div.className = 'custom';
-  div.innerHTML = '<input placeholder="หรือพิมพ์คำตอบเอง…" onkeydown="if(event.key===\'Enter\')saveCustom(\'' + n + '\',this)"><button onclick="saveCustom(\'' + n + '\',this)">บันทึก</button>';
+  div.innerHTML = '<div class="custom"><input placeholder="พิมพ์หรือกดไมค์ 🎙️ พูดแทนได้เลย…" onkeydown="if(event.key===\'Enter\')saveCustom(\'' + n + '\',this)"><button title="พูดแทนพิมพ์ (STT)" onclick="startSTT(this,\'' + n + '\')">🎙️</button><button onclick="saveCustom(\'' + n + '\',this)">บันทึก</button></div>';
   card.appendChild(div);
 });
+
+let rec = null;
+function startSTT(btn, n){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR){ alert('เบราว์เซอร์นี้ไม่รองรับไมค์ — ใช้ Chrome หรือพิมพ์แทนครับ'); return; }
+  const card = btn.closest('.card');
+  const input = card.querySelector('.custom input');
+  if (rec){ rec.stop(); rec = null; btn.textContent = '🎙️'; return; }
+  rec = new SR(); rec.lang = 'th-TH'; rec.interimResults = true; rec.continuous = true;
+  btn.textContent = '🔴 ฟังอยู่';
+  rec.onresult = e => {
+    let t = '';
+    for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript;
+    input.value = t;
+  };
+  rec.onerror = () => { btn.textContent = '🎙️'; };
+  rec.onend = () => { btn.textContent = '🎙️'; rec = null; };
+  rec.start();
+}
+function saveCustom(n, btn){
+  const input = btn.parentElement.querySelector('input');
+  const v = input.value.trim(); if (!v) { input.focus(); return; }
+  pick(n, v, btn); input.value = ''; btn.textContent = '🎙️';
+}
 </script>
 </body></html>
