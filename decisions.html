@@ -75,6 +75,7 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 46px;colo
 <div class="projbar"><div class="wrap"><div style="padding-top:16px"><a href="board.html" style="font-size:13.5px;color:#8A877E;text-decoration:none">← กลับหน้ารวม</a></div>
   <span class="gold" style="font-family:'Cormorant Garamond';font-size:22px;letter-spacing:3px">SCENTICAL × โชกุน</span>
   <button class="copybtn" onclick="copySummary()">📋 คัดลอกสรุปคำตอบ ส่งให้โชกุน</button>
+<button class="copybtn" style="background:#5B8C5A" onclick="saveFile()">💾 บันทึกไฟล์สั่งงาน (ลงเครื่องบ้าน)</button>
 </div></div>
 
 <header class="wrap">
@@ -189,6 +190,26 @@ function setLangDefault(){
     if (i >= 0) card.querySelectorAll('.choices button')[i].classList.add('sel');
   });
   showSummary();
+}
+function saveFile(){
+  const ans = A.filter(a => saved[a.n]).map(a => a.n + ': ' + saved[a.n]);
+  const cm = Object.entries(JSON.parse(localStorage.getItem('board_b') || '{}')).map(([k,v]) => k + ': ' + v);
+  if (!ans.length && !cm.length){ alert('ยังไม่มีคำตอบ/ความเห็นให้บันทึกครับแม่'); return; }
+  let out = 'คำสั่งงานจากแม่ ' + new Date().toLocaleString('th-TH') + '
+';
+  if (ans.length) out += '[คำตอบ]
+' + ans.join('
+') + '
+';
+  if (cm.length) out += '[ความเห็น]
+' + cm.join('
+') + '
+';
+  const b = new Blob([out], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(b);
+  a.download = 'คำสั่งงานแม่-' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click();
 }
 function copySummary(){
   const ans = A.filter(a => saved[a.n]).map(a => `${a.n}: ${saved[a.n]}`);
