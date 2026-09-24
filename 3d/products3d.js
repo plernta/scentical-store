@@ -119,8 +119,8 @@ function buildCutoutProduct(id) {
     import('./glb-products.js').then(m => m.attachGLB(id, g, sp)).catch(() => {});
   } catch (e) { /* ไม่มีโมดูล GLB = ใช้คัตเอาต์ต่อไป */ }
   // invisible hitbox: จุดคลิกกว้างกว่าตัวสินค้า (มาตรฐานเกม — คลิก/แตะง่าย)
-  const hit = new THREE.Mesh(new THREE.BoxGeometry(.55, .6, .35), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
-  hit.position.y = .28; g.add(hit);
+  const hit = new THREE.Mesh(new THREE.BoxGeometry(.8, .75, .5), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
+  hit.position.y = .3; g.add(hit);
   const photos = []; let cur = 0;
   loadCutout(files[0], t => { mat.map = t; mat.needsUpdate = true; photos[0] = t; });
   g.userData.photos = photos;

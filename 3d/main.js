@@ -206,8 +206,11 @@ const ray = new THREE.Raycaster(); const v2 = new THREE.Vector2();
 function aimRay(cx, cy) {
   v2.set(cx / innerWidth * 2 - 1, -(cy / innerHeight) * 2 + 1);
   ray.setFromCamera(v2, camera);
-  const hit = ray.intersectObjects(clickables, true)[0];
-  return hit ? hit.object.userData.entry : null;
+  const hits = ray.intersectObjects(clickables, true);
+  for (const h of hits) {
+    if (h.object.userData.entry) return h.object.userData.entry; // ข้ามชิ้นที่ไม่มีข้อมูลสินค้า (เช่นผิวโมเดล GLB)
+  }
+  return null;
 }
 function tapWorld(cx, cy) {
   if (modalOpen || pickup.active) return;
