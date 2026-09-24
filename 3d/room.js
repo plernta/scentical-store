@@ -102,8 +102,8 @@ export function buildRoom(scene) {
   /* ต้นไม้ 2 กระถาง */
   for (const [px, pz] of [[-11, 7.5], [11.5, -7.5]]) {
     const pg = new THREE.Group(); pg.position.set(px, 0, pz);
-    pg.add(new THREE.Mesh(new THREE.CylinderGeometry(.22, .17, .4, 12), ceramic(0x8c4a2a))).children[0].position.y = .2;
-    pg.children[0].position.y = .2;
+    pg.add(new THREE.Mesh(new THREE.CylinderGeometry(.22, .17, .4, 12), std(0x8c4a2a, .35)));
+    pg.children[pg.children.length - 1].position.y = .2;
     const trunk = new THREE.Mesh(new THREE.CylinderGeometry(.035, .05, .7, 8), std(0x5a4028, .9)); trunk.position.y = .75; pg.add(trunk);
     for (const [ly, lr] of [[1.15, .38], [1.45, .3], [1.72, .22]]) {
       pg.add(new THREE.Mesh(new THREE.ConeGeometry(lr, .45, 10), std(0x3f6a34, .85)).translateY(ly));
