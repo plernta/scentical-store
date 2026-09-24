@@ -131,7 +131,7 @@ export function buildRoom(scene) {
     tables.push({ x, z, rot, len, topY: .78 });
     colliders.push({ x, z, r: Math.max(len / 2 * .72, 1.1) });
   }
-  table(0, -3.4, 0, 3.4);      // ฮีโร่ 3 ตัว
+  table(0, -2.8, 0, 3.4);      // ฮีโร่ 3 ตัว (ขยับเข้าใกล้จุดเกิด)
   table(-8.3, -5.2, Math.PI / 2, 2.6);  // ซ้าย 3 ตัว
   table(8.3, -5.2, Math.PI / 2, 2.6);   // ขวา 3 ตัว
   table(0, -8.7, 0, 4.4);      // หลัง 4 ตัว

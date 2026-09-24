@@ -72,10 +72,21 @@ const player = new THREE.Vector3(SPAWN.x, 1.55, SPAWN.z);
 scene.add(new THREE.HemisphereLight(0x9a8a68, 0x141008, 1.0));
 const sun = new THREE.DirectionalLight(0xffe6b0, 1.1); sun.position.set(4, 9, 6); scene.add(sun);
 
-/* ---------- ห้องร้าน (v2) ---------- */
+/* ---------- ห้องร้าน (v2) + เมือง (โหลดถ้ามี) ---------- */
 const room = buildRoom(scene);
-const BOUNDS = { x: 13.9, z: 9.9 };
+const BOUNDS = { x: 13.9, zIn: 9.9, zOut: 24 };
 const colliders = room.colliders;
+// ผนังหน้าร้าน = ชนได้ ยกเว้นช่องประตูกลาง (|x| < 1.35) → เดินออกไปเมืองได้
+for (let wx = -13; wx <= 13; wx += 2) {
+  if (Math.abs(wx) < 1.6) continue;
+  colliders.push({ x: wx, z: 10.6, r: 1.05 });
+}
+try {
+  const m = await import('./city.js');
+  const city = m.buildCity(scene);
+  if (city && city.walkMaxZ) BOUNDS.zOut = Math.min(city.walkMaxZ, 40);
+  if (city && Array.isArray(city.colliders)) colliders.push(...city.colliders);
+} catch (e) { /* เมืองยังไม่ถูกสร้าง = เดันในร้านได้ตามปกติ ไม่พัง */ }
 
 /* ---------- ป้ายแบรนด์ผนังหลัง ---------- */
 function brandWallTexture() {
@@ -293,8 +304,8 @@ function movePlayer(dt) {
     player.x += (fx * -mz + rx * mx) * 3.1 * dt;
     player.z += (fz * -mz + rz * mx) * 3.1 * dt;
   }
-  player.x = THREE.MathUtils.clamp(player.x, -BOUNDS.x, BOUNDS.x);
-  player.z = THREE.MathUtils.clamp(player.z, -BOUNDS.z, BOUNDS.z);
+  player.x = THREE.MathUtils.clamp(player.x, player.z > 11.3 ? -12 : -BOUNDS.x, player.z > 11.3 ? 12 : BOUNDS.x);
+  player.z = THREE.MathUtils.clamp(player.z, -BOUNDS.zIn, BOUNDS.zOut);
   for (const c of colliders) {
     const dx = player.x - c.x, dz = player.z - c.z;
     const d = Math.hypot(dx, dz), min = c.r + .3;

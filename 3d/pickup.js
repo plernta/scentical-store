@@ -1,4 +1,4 @@
-// pickup.js — ระบบหยิบจับสินค้า (บัญชาแม่): หยิบขึ้นมาหน้ากล้อง · ลากหมุน 360° อิสระ · ซูม · วางกลับตำแหน่งเดิม
+// pickup.js — ระบบหยิบจับสินค้า (บัญชาแม่): หยิบขึ้นมาหน้ากล้อง · หมุน trackball 360° ทุกแกน · ลากขวาง = สลับมุมภาพจริง · ซูม · วางกลับ
 import * as THREE from 'three';
 
 export class PickupController {
@@ -6,6 +6,7 @@ export class PickupController {
     this.camera = camera; this.scene = scene;
     this.entry = null;      // { id, group, homePos, homeQuat }
     this.releasing = null;
+    this._acc = 0;
     canvas.addEventListener('wheel', e => {
       if (!this.entry) return;
       e.preventDefault();
@@ -24,15 +25,40 @@ export class PickupController {
       entry.homeQuat = g.quaternion.clone();
     }
     this.entry = entry;
+    this._acc = 0;
+    g.userData._pi = 0;
     this.camera.add(g);
     g.position.set(.3, -.14, -.78);   // ลอยหน้ากล้อง ขวาล่างตามแนวสายตา
-    g.rotation.set(.15, .5, 0);
+    g.quaternion.setFromEuler(new THREE.Euler(.12, 0, 0));
     g.scale.setScalar(1);
   }
-  rotate(dx, dy) {                     // หมุน 360° อิสระทั้งแกน X และ Y (ฟีดแบ็กแม่)
+  rotate(dx, dy) {
     if (!this.entry) return;
-    this.entry.group.rotation.y += dx * .011;
-    this.entry.group.rotation.x += dy * .011;
+    const g = this.entry.group;
+    // สินค้าคัตเอาต์ (billboard): ลากขวาง = สลับมุมภาพจริง · ลากขึ้นลง = ซูม
+    if (g.userData.isCutout) {
+      if (g.userData.photoCount > 1 && g.userData.setPhoto) {
+        this._acc += dx;
+        const step = 56;
+        while (this._acc >= step) { g.userData._pi = ((g.userData._pi || 0) + 1) % g.userData.photoCount; g.userData.setPhoto(g.userData._pi); this._acc -= step; }
+        while (this._acc <= -step) { g.userData._pi = ((g.userData._pi || 0) - 1 + g.userData.photoCount) % g.userData.photoCount; g.userData.setPhoto(g.userData._pi); this._acc += step; }
+      }
+      const z = THREE.MathUtils.clamp(g.scale.x * (1 - dy * .0022), .55, 1.8);
+      g.scale.setScalar(z);
+      return;
+    }
+    // trackball: หมุนตามมือ 360° ทุกแกน
+    const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(dy * .011, dx * .011, 0, 'XYZ'));
+    g.quaternion.premultiply(q);
+    // ลากขวางสะสม 64px = สลับมุมภาพจริงถัดไป (Holo-Card หลายมุม) แล้วตั้งการ์ดหันหน้าให้ดูภาพชัด
+    if (g.userData.photoCount > 1 && g.userData.setPhoto) {
+      this._acc += dx;
+      const step = 64;
+      let changed = false;
+      while (this._acc >= step) { g.userData._pi = ((g.userData._pi || 0) + 1) % g.userData.photoCount; g.userData.setPhoto(g.userData._pi); this._acc -= step; changed = true; }
+      while (this._acc <= -step) { g.userData._pi = ((g.userData._pi || 0) - 1 + g.userData.photoCount) % g.userData.photoCount; g.userData.setPhoto(g.userData._pi); this._acc += step; changed = true; }
+      if (changed) g.quaternion.setFromEuler(new THREE.Euler(.12, 0, 0));
+    }
   }
   release() {
     if (!this.entry) return;
