@@ -158,7 +158,6 @@ addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; poke(); });
 
 let look = null, itemDrag = null;
 canvas.addEventListener('pointerdown', e => {
-  $('err').textContent = 'pd@' + e.clientX + ',' + e.clientY + ' id:' + e.pointerId;
   poke();
   canvas.setPointerCapture(e.pointerId);
   if (pickup.entry) { itemDrag = { id: e.pointerId, x: e.clientX, y: e.clientY, moved: 0 }; return; }
