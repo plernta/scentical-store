@@ -2,6 +2,7 @@
 // + รองรับ GLB โมเดล 3D จาก AI (TripoSR) โหลดแบบขี้เกียจตอนหยิบ — หมุน 360° ได้จริง
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 
 const CUTOUT_BY_ID = {
  "flame-8mode": {
@@ -183,7 +184,61 @@ function loadCutout(url, cb) {
   cutoutLoader.load(url, t => { t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; cutoutCache.set(url, t); cb(t); }, undefined, () => {});
 }
 
+
+/* ---------- ตัวเครื่องไฟลาวา ปั้นมือตามภาพจริง (กล่องดำมนขอบทอง + โลโก้เปลวไฟ + เปลว billboard จากภาพจริง) ---------- */
+let logoTexCache = null;
+function logoTexture() {
+  if (logoTexCache) return logoTexCache;
+  const cv = document.createElement('canvas'); cv.width = 256; cv.height = 96;
+  const c = cv.getContext('2d');
+  for (let i = 0; i < 3; i++) {
+    const x = 92 + i * 36, grd = c.createLinearGradient(x, 18, x, 84);
+    grd.addColorStop(0, '#ffd75e'); grd.addColorStop(.55, '#ff9d2e'); grd.addColorStop(1, '#ff6a00');
+    c.fillStyle = grd;
+    c.beginPath();
+    c.moveTo(x, 84);
+    c.quadraticCurveTo(x - 11, 58, x, 40);
+    c.quadraticCurveTo(x + 11, 58, x + 2, 84);
+    c.closePath(); c.fill();
+  }
+  logoTexCache = new THREE.CanvasTexture(cv); logoTexCache.colorSpace = THREE.SRGBColorSpace;
+  return logoTexCache;
+}
+let flameBbCache = null;
+function flameBillboardTexture() {
+  if (flameBbCache) return flameBbCache;
+  const t = cutoutLoader.load('img/cutouts/flame_billboard.webp');
+  t.colorSpace = THREE.SRGBColorSpace;
+  flameBbCache = t;
+  return t;
+}
+function buildFlameFamily(slim) {
+  const g = new THREE.Group();
+  const W = slim ? .19 : .24, H = .175, D = slim ? .10 : .125;
+  const body = new THREE.Mesh(new RoundedBoxGeometry(W, H, D, 4, .022), std(0x141419, .3, .4));
+  body.position.y = H / 2 + .015; g.add(body);
+  const tray = new THREE.Mesh(new RoundedBoxGeometry(W - .035, .018, D - .03, 2, .007), std(0x0a0a0c, .35, .45));
+  tray.position.y = H + .022; g.add(tray);
+  const band = new THREE.Mesh(new THREE.BoxGeometry(W - .01, .007, D - .015), std(0xD4AF37, .25, .85));
+  band.position.y = H * .62; g.add(band);
+  const logo = new THREE.Mesh(new THREE.PlaneGeometry(.085, .032), new THREE.MeshBasicMaterial({ map: logoTexture(), transparent: true }));
+  logo.position.set(0, H * .45, D / 2 + .0015); g.add(logo);
+  for (const bx of [-.022, .022]) {
+    const btn = new THREE.Mesh(new THREE.CapsuleGeometry(.008, .018, 4, 8), std(0xd8d8d8, .25, .5));
+    btn.rotation.z = Math.PI / 2; btn.position.set(bx, .028, D / 2 + .001); g.add(btn);
+  }
+  const flame = new THREE.Sprite(new THREE.SpriteMaterial({ map: flameBillboardTexture(), transparent: true, depthWrite: false }));
+  flame.scale.set(.15, .14, 1); flame.position.y = H + .085;
+  g.add(flame);
+  const glow = new THREE.PointLight(0xff9d2e, .35, .25); glow.position.y = H + .05; g.add(glow);
+  g.userData.model3d = g;
+  g.userData.autoSpin = true;
+  g.userData.isCutout = false;
+  return g;
+}
+
 export function buildProduct3D(id) {
+  if (id === 'flame-8mode' || id === 'flame-2in1') return buildFlameFamily(id === 'flame-2in1');
   const g = new THREE.Group();
   g.add(softShadow());
   const cfg = CUTOUT_BY_ID[id];

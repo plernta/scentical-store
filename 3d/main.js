@@ -5,6 +5,7 @@ import { PRODUCTS, STORE } from './products.js?v=5';
 import { buildRoom } from './room.js?v=5';
 import { buildProduct3D } from './products3d.js?v=5';
 import { PickupController } from './pickup.js?v=5';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 /* ---------- error toast ---------- */
 const errBox = document.getElementById('err');
@@ -69,7 +70,10 @@ const SPAWN = { x: 0, z: 8.2 };
 let yaw = 0, pitch = -0.06;
 const player = new THREE.Vector3(SPAWN.x, 1.55, SPAWN.z);
 
-scene.add(new THREE.HemisphereLight(0x9a8a68, 0x141008, 1.0));
+scene.add(new THREE.HemisphereLight(0x9a8a68, 0x141008, .8));
+// PBR environment: แสงสะท้อนจริงบนวัสดุเงา/โลหะ (งานดูพรีเมียม)
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), .04).texture;
 const sun = new THREE.DirectionalLight(0xffe6b0, 1.1); sun.position.set(4, 9, 6); scene.add(sun);
 
 /* ---------- ห้องร้าน (v2) + เมือง (โหลดถ้ามี) ---------- */
