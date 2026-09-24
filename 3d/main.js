@@ -209,6 +209,7 @@ function aimRay(cx, cy) {
   v2.set(cx / innerWidth * 2 - 1, -(cy / innerHeight) * 2 + 1);
   ray.setFromCamera(v2, camera);
   const hits = ray.intersectObjects(clickables, true);
+  $('err').textContent = 'aim@' + cx + ',' + cy + ' hits:' + hits.length + ' (clickables:' + clickables.length + ')';
   for (const h of hits) {
     if (h.object.userData.entry) return h.object.userData.entry;
   }
