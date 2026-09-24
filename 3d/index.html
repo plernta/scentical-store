@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Scentical 3D — เดินเลือกชมของหอมในโลกสามมิติ</title>
+<meta name="description" content="เข้าชมโชว์รูม 3 มิติของ Scentical — เดินเลือกเตาธูป กำยาน ไฟลาวา ได้เหมือนอยู่หน้าร้าน สั่ง pre-order ผ่าน LINE @scentical">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Prompt:wght@300;400;500;600&family=Trirong:wght@400;500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0C0A06;--panel:#14141A;--ink:#EFE9DA;--muted:#A39D8C;--gold:#D4AF37;--line:rgba(212,175,55,.22)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--ink);font-family:'Prompt','Inter',sans-serif}
+body.en{font-family:'Inter','Prompt',sans-serif}
+#c{position:fixed;inset:0;display:block;touch-action:none;cursor:grab}
+#c.look{cursor:grabbing}
+/* ---------- top bar ---------- */
+#top{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px;z-index:20;pointer-events:none;background:linear-gradient(180deg,rgba(12,10,6,.88),rgba(12,10,6,0))}
+#top .brand{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:22px;letter-spacing:3px;color:#F5F1E4;pointer-events:auto;text-decoration:none}
+#top .brand span{color:var(--gold)}
+#top .brand small{display:block;font-family:'Prompt',sans-serif;font-weight:300;font-size:11px;letter-spacing:1px;color:var(--muted)}
+#top .btns{display:flex;gap:8px;pointer-events:auto}
+.hbtn{min-width:44px;min-height:44px;padding:6px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(12,10,6,.72);color:var(--ink);font:500 14px 'Prompt',sans-serif;cursor:pointer;backdrop-filter:blur(6px)}
+.hbtn:hover{border-color:var(--gold);color:var(--gold)}
+.hbtn.on{background:var(--gold);color:#0C0A06;border-color:var(--gold)}
+/* ---------- hint ---------- */
+#hint{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:15;background:rgba(12,10,6,.8);border:1px solid var(--line);border-radius:999px;padding:9px 18px;font-size:13.5px;color:#D8D2C0;pointer-events:none;white-space:nowrap;transition:opacity .6s}
+/* ---------- joystick (touch) ---------- */
+#joy{position:fixed;left:18px;bottom:18px;width:118px;height:118px;border-radius:50%;border:1px solid var(--line);background:rgba(12,10,6,.5);z-index:25;display:none;touch-action:none}
+#joy .knob{position:absolute;left:50%;top:50%;width:52px;height:52px;border-radius:50%;background:rgba(212,175,55,.28);border:1px solid var(--gold);transform:translate(-50%,-50%)}
+/* ---------- modal ---------- */
+#modal{position:fixed;inset:0;z-index:40;display:none;align-items:flex-end;justify-content:center;background:rgba(5,4,2,.55)}
+#modal.open{display:flex}
+#card{position:relative;width:min(680px,100%);max-height:82vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-bottom:none;border-radius:20px 20px 0 0;padding:18px;display:flex;gap:16px;animation:up .22s ease}
+@keyframes up{from{transform:translateY(30px);opacity:.4}to{transform:none;opacity:1}}
+@media(min-width:720px){#modal{align-items:center;padding:20px}#card{border-radius:20px;border-bottom:1px solid var(--line)}}
+#card img{width:172px;height:172px;object-fit:cover;border-radius:12px;background:#0A0A0C;flex:none;border:1px solid var(--line)}
+#card .b{flex:1;min-width:0}
+#card .tag{display:inline-block;border:1px solid rgba(212,175,55,.45);color:var(--gold);border-radius:999px;font-size:12px;padding:2px 12px;margin-bottom:8px}
+#card h3{font-family:'Trirong',serif;font-weight:500;font-size:21px;color:#F5F1E4;margin:0 0 2px}
+#card .en{color:var(--muted);font-size:13.5px;margin-bottom:8px}
+#card .price{font-family:'Cormorant Garamond',serif;font-size:34px;color:var(--gold);line-height:1;margin:6px 0 8px}
+#card .desc{font-size:14px;color:#C9C2AE;font-weight:300;line-height:1.7}
+#card .order{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:var(--gold);color:#0C0A06;border:none;border-radius:999px;padding:12px 26px;font:600 15px 'Prompt',sans-serif;cursor:pointer;text-decoration:none}
+#card .note{font-size:12px;color:var(--muted);margin-top:8px}
+#x{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--muted);font-size:26px;cursor:pointer;min-width:44px;min-height:44px}
+/* ---------- loading ---------- */
+#load{position:fixed;inset:0;z-index:60;background:radial-gradient(ellipse 75% 60% at 50% 36%,#221c0e 0%,#0C0A06 66%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity .7s}
+#load.off{opacity:0;pointer-events:none}
+#load .lg{font-family:'Cormorant Garamond',serif;font-size:42px;letter-spacing:6px;color:#F5F1E4}
+#load .lg span{color:var(--gold)}
+#load .bar{width:min(320px,72vw);height:3px;background:rgba(212,175,55,.18);border-radius:2px;overflow:hidden}
+#load .bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .25s}
+#load .st{color:var(--muted);font-size:13px;font-weight:300}
+/* ---------- help ---------- */
+#help{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(5,4,2,.7)}
+#help.open{display:flex}
+#help .box{width:min(430px,90vw);background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px 24px}
+#help h4{font-family:'Trirong',serif;font-weight:500;color:#F5F1E4;font-size:19px;margin-bottom:12px}
+#help li{list-style:none;display:flex;gap:10px;margin:9px 0;color:#C9C2AE;font-size:14px;font-weight:300;line-height:1.55}
+#help k{flex:none;border:1px solid rgba(212,175,55,.5);color:var(--gold);border-radius:7px;padding:1px 9px;font-size:12.5px;height:fit-content}
+#err{position:fixed;left:10px;top:64px;z-index:70;max-width:80vw;background:#3a1414;color:#ffb4b4;border:1px solid #7a2020;border-radius:10px;padding:8px 12px;font-size:12px;display:none;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<header id="top">
+  <a class="brand" href="../" id="homeLink">SCENTI<span>CAL</span><small id="subT">โชว์รูม 3 มิติ · เดินเลือกชมได้</small></a>
+  <div class="btns">
+    <button class="hbtn on" id="th">ไทย</button>
+    <button class="hbtn" id="en">EN</button>
+    <button class="hbtn" id="hlp" aria-label="help">?</button>
+  </div>
+</header>
+
+<div id="hint"></div>
+<div id="joy"><div class="knob"></div></div>
+
+<div id="modal"><div id="card">
+  <button id="x" aria-label="close">×</button>
+  <img id="mImg" alt="">
+  <div class="b">
+    <span class="tag" id="mTag"></span>
+    <h3 id="mTh"></h3>
+    <div class="en" id="mEn"></div>
+    <div class="price" id="mPrice"></div>
+    <div class="desc" id="mDesc"></div>
+    <a class="order" id="mOrder" target="_blank" rel="noopener">🛒 <span id="mOrderT"></span></a>
+    <div class="note" id="mNote"></div>
+  </div>
+</div></div>
+
+<div id="load"><div class="lg">SCENTI<span>CAL</span></div><div class="bar"><i id="barI"></i></div><div class="st" id="loadSt">0%</div></div>
+
+<div id="help"><div class="box">
+  <h4 id="hTitle"></h4><ul id="hList"></ul>
+</div></div>
+<div id="err"></div>
+
+<script type="importmap">{"imports":{"three":"./vendor/three.module.min.js"}}</script>
+<script type="module" src="./main.js"></script>
+</body>
+</html>
