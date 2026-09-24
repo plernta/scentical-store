@@ -82,8 +82,84 @@ const edgeMat = new THREE.MeshStandardMaterial({ color: 0x241c10, roughness: .22
 
 /* ---------- ตัวอย่างคัตเอาต์จริง (แม่ให้ pick 1 = ไฟลาวา 8 โหมด): ภาพสินค้าจริงตัดพื้นหลัง ยืนใน 3 มิติ ---------- */
 const CUTOUT_BY_ID = {
-  // คัดเฉพาะโมเดลเดียวกับรูปหลัก (เครื่องดำ โลโก้ iii) — ตัด: _04 (มีข้อความ) _02 (คอลลาจ) _09/_10 (โลโก้กิ่งไม้-คนละโมเดล) _11/_12 (คนละทรง) _01 มีขวดน้ำมันติด, _03 มืด — เหลือ 3 มุมจริง
-  'flame-8mode': { handle: 'flame-aroma-diffuser-air-humidifier-ultr', order: ['img_13', 'img_01', 'img_03'] },
+ "flame-8mode": {
+  "handle": "flame-aroma-diffuser-air-humidifier-ultr",
+  "order": [
+   "img_13"
+  ]
+ },
+ "flame-2in1": {
+  "handle": "best-selling-usb-ultrasonic-flame-humidi",
+  "order": [
+   "img_04"
+  ]
+ },
+ "pagoda-cone": {
+  "handle": "natural-cone-incense-pagoda-incense-smal",
+  "order": [
+   "img_02"
+  ]
+ },
+ "backflow": {
+  "handle": "household-ceramic-incense-stick-backflow",
+  "order": [
+   "img_01"
+  ]
+ },
+ "japan-clouds": {
+  "handle": "japanese-style-ceramic-indoor-view-of-sm",
+  "order": [
+   "img_01"
+  ]
+ },
+ "layer-mountain": {
+  "handle": "layer-mountain-ceramic-incense-burner-in",
+  "order": [
+   "img_01"
+  ]
+ },
+ "cone-tower": {
+  "handle": "inverted-cone-incense-incense-tower-sand",
+  "order": [
+   "img_01"
+  ]
+ },
+ "house-burner": {
+  "handle": "removable-house-incense-burner",
+  "order": [
+   "img_04"
+  ]
+ },
+ "sandalwood-burner": {
+  "handle": "incense-burner-household-indoor-sandalwo",
+  "order": [
+   "img_01"
+  ]
+ },
+ "wire-holder": {
+  "handle": "ceramic-wire-incense-burner-home-indoor-",
+  "order": [
+   "img_01"
+  ]
+ },
+ "nepal-incense": {
+  "handle": "nepal-handmade-incense-aromatherapy-joss",
+  "order": [
+   "img_04"
+  ]
+ },
+ "dragon-plate": {
+  "handle": "double-dragon-incense-plate-incense-burn",
+  "order": [
+   "img_01"
+  ]
+ },
+ "yinyang-burner": {
+  "handle": "ceramic-incense-burner-incense-holder-cr",
+  "order": [
+   "img_03"
+  ]
+ }
 };
 const cutoutCache = new Map();
 const cutoutLoader = new THREE.TextureLoader(); cutoutLoader.setCrossOrigin('anonymous');
@@ -114,13 +190,13 @@ function buildCutoutProduct(id) {
   const sp = new THREE.Sprite(mat);
   const S = .34; sp.scale.set(S, S, 1); sp.position.y = S / 2 + .025;
   g.add(sp);
-  // AI 3D (TripoSR): ถ้ามีโมเดล GLB ของสินค้านี้ → สลับจากภาพคัตเอาต์เป็นโมเดล 3 มิติจริง หมุน 360° ได้ทุกมุม
-  try {
-    import('./glb-products.js').then(m => m.attachGLB(id, g, sp)).catch(() => {});
-  } catch (e) { /* ไม่มีโมดูล GLB = ใช้คัตเอาต์ต่อไป */ }
+  // AI 3D (TripoSR): โหลดแบบขี้เกียจ — หยิบตัวไหนค่อยดึงโมเดล 3D ตัวนั้น (หน้าเว็บเบา ไม่โหลด 75MB ตอนเปิด)
+  g.userData.loadGLB = () => {
+    import('./glb-products.js?v=4').then(m => m.attachGLB(id, g, sp)).catch(() => {});
+  };
   // invisible hitbox: จุดคลิกกว้างกว่าตัวสินค้า (มาตรฐานเกม — คลิก/แตะง่าย)
   const hit = new THREE.Mesh(new THREE.BoxGeometry(.8, .75, .5), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
-  hit.position.y = .3; g.add(hit);
+  hit.position.y = .3; hit.userData.isHit = true; g.add(hit);
   const photos = []; let cur = 0;
   loadCutout(files[0], t => { mat.map = t; mat.needsUpdate = true; photos[0] = t; });
   g.userData.photos = photos;

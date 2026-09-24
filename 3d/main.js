@@ -1,10 +1,10 @@
 // Scentical 3D Showroom v2 — ร้านห้องเสมือนจริง + หยิบสินค้าหมุน 360° (บัญชาแม่ 24 ก.ย. 2026)
 // three.js r165 MIT · vanilla ES module · open-source only · render-on-demand
 import * as THREE from 'three';
-import { PRODUCTS, STORE } from './products.js';
-import { buildRoom } from './room.js';
-import { buildProduct3D } from './products3d.js';
-import { PickupController } from './pickup.js';
+import { PRODUCTS, STORE } from './products.js?v=4';
+import { buildRoom } from './room.js?v=4';
+import { buildProduct3D } from './products3d.js?v=4';
+import { PickupController } from './pickup.js?v=4';
 
 /* ---------- error toast ---------- */
 const errBox = document.getElementById('err');
@@ -114,7 +114,7 @@ const TABLES = [
 ];
 const byId = Object.fromEntries(PRODUCTS.map((p, i) => [p.id, i]));
 const entries = [];
-const clickables = [];
+const clickables = [];   // กล่องคลิก (invisible hitbox) — ยิง ray เฉพาะอันนี้ เบาและแม่น ไม่โดนผิวโมเดลแสนเหลี่ยมบัง
 const ringGeo = new THREE.RingGeometry(.16, .19, 28);
 try {
   if (!Array.isArray(PRODUCTS) || PRODUCTS.length !== 13) throw new Error('products.js ต้องมี 13 สินค้า — ได้ ' + (PRODUCTS && PRODUCTS.length));
@@ -132,8 +132,9 @@ try {
       const ring = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({ color: 0xD4AF37, transparent: true, opacity: .16, side: THREE.DoubleSide }));
       ring.rotation.x = -Math.PI / 2; ring.position.set(wx, tb.topY + .005, wz); scene.add(ring);
       const entry = { id: pi, data: PRODUCTS[pi], group: g, ring };
-      g.traverse(o => { o.userData.entry = entry; });
-      clickables.push(g);
+      let hitBox = null;
+      g.traverse(o => { o.userData.entry = entry; if (o.userData.isHit) hitBox = o; });
+      if (hitBox) clickables.push(hitBox); else clickables.push(g);
       entries.push(entry);
     });
   }
@@ -206,9 +207,9 @@ const ray = new THREE.Raycaster(); const v2 = new THREE.Vector2();
 function aimRay(cx, cy) {
   v2.set(cx / innerWidth * 2 - 1, -(cy / innerHeight) * 2 + 1);
   ray.setFromCamera(v2, camera);
-  const hits = ray.intersectObjects(clickables, true);
+  const hits = ray.intersectObjects(clickables, false);
   for (const h of hits) {
-    if (h.object.userData.entry) return h.object.userData.entry; // ข้ามชิ้นที่ไม่มีข้อมูลสินค้า (เช่นผิวโมเดล GLB)
+    if (h.object.userData.entry) return h.object.userData.entry;
   }
   return null;
 }
