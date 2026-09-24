@@ -1,10 +1,10 @@
 // Scentical 3D Showroom v2 — ร้านห้องเสมือนจริง + หยิบสินค้าหมุน 360° (บัญชาแม่ 24 ก.ย. 2026)
 // three.js r165 MIT · vanilla ES module · open-source only · render-on-demand
 import * as THREE from 'three';
-import { PRODUCTS, STORE } from './products.js?v=4';
-import { buildRoom } from './room.js?v=4';
-import { buildProduct3D } from './products3d.js?v=4';
-import { PickupController } from './pickup.js?v=4';
+import { PRODUCTS, STORE } from './products.js?v=5';
+import { buildRoom } from './room.js?v=5';
+import { buildProduct3D } from './products3d.js?v=5';
+import { PickupController } from './pickup.js?v=5';
 
 /* ---------- error toast ---------- */
 const errBox = document.getElementById('err');
@@ -158,6 +158,7 @@ addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; poke(); });
 
 let look = null, itemDrag = null;
 canvas.addEventListener('pointerdown', e => {
+  $('err').textContent = 'pd@' + e.clientX + ',' + e.clientY + ' id:' + e.pointerId;
   poke();
   canvas.setPointerCapture(e.pointerId);
   if (pickup.entry) { itemDrag = { id: e.pointerId, x: e.clientX, y: e.clientY, moved: 0 }; return; }

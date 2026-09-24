@@ -273,7 +273,7 @@ function buildCutoutProduct(id) {
   g.add(sp);
   // AI 3D (TripoSR): โหลดแบบขี้เกียจ — หยิบตัวไหนค่อยดึงโมเดล 3D ตัวนั้น (หน้าเว็บเบา ไม่โหลด 75MB ตอนเปิด)
   g.userData.loadGLB = () => {
-    import('./glb-products.js?v=4').then(m => m.attachGLB(id, g, sp)).catch(() => {});
+    import('./glb-products.js?v=5').then(m => m.attachGLB(id, g, sp)).catch(() => {});
   };
   // invisible hitbox: จุดคลิกกว้างกว่าตัวสินค้า (มาตรฐานเกม — คลิก/แตะง่าย)
   const hit = new THREE.Mesh(new THREE.BoxGeometry(.8, .75, .5), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));

@@ -12,7 +12,7 @@ export function attachGLB(id, group, fallbackSprite) {
   if (tried.has(id)) return;
   tried.add(id);
   loader.load(
-    'models/' + id + '.glb?v=4',
+    'models/' + id + '.glb?v=5',
     gltf => {
       const model = gltf.scene;
       const ratio = DEPTH_RATIO[id] || DEFAULT_RATIO;
