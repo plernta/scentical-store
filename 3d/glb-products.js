@@ -25,7 +25,7 @@ export function attachGLB(id, group, fallbackSprite) {
       // ② จัดขนาดรวม: สูง .3m · ฐานแตะพื้นโต๊ะ
       const box1 = new THREE.Box3().setFromObject(model);
       const sz1 = new THREE.Vector3(); box1.getSize(sz1);
-      const s = .3 / (Math.max(sz1.x, sz1.y, sz1.z) || 1);
+      const s = .19 / (Math.max(sz1.x, sz1.y, sz1.z) || 1);
       model.scale.x *= s; model.scale.y *= s; model.scale.z *= s;
       // ③ จัดกลาง + ฐานแตะ
       const box2 = new THREE.Box3().setFromObject(model);

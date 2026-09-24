@@ -29,7 +29,7 @@ export class PickupController {
     g.userData._pi = 0;
     if (g.userData.loadGLB) g.userData.loadGLB();   // lazy: ดึงโมเดล 3D จริงตอนหยิบ (ครั้งแรกอาจหน่วง 2-5 วิ)
     this.camera.add(g);
-    g.position.set(.3, -.14, -.78);   // ลอยหน้ากล้อง ขวาล่างตามแนวสายตา
+    g.position.set(.14, -.1, -.92);   // ลอยหน้ากล้อง กลางนิดขวา
     g.quaternion.setFromEuler(new THREE.Euler(.12, 0, 0));
     g.scale.setScalar(1);
   }
