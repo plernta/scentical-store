@@ -36,6 +36,7 @@ export class PickupController {
   rotate(dx, dy) {
     if (!this.entry) return;
     const g = this.entry.group;
+    g.userData.autoSpin = false;       // ผู้ใช้ลากเอง = หยุดหมุนอัตโนมัติ
     // สินค้าคัตเอาต์ (billboard): ลากขวาง = สลับมุมภาพจริง · ลากขึ้นลง = ซูม
     if (g.userData.isCutout) {
       if (g.userData.photoCount > 1 && g.userData.setPhoto) {

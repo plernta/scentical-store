@@ -32,6 +32,8 @@ export function attachGLB(id, group, fallbackSprite) {
       model.position.y += sz1.y / 2;
       model.traverse(o => { if (o.isMesh && o.material) { o.material.side = THREE.DoubleSide; } }); // กัน winding กลับด้านจาก AI
       group.add(model);
+      group.userData.model3d = model;   // ตัวโมเดลจริง (สำหรับหมุนโชว์เอง)
+      group.userData.autoSpin = true;   // เริ่มหมุนโชว์อัตโนมัติให้ดู 360° ทันทีที่หยิบ
       fallbackSprite.visible = false; // คัตเอาต์หายไป — โมเดล 3 มิติจริงแทน
       group.userData.isCutout = false; // เปิด trackball หมุน 360° จริง
     },

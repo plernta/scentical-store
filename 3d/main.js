@@ -207,15 +207,18 @@ const ray = new THREE.Raycaster(); const v2 = new THREE.Vector2();
 function aimRay(cx, cy) {
   v2.set(cx / innerWidth * 2 - 1, -(cy / innerHeight) * 2 + 1);
   ray.setFromCamera(v2, camera);
-  const hits = ray.intersectObjects(clickables, false);
+  const hits = ray.intersectObjects(clickables, true);
   for (const h of hits) {
     if (h.object.userData.entry) return h.object.userData.entry;
   }
   return null;
 }
 function tapWorld(cx, cy) {
+  const dbg = 'tap@' + cx + ',' + cy + ' clicks:' + clickables.length + ' modal:' + modalOpen + ' active:' + pickup.active;
+  $('err').textContent = dbg;
   if (modalOpen || pickup.active) return;
   const entry = aimRay(cx, cy);
+  $('err').textContent = dbg + ' | entry:' + (entry ? entry.data.id : 'none');
   if (entry) { pickup.pick(entry); showInspect(entry); }
 }
 let hovered = null;
@@ -333,6 +336,10 @@ function loop(now) {
     if (e.group.userData.tick) for (const fn of e.group.userData.tick) fn(tAnim);
   }
   renderer.render(scene, camera);
+  // หมุนโชว์อัตโนมัติ: สินค้าที่หยิบอยู่หมุนโชว์ 360° เองเรื่อย ๆ จนกว่าผู้ใช้จะลากเอง
+  if (pickup.entry && pickup.entry.group.userData.model3d && pickup.entry.group.userData.autoSpin) {
+    pickup.entry.group.userData.model3d.rotation.y += dt * .9;
+  }
   if (performance.now() < lastActive || pickup.active || itemDrag || look || joyActive || keys['w'] || keys['a'] || keys['s'] || keys['d'] || keys['arrowup'] || keys['arrowdown'] || keys['arrowleft'] || keys['arrowright']) raf = requestAnimationFrame(loop);
 }
 poke(3000);
