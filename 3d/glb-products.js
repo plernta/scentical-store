@@ -14,6 +14,8 @@ export function attachGLB(id, group, fallbackSprite) {
   loader.load(
     'models/' + id + '.glb?v=5',
     gltf => {
+      const vEl = document.getElementById('ver');
+      if (vEl) vEl.textContent = 'v5b · 3D: โหลดโมเดลเข้าแล้ว ✓';
       const model = gltf.scene;
       const ratio = DEPTH_RATIO[id] || DEFAULT_RATIO;
       // ① วัดของเดิม → บีบแกนลึก (z) ให้ = ratio × ความสูง (แก้ AI เดาลึกเกินเป็นทรงกลม)
@@ -38,6 +40,6 @@ export function attachGLB(id, group, fallbackSprite) {
       group.userData.isCutout = false; // เปิด trackball หมุน 360° จริง
     },
     undefined,
-    () => { /* ยังไม่มี GLB = คงคัตเอาต์ */ }
+    () => { const vEl = document.getElementById('ver'); if (vEl) vEl.textContent = 'v5b · 3D: โหลดโมเดลพัง ✗'; }
   );
 }
