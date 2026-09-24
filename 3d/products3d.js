@@ -85,78 +85,159 @@ const CUTOUT_BY_ID = {
  "flame-8mode": {
   "handle": "flame-aroma-diffuser-air-humidifier-ultr",
   "order": [
-   "img_13"
+   "img_13",
+   "img_01",
+   "img_02",
+   "img_03",
+   "img_04",
+   "img_06",
+   "img_08",
+   "img_09",
+   "img_10",
+   "img_11",
+   "img_12",
+   "img_13",
+   "img_14",
+   "img_15",
+   "img_17"
   ]
  },
  "flame-2in1": {
   "handle": "best-selling-usb-ultrasonic-flame-humidi",
   "order": [
-   "img_04"
+   "img_04",
+   "img_01",
+   "img_02",
+   "img_03",
+   "img_04",
+   "img_05",
+   "img_06",
+   "img_07",
+   "img_08",
+   "img_09",
+   "img_10"
   ]
  },
  "pagoda-cone": {
   "handle": "natural-cone-incense-pagoda-incense-smal",
   "order": [
-   "img_02"
+   "img_02",
+   "img_01",
+   "img_02",
+   "img_03",
+   "img_04",
+   "img_05",
+   "img_06",
+   "img_07",
+   "img_08",
+   "img_09",
+   "img_10"
   ]
  },
  "backflow": {
   "handle": "household-ceramic-incense-stick-backflow",
   "order": [
-   "img_01"
+   "img_01",
+   "img_01",
+   "img_02",
+   "img_03",
+   "img_04",
+   "img_05"
   ]
  },
  "japan-clouds": {
   "handle": "japanese-style-ceramic-indoor-view-of-sm",
   "order": [
-   "img_01"
+   "img_01",
+   "img_01",
+   "img_02",
+   "img_03",
+   "img_04",
+   "img_05"
   ]
  },
  "layer-mountain": {
   "handle": "layer-mountain-ceramic-incense-burner-in",
   "order": [
-   "img_01"
+   "img_01",
+   "img_01",
+   "img_02",
+   "img_03"
   ]
  },
  "cone-tower": {
   "handle": "inverted-cone-incense-incense-tower-sand",
   "order": [
-   "img_01"
+   "img_01",
+   "img_01",
+   "img_02",
+   "img_03",
+   "img_04"
   ]
  },
  "house-burner": {
   "handle": "removable-house-incense-burner",
   "order": [
-   "img_04"
+   "img_04",
+   "img_01",
+   "img_02",
+   "img_03",
+   "img_04",
+   "img_05",
+   "img_06"
   ]
  },
  "sandalwood-burner": {
   "handle": "incense-burner-household-indoor-sandalwo",
   "order": [
-   "img_01"
+   "img_01",
+   "img_01",
+   "img_02",
+   "img_03",
+   "img_04",
+   "img_05",
+   "img_06"
   ]
  },
  "wire-holder": {
   "handle": "ceramic-wire-incense-burner-home-indoor-",
   "order": [
-   "img_01"
+   "img_01",
+   "img_01",
+   "img_02",
+   "img_03",
+   "img_04"
   ]
  },
  "nepal-incense": {
   "handle": "nepal-handmade-incense-aromatherapy-joss",
   "order": [
-   "img_04"
+   "img_04",
+   "img_01",
+   "img_02",
+   "img_03",
+   "img_04",
+   "img_05",
+   "img_06",
+   "img_07",
+   "img_08",
+   "img_09",
+   "img_10"
   ]
  },
  "dragon-plate": {
   "handle": "double-dragon-incense-plate-incense-burn",
   "order": [
+   "img_01",
    "img_01"
   ]
  },
  "yinyang-burner": {
   "handle": "ceramic-incense-burner-incense-holder-cr",
   "order": [
+   "img_03",
+   "img_01",
+   "img_02",
    "img_03"
   ]
  }

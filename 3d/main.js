@@ -226,7 +226,10 @@ function hoverWorld() {
   if (entry !== hovered) {
     if (hovered) hovered.ring.material.opacity = .16;
     hovered = entry;
-    if (hovered && !pickup.active) hovered.ring.material.opacity = .7;
+    if (hovered && !pickup.active) {
+      hovered.ring.material.opacity = .7;
+      if (hovered.group.userData.loadGLB) hovered.group.userData.loadGLB(); // โหลดโมเดล 3D ล่วงหน้าตั้งแต่เล็ง — พอคลิกก็หมุนได้เลย
+    }
     $('cross').style.background = hovered ? '#D4AF37' : 'rgba(239,233,218,.85)';
     canvas.style.cursor = hovered ? 'pointer' : 'grab';
   }
