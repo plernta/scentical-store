@@ -65,12 +65,14 @@ export class PickupController {
     if (!this.entry) return;
     const g = this.entry.group;
     this.scene.attach(g);              // กลับสู่ scene โดยคง world transform แล้วค่อยบินกลับบ้าน
-    this.releasing = { entry: this.entry, t: 0, fromScale: g.scale.x };
+    this.releasing = { entry: this.entry, t: 0, t0: performance.now(), fromScale: g.scale.x };
     this.entry = null;
   }
   update(dt) {
     if (!this.releasing) return;
     const r = this.releasing, g = r.entry.group;
+    // กันค้าง: ถ้าแท็บถูกซ่อนจนแอนิเมชันหยุดนานเกิน 2.5 วิ → บังคับเสร็จทันที (แก้ "สินค้าลอยค้าง คลิกไม่ได้")
+    if (performance.now() - r.t0 > 2500) r.t = 1;
     r.t = Math.min(r.t + dt * 2.6, 1);
     const k = 1 - Math.pow(1 - r.t, 3);          // easeOutCubic
     g.position.lerp(r.entry.homePos, k);

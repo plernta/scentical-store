@@ -338,3 +338,4 @@ addEventListener('resize', () => {
   camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight); poke();
 });
+document.addEventListener('visibilitychange', () => { if (!document.hidden) poke(800); }); // กลับมาดูแท็บ = ปลุกระบบให้เรนเดอร์ต่อ (กัน release ค้างกลางอากาศ)
