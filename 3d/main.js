@@ -220,7 +220,8 @@ function tapWorld(cx, cy) {
   if (modalOpen || pickup.active) return;
   const entry = aimRay(cx, cy);
   $('err').textContent = dbg + ' | entry:' + (entry ? entry.data.id : 'none');
-  if (entry) { pickup.pick(entry); showInspect(entry); }
+  if (entry) { pickup.pick(entry); showInspect(entry); $('ver').textContent = 'v5b · จับ: ' + entry.data.name_th; }
+  else { $('ver').textContent = 'v5b · ไม่โดนสินค้า (' + Math.round(cx) + ',' + Math.round(cy) + ')'; }
 }
 let hovered = null;
 function hoverWorld() {
@@ -251,7 +252,7 @@ function showInspect(entry) {
   $('inspect').classList.add('open');
 }
 function hideInspect() { $('inspect').classList.remove('open'); }
-function putBack() { pickup.release(); hideInspect(); hovered = null; poke(); }
+function putBack() { pickup.release(); hideInspect(); hovered = null; $('ver').textContent = 'v5b · วางกลับแล้ว'; poke(); }
 $('iBack').addEventListener('click', putBack);
 $('iPhoto').addEventListener('click', () => { if (pickup.entry) openModal(pickup.entry.id); });
 
