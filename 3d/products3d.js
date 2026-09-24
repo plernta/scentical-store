@@ -82,7 +82,7 @@ const edgeMat = new THREE.MeshStandardMaterial({ color: 0x241c10, roughness: .22
 
 /* ---------- ตัวอย่างคัตเอาต์จริง (แม่ให้ pick 1 = ไฟลาวา 8 โหมด): ภาพสินค้าจริงตัดพื้นหลัง ยืนใน 3 มิติ ---------- */
 const CUTOUT_BY_ID = {
-  'flame-8mode': { handle: 'flame-aroma-diffuser-air-humidifier-ultr', order: ['img_13', 'img_04', 'img_09', 'img_02'] },
+  'flame-8mode': { handle: 'flame-aroma-diffuser-air-humidifier-ultr', order: ['img_13', 'img_04', 'img_09', 'img_02', 'img_01', 'img_03', 'img_06', 'img_08', 'img_10', 'img_11', 'img_12', 'img_14', 'img_15', 'img_17'] },
 };
 const cutoutCache = new Map();
 const cutoutLoader = new THREE.TextureLoader(); cutoutLoader.setCrossOrigin('anonymous');
@@ -109,7 +109,7 @@ function buildCutoutProduct(id) {
   const files = cfg.order.map(n => 'img/cutouts/' + cfg.handle + '_' + n + '.webp');
   const g = new THREE.Group();
   g.add(softShadow());
-  const mat = new THREE.SpriteMaterial({ transparent: true, depthWrite: false });
+  const mat = new THREE.SpriteMaterial({ transparent: true, depthWrite: true, alphaTest: .18, opacity: 1 });
   const sp = new THREE.Sprite(mat);
   const S = .34; sp.scale.set(S, S, 1); sp.position.y = S / 2 + .025;
   g.add(sp);

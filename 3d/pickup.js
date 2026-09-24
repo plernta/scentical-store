@@ -39,7 +39,7 @@ export class PickupController {
     if (g.userData.isCutout) {
       if (g.userData.photoCount > 1 && g.userData.setPhoto) {
         this._acc += dx;
-        const step = 56;
+        const step = 32;   // ลากนุ่ม: ทุก 32px = มุมถัดไป (14 มุม = หมุนรอบตัวต่อเนื่อง)
         while (this._acc >= step) { g.userData._pi = ((g.userData._pi || 0) + 1) % g.userData.photoCount; g.userData.setPhoto(g.userData._pi); this._acc -= step; }
         while (this._acc <= -step) { g.userData._pi = ((g.userData._pi || 0) - 1 + g.userData.photoCount) % g.userData.photoCount; g.userData.setPhoto(g.userData._pi); this._acc += step; }
       }

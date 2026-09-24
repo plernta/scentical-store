@@ -233,14 +233,10 @@ function showInspect(entry) {
   const p = entry.data;
   $('iTh').textContent = p.name_th; $('iEn').textContent = p.name_en;
   $('iPrice').textContent = T[lang].baht + p.price;
-  $('iDesc').textContent = (lang === 'th' ? p.desc_th : p.desc_en).slice(0, 120) + '…';
-  $('iTag').textContent = p.tag || (lang === 'th' ? T.th.tagFallback : T.en.tagFallback);
-  $('iTag').style.display = p.tag ? '' : 'none';
   $('iOrderT').textContent = T[lang].order;
   $('iOrder').href = STORE.line;
   $('iPhotoT').textContent = T[lang].photo;
   $('iBackT').textContent = T[lang].putback;
-  $('iNote').textContent = T[lang].note;
   $('inspect').classList.add('open');
 }
 function hideInspect() { $('inspect').classList.remove('open'); }
