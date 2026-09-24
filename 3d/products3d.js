@@ -114,6 +114,10 @@ function buildCutoutProduct(id) {
   const sp = new THREE.Sprite(mat);
   const S = .34; sp.scale.set(S, S, 1); sp.position.y = S / 2 + .025;
   g.add(sp);
+  // AI 3D (TripoSR): ถ้ามีโมเดล GLB ของสินค้านี้ → สลับจากภาพคัตเอาต์เป็นโมเดล 3 มิติจริง หมุน 360° ได้ทุกมุม
+  try {
+    import('./glb-products.js').then(m => m.attachGLB(id, g, sp)).catch(() => {});
+  } catch (e) { /* ไม่มีโมดูล GLB = ใช้คัตเอาต์ต่อไป */ }
   // invisible hitbox: จุดคลิกกว้างกว่าตัวสินค้า (มาตรฐานเกม — คลิก/แตะง่าย)
   const hit = new THREE.Mesh(new THREE.BoxGeometry(.55, .6, .35), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
   hit.position.y = .28; g.add(hit);
