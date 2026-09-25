@@ -1,10 +1,10 @@
 // Scentical 3D Showroom v2 — ร้านห้องเสมือนจริง + หยิบสินค้าหมุน 360° (บัญชาแม่ 24 ก.ย. 2026)
 // three.js r165 MIT · vanilla ES module · open-source only · render-on-demand
 import * as THREE from 'three';
-import { PRODUCTS, STORE } from './products.js?v=7';
-import { buildRoom } from './room.js?v=7';
-import { buildProduct3D } from './products3d.js?v=7';
-import { PickupController } from './pickup.js?v=7';
+import { PRODUCTS, STORE } from './products.js?v=8';
+import { buildRoom } from './room.js?v=8';
+import { buildProduct3D } from './products3d.js?v=8';
+import { PickupController } from './pickup.js?v=8';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 /* ---------- error toast ---------- */
@@ -142,7 +142,7 @@ try {
       entries.push(entry);
       // วางโมเดล 3D จริงจาก AI ลงโต๊ะ (โหลดไล่ทีละตัว กันหนัก)
       setTimeout(() => {
-        import('./glb-products.js?v=7').then(m => m.attachGLB(entry.data.id, g, g.userData.sprite)).catch(() => {});
+        import('./glb-products.js?v=8').then(m => m.attachGLB(entry.data.id, g, g.userData.sprite)).catch(() => {});
       }, 900 + i * 650);
     });
   }

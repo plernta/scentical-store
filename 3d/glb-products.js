@@ -61,9 +61,10 @@ function attachFromCache(id, gltf, group, fallbackSprite) {
   model.scale.x *= s; model.scale.y *= s; model.scale.z *= s;
   // ③ จัดกลาง + ฐานแตะพื้นโต๊ะ
   const box2 = new THREE.Box3().setFromObject(model);
+  const sz2 = new THREE.Vector3(); box2.getSize(sz2);
   const c = new THREE.Vector3(); box2.getCenter(c);
   model.position.sub(c);
-  model.position.y += sz1.y / 2;
+  model.position.y += sz2.y / 2;  // ฐานแตะโต๊ะ: ต้องใช้ขนาด"หลัง"คูณสเกล (เดิมใช้ก่อนคูณ → โมเดลลอยเหนือโต๊ะ)
   model.traverse(o => { if (o.isMesh && o.material) o.material.side = THREE.DoubleSide; }); // กัน winding กลับด้านจาก AI
   group.add(model);
   group.userData.model3d = model;   // ตัวโมเดลจริง (หมุนโชว์เองเมื่อหยิบ)

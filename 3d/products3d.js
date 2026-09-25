@@ -1,7 +1,7 @@
 // products3d.js v5c — สินค้าทั้ง 13 เป็น "คัตเอาต์ภาพจริง" (โปร่งใส ไม่มีพื้นหลัง/กรอบ) บนโต๊ะ
 // + รองรับ GLB โมเดล 3D จาก AI (TripoSR) โหลดแบบขี้เกียจตอนหยิบ — หมุน 360° ได้จริง
 import * as THREE from 'three';
-import { attachGLB } from './glb-products.js?v=7';  // ระบบเดียวของร้าน (เดิม products3d มี attachGLB ซ้ำ 2 ชุดชนกันเอง)
+import { attachGLB } from './glb-products.js?v=8';  // ระบบเดียวของร้าน (เดิม products3d มี attachGLB ซ้ำ 2 ชุดชนกันเอง)
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 
 const CUTOUT_BY_ID = {
