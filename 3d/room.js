@@ -50,7 +50,7 @@ export function buildRoom(scene) {
     shade.position.y = -1.2; shade.material.side = THREE.DoubleSide; g.add(shade);
     const bulb = new THREE.Mesh(new THREE.SphereGeometry(.07, 12, 10), new THREE.MeshStandardMaterial({ color: 0xffe2b0, emissive: 0xffd28a, emissiveIntensity: 2.2 }));
     bulb.position.y = -1.32; g.add(bulb);
-    const pl = new THREE.PointLight(0xffd9a0, 14, 9, 1.7); pl.position.y = -1.35; g.add(pl);
+    const pl = new THREE.PointLight(0xffd9a0, 30, 14, 1.6); pl.position.y = -1.35; g.add(pl);
     g.position.y = 4; scene.add(g);
   }
 

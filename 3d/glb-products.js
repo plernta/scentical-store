@@ -58,7 +58,7 @@ function attachFromCache(id, gltf, group, fallbackSprite) {
   if (sz0.z > 1e-6) model.scale.z = ratio * sz0.y / sz0.z;
   const box1 = new THREE.Box3().setFromObject(model);
   const sz1 = new THREE.Vector3(); box1.getSize(sz1);
-  const sc = .19 / (Math.max(sz1.x, sz1.y, sz1.z) || 1);
+  const sc = .5 / (Math.max(sz1.x, sz1.y, sz1.z) || 1);
   model.scale.x *= sc; model.scale.y *= sc; model.scale.z *= sc;
   const box2 = new THREE.Box3().setFromObject(model);
   const c = new THREE.Vector3(); box2.getCenter(c);

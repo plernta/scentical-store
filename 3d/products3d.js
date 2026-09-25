@@ -3,6 +3,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
 const CUTOUT_BY_ID = {
  "flame-8mode": {
@@ -157,6 +158,14 @@ const CUTOUT_BY_ID = {
 const DEPTH_RATIO = { 'flame-2in1': .55, 'flame-8mode': .7 };
 const loader = new GLTFLoader();
 loader.setCrossOrigin('anonymous');
+
+const gltfLoader = new GLTFLoader();
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
+gltfLoader.setDRACOLoader(dracoLoader);
+const glbCache = new Map();
+const glbPending = new Map();
+
 const cutoutLoader = new THREE.TextureLoader();
 cutoutLoader.setCrossOrigin('anonymous');
 const cutoutCache = new Map();
@@ -260,13 +269,60 @@ export function buildProduct3D(id) {
     loadCutout(files[cur], t => { photos[cur] = t; if (cur === g.userData._pi) { mat.map = t; mat.needsUpdate = true; } });
   };
   // AI 3D (TripoSR): โหลดแบบขี้เกียจ — หยิบตัวไหนค่อยดึงโมเดล 3D ตัวนั้น
-  g.userData.loadGLB = () => {
-    const v = document.getElementById('ver');
-    if (v) v.textContent = 'กำลัง import glb-products…';
-    import('./glb-products.js?v=5').then(m2 => { if (v) v.textContent = 'import ok — กำลังโหลด GLB…'; m2.attachGLB(id, g, sp); }).catch(err => { if (v) v.textContent = 'import FAIL: ' + err.message; });
-  };
+  g.userData.loadGLB = () => attachGLB(id, g, sp);
   // invisible hitbox: จุดคลิกกว้างกว่าตัวสินค้า (มาตรฐานเกม — คลิก/แตะง่าย)
   const hit = new THREE.Mesh(new THREE.BoxGeometry(.8, .75, .5), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
   hit.position.y = .3; hit.userData.isHit = true; g.add(hit);
   return g;
+}
+
+const glbModelCache = new Map();
+const glbModelPending = new Map();
+let glbReadyCount = 0;
+export function attachGLB(id, group, fallbackSprite) {
+  if (group.userData.glbAttached) return;
+  group.userData.glbAttached = true;
+  const doAttach = (gltf) => attachFromCache(id, gltf, group, fallbackSprite);
+  if (glbModelCache.has(id)) { doAttach(glbCache.get(id)); return; }
+  const waiters = glbModelPending.get(id) || [];
+  waiters.push({ group, fallbackSprite });
+  glbPending.set(id, waiters);
+  if (waiters.length > 1) return;
+  const vEl = document.getElementById('ver');
+  if (vEl) vEl.textContent = 'กำลังโหลดไฟล์ GLB…';
+  gltfLoader.load(
+    'models/' + id + '.glb?v=5',
+    gltf => {
+      glbModelCache.set(id, gltf);
+      glbReadyCount++;
+      const vEl2 = document.getElementById('ver');
+      if (vEl2) vEl2.textContent = '3D โหลดโมเดลเข้าแล้ว ' + glbReadyCount + '/13 ✓';
+      const all = glbModelPending.get(id) || [];
+      glbModelPending.delete(id);
+      for (const w of all) attachFromCache(id, gltf, w.group, w.fallbackSprite);
+    },
+    undefined,
+    () => { const vEl2 = document.getElementById('ver'); if (vEl2) vEl2.textContent = '3D: โหลดโมเดลพัง ✗'; }
+  );
+}
+function attachFromCache(id, gltf, group, fallbackSprite) {
+  const model = gltf.scene;
+  const ratio = DEPTH_RATIO[id] || .6;
+  const box0 = new THREE.Box3().setFromObject(model);
+  const sz0 = new THREE.Vector3(); box0.getSize(sz0);
+  if (sz0.z > 1e-6) model.scale.z = ratio * sz0.y / sz0.z;
+  const box1 = new THREE.Box3().setFromObject(model);
+  const sz1 = new THREE.Vector3(); box1.getSize(sz1);
+  const sc = .19 / (Math.max(sz1.x, sz1.y, sz1.z) || 1);
+  model.scale.x *= sc; model.scale.y *= sc; model.scale.z *= sc;
+  const box2 = new THREE.Box3().setFromObject(model);
+  const c = new THREE.Vector3(); box2.getCenter(c);
+  model.position.sub(c);
+  model.position.y += sz1.y / 2;
+  model.traverse(o => { if (o.isMesh && o.material) { o.material.side = THREE.DoubleSide; } });
+  group.add(model);
+  group.userData.model3d = model;
+  group.userData.autoSpin = true;
+  group.userData.isCutout = false;
+  fallbackSprite.visible = false;
 }

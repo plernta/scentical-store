@@ -345,7 +345,6 @@ function loop(now) {
   for (const e of entries) {
     if (e.group.userData.tick) for (const fn of e.group.userData.tick) fn(tAnim);
   }
-  $('ver').textContent = 'v5b · pos ' + player.x.toFixed(1) + ',' + player.z.toFixed(1) + ' yaw ' + yaw.toFixed(2);
   renderer.render(scene, camera);
   // หมุนโชว์อัตโนมัติ: สินค้าที่หยิบอยู่หมุนโชว์ 360° เองเรื่อย ๆ จนกว่าผู้ใช้จะลากเอง
   if (pickup.entry && pickup.entry.group.userData.model3d && pickup.entry.group.userData.autoSpin) {
