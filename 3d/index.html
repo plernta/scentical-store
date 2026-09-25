@@ -122,7 +122,7 @@ body.en{font-family:'Inter','Prompt',sans-serif}
   <h4 id="hTitle"></h4><ul id="hList"></ul>
 </div></div>
 <div id="err"></div>
-<div id="ver" style="position:fixed;right:8px;bottom:6px;font-size:10px;color:#6a5a4a;z-index:99;pointer-events:none">v5b</div>
+<div id="ver" style="position:fixed;right:10px;bottom:10px;font-size:14px;font-weight:bold;color:#ffd75e;background:rgba(0,0,0,.75);padding:5px 14px;border-radius:8px;border:1px solid #D4AF37;z-index:99;pointer-events:none">v5b</div>
 
 <script>window.addEventListener('error', function(e){ var v=document.getElementById('ver'); if(v){ var m = (e.target && e.target.src) ? e.target.src : (e.message || 'unknown'); v.textContent = 'ERR: ' + m; v.style.color = '#ff8888'; } }, true);</script>
 <script type="importmap">{"imports":{"three":"./vendor/three.module.min.js?v=5","three/addons/loaders/GLTFLoader.js":"./vendor/GLTFLoader.js?v=5","three/addons/geometries/RoundedBoxGeometry.js":"./vendor/RoundedBoxGeometry.js?v=5","three/addons/environments/RoomEnvironment.js":"./vendor/RoomEnvironment.js?v=5"}}</script>
