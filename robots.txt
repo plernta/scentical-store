@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Disallow: /3d/
 Sitemap: https://scentical.com/sitemap.xml
