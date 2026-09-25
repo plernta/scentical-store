@@ -147,6 +147,12 @@ try {
     });
   }
   if (entries.length !== 13) throw new Error('วางสินค้าได้ ' + entries.length + '/13 — เช็ค id ใน TABLES ตรง products.js');
+  // deep-link ?pick=<id> — ลิงก์จากหน้าเว็บร้าน: เปิดมาแล้วหยิบสินค้าตัวนั้นขึ้นมาโชว์ทันที
+  const _wantPick = new URLSearchParams(location.search).get('pick');
+  if (_wantPick) {
+    const _e = entries.find(x => x.data.id === _wantPick);
+    if (_e) setTimeout(() => { pickup.pick(_e); showInspect(_e); $('ver').textContent = 'v5b · จับ: ' + _e.data.name_th; }, 1600);
+  }
 } catch (e) { errBox.style.display = 'block'; errBox.textContent = '⚠ ' + e.message; }
 
 /* ---------- pickup controller ---------- */

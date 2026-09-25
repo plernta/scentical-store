@@ -3,6 +3,14 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Scentical — ของหอมที่มองเห็น มีพิธี ให้เป็นของขวัญได้</title>
 <meta name="description" content="เตาธูปกลิ้ง กำยาน เทียนหอม เครื่องพ่นหอมไฟลาวา — เปิดร้านใหม่ รับ pre-order ส่ง 10-14 วัน ราคาเปิดร้านพิเศษ">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Scentical">
+<meta property="og:title" content="Scentical — ของหอมที่มองเห็น มีพิธี ให้เป็นของขวัญได้">
+<meta property="og:description" content="เตาธูปกลิ้ง กำยาน เครื่องพ่นหอมไฟลาวา — pre-order ส่ง 10-14 วัน · สั่งผ่าน LINE @scentical · เดินชมร้าน 3 มิติหมุนสินค้าดูได้">
+<meta property="og:image" content="https://scentical.com/ai/cutout-burner.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0C0A06">
+<link rel="canonical" href="https://scentical.com/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230C0A06'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23D4AF37' font-family='Georgia,serif' font-weight='700'%3ES%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,700&family=Prompt:wght@200;300;400;500;600&family=Trirong:wght@300;400;500;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -84,6 +92,29 @@ footer{background:#080704;border-top:1px solid var(--line);margin-top:56px;paddi
 .btn:hover{background:#e8c95e}
 .close{float:right;background:none;border:none;font-size:26px;color:var(--muted);cursor:pointer}
 @media(max-width:760px){.box{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr}.hero h1{font-size:26px}}
+.threed{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:26px 0 6px;padding:22px 26px;border:1px solid rgba(212,175,55,.55);border-radius:16px;background:linear-gradient(120deg,rgba(212,175,55,.10),rgba(212,175,55,.03));transition:.2s}
+.threed:hover{border-color:var(--gold);box-shadow:0 10px 34px rgba(212,175,55,.18);transform:translateY(-2px)}
+.threed b{font-family:'Trirong',serif;font-size:19px;color:#F5F1E4;display:block;margin-bottom:2px}
+.threed .s{color:var(--muted);font-size:14.5px}
+.threed .arr{font-size:26px;color:var(--gold)}
+.pay{display:grid;grid-template-columns:1fr;gap:16px;margin:20px 0 4px}
+.payc{display:flex;gap:18px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.payc img{width:110px;height:110px;object-fit:cover;border-radius:10px;border:1px solid var(--line);background:#fff}
+.payc.noqr img{display:none}
+.payc b{color:#F5F1E4;display:block;margin-bottom:4px}
+.payc p{color:var(--muted);font-size:14px}
+form.po{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:760px;margin:0 auto;text-align:left}
+form.po input,form.po select,form.po textarea{background:#0E0D0B;border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:12px 14px;font-family:inherit;font-size:15px;width:100%}
+form.po textarea,form.po .full{grid-column:1/-1}
+form.po ::placeholder{color:#6d675a}
+form.po .mini{grid-column:1/-1;color:var(--muted);font-size:13px;text-align:center}
+.revs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;max-width:920px;margin:0 auto}
+.rev{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+.rev p{color:#D8D2C0;font-size:14.5px}
+.rev b{display:block;margin-top:10px;color:var(--gold);font-size:13.5px}
+.btn.alt{background:none;border:1px solid var(--gold);color:var(--gold);margin-right:10px}
+.btn.alt:hover{background:rgba(212,175,55,.12)}
+@media(max-width:760px){form.po{grid-template-columns:1fr}.payc{flex-direction:column;text-align:center}}
 </style></head>
 <body>
 <div class="ribbon" id="t-ribbon"></div>
@@ -113,11 +144,37 @@ footer{background:#080704;border-top:1px solid var(--line);margin-top:56px;paddi
   <h2 class="sec" id="products"><span id="t-all-t"></span></h2>
   <p class="sec-sub" id="t-all-s"></p>
   <div class="grid" id="grid"></div>
+  <a class="threed" href="3d/">
+    <div><b id="t-3d-t"></b><span class="s" id="t-3d-s"></span></div><span class="arr">→</span>
+  </a>
   <h2 class="sec" id="how"><span id="t-how-t"></span></h2>
   <p class="sec-sub" id="t-how-s"></p>
   <div class="steps" id="steps"></div>
   <div class="note" id="t-note-line"></div>
   <div class="note" id="t-note-prom"></div>
+  <div class="note" id="t-note-gift"></div>
+  <div class="pay" id="pay">
+    <div class="payc" id="payc">
+      <img src="img/promptpay-qr.png" alt="PromptPay QR" onerror="this.parentNode.classList.add('noqr')">
+      <div><b id="t-pay-t"></b><p id="t-pay-s"></p></div>
+    </div>
+  </div>
+  <section id="po-sec">
+    <h2 class="sec" id="t-po-t"></h2>
+    <p class="sec-sub" id="t-po-s"></p>
+    <form class="po" id="poForm" onsubmit="return sendPO(event)">
+      <input id="po-name" required>
+      <input id="po-contact" required>
+      <select id="po-item" class="full"></select>
+      <textarea id="po-msg" rows="2" class="full"></textarea>
+      <button class="btn full" type="submit" id="po-btn" style="justify-self:center"></button>
+      <p class="mini" id="po-note"></p>
+    </form>
+  </section>
+  <section id="rev-sec" style="display:none">
+    <h2 class="sec" id="t-rev-t"></h2>
+    <div class="revs" id="revs"></div>
+  </section>
   <div class="story" id="story">
     <h2 id="t-story-t"></h2><p id="t-story-p"></p>
   </div>
@@ -141,13 +198,14 @@ footer{background:#080704;border-top:1px solid var(--line);margin-top:56px;paddi
       <span>ตอบกลับภายในวันเดียวกัน</span>
     </div>
   </div>
-  <div class="fline"><div>© 2026 SCENTICAL</div><div>ระบบ pre-order · ปรับปรุง 23 ก.ย. 2026</div></div>
+  <div class="fline"><div>© 2026 SCENTICAL</div><div>ระบบ pre-order · อัปเดต 26 ก.ย. 2026</div></div>
 </div></footer>
 
 <div id="modal" onclick="if(event.target===this)closeM()"><div class="box">
   <div class="imgs"><img class="main" id="mMain" src="" alt=""><div class="thumbs" id="mThumbs"></div></div>
   <div class="info"><button class="close" onclick="closeM()">×</button>
     <h3 id="mName"></h3><div class="price" id="mPrice"></div><p class="desc" id="mDesc"></p>
+    <button class="btn alt" id="m3d" onclick="go3D()"></button>
     <button class="btn" onclick="location.href='https://line.me/R/ti/p/@scentical'" id="mBtn"></button>
     <p style="color:#8a8a8a;font-size:13px;margin-top:12px" id="mShip"></p>
   </div>
@@ -184,6 +242,7 @@ function setLang(l){
   document.getElementById('steps').innerHTML = JSON.parse("{\"th\":\"<div class=\\\"step\\\"><b>1</b><h4>เลือกสินค้า</h4><p>แตะการ์ดสินค้าเพื่อดูรูปจริงทุกมุม แล้วจดรุ่นที่ถูกใจไว้</p></div><div class=\\\"step\\\"><b>2</b><h4>ทักแจ้งผ่าน LINE</h4><p>ส่งรุ่นและที่อยู่มาที่ LINE @scentical — ทีมงานตอบยืนยันสต็อกและค่าส่งภายในวันเดียวกัน</p></div><div class=\\\"step\\\"><b>3</b><h4>โอนพร้อมเพย์ แล้วรอรับของ</h4><p>ชำระผ่าน QR พร้อมเพย์ของร้าน จัดส่ง 10-14 วัน พร้อมสลิปติดตามพัสดุถึงมือ</p></div>\",\"en\":\"<div class=\\\"step\\\"><b>1</b><h4>Pick your piece</h4><p>Tap a product card to see real photos from every angle, and note the one you love.</p></div><div class=\\\"step\\\"><b>2</b><h4>Message us on LINE</h4><p>Send the model and your address to LINE @scentical — we confirm stock and shipping cost within the same day.</p></div><div class=\\\"step\\\"><b>3</b><h4>Pay via PromptPay</h4><p>Pay through our PromptPay QR; delivery takes 10-14 days with a tracking slip so you can follow your parcel.</p></div>\"}")[LANG];
   
   setText('mBtn', t.order); setText('mShip', t.ship_note);
+  if (window.applyExtra) applyExtra(t);
   renderProducts();
   if (cur) openM(cur, true);
 }
@@ -201,4 +260,44 @@ function openM(h, keep){
 }
 function closeM(){document.getElementById('modal').classList.remove('open');document.body.style.overflow='';cur=null;}
 setLang(LANG);
+</script>
+<script>
+// ── ส่วนเสริม 26 ก.ย. 2026: ฟอร์ม pre-order · พร้อมเพย์ · ของขวัญ · ปุ่ม 3D · รีวิว(รอของจริง) ──
+const I18N2 = {
+ th: {"3d_t":"🕹️ เดินชมร้าน 3 มิติ — หยิบของขึ้นมาหมุนดู 360°","3d_s":"เหมือนเดินเข้าร้านจริง: เดินด้วย W A S D · คลิกหยิบสินค้า · ลากหมุนดูทุกมุม — เล่นได้ทั้งคอมและมือถือ",pay_t:"ชำระเงินปลอดภัยด้วยพร้อมเพย์",pay_s:"ทุกออเดอร์ชำระผ่าน QR พร้อมเพย์ของร้าน — ขอ QR ฉบับใหม่ในแชท LINE ได้ทุกครั้งก่อนโอน โอนเสร็จทีมงานยืนยันสลิปทันที",gift:"🎁 บริการของขวัญ: ห่อของขวัญ + การ์ดแนบข้อความถึงผู้รับ — แจ้งทีมงานได้ตอนสั่ง (รายละเอียดยืนยันในแชท)",po_t:"จอง pre-order ล่วงหน้า",po_s:"กรอกสั้น ๆ แล้วกดส่ง — ข้อความจะเปิดไปที่แชท LINE ของร้านพร้อมข้อมูลครบ ไม่ต้องพิมพ์เอง",po_name:"ชื่อของคุณ",po_contact:"เบอร์โทร หรือ LINE ID",po_item0:"เลือกสินค้าที่สนใจ…",po_msg:"ข้อความเพิ่มเติม (ที่อยู่ / สี / กลิ่น — ถ้ามี)",po_btn:"ส่งคำขอผ่าน LINE @scentical →",po_note:"ฟรี ไม่มีค่ามัดจำ — ทีมงานตอบยืนยันสต็อกและค่าส่งภายในวันเดียวกัน",rev_t:"เสียงจากลูกค้า",btn3d:"หมุนดู 3D →",po_send:"สวัสดีค่ะ/ครับ ขอ pre-order สินค้า Scentical:\n• ชื่อ: {n}\n• ติดต่อ: {c}\n• สินค้า: {i}\n• ข้อความ: {m}"},
+ en: {"3d_t":"🕹️ Walk our 3D store — pick items up & spin them 360°","3d_s":"Like stepping into the shop: walk with W A S D · click to pick up · drag to inspect from every angle — works on mobile too",pay_t:"Safe checkout with PromptPay",pay_s:"Every order is paid via the shop's official PromptPay QR — request a fresh QR in our LINE chat before paying; we confirm your slip right away",gift:"🎁 Gifting service: gift wrapping + a message card for the recipient — just tell us when ordering (details confirmed in chat)",po_t:"Reserve your pre-order",po_s:"Fill in briefly and hit send — it opens LINE with your details pre-typed. No typing needed",po_name:"Your name",po_contact:"Phone or LINE ID",po_item0:"Pick a product…",po_msg:"Extra notes (address / color / scent — optional)",po_btn:"Send request via LINE @scentical →",po_note:"Free, no deposit — we confirm stock & shipping within the same day",rev_t:"What customers say",btn3d:"Spin in 3D →",po_send:"Hello! I'd like to pre-order from Scentical:\n• Name: {n}\n• Contact: {c}\n• Item: {i}\n• Notes: {m}"}
+};
+Object.assign(I18N.th, I18N2.th); Object.assign(I18N.en, I18N2.en);
+// map handle หน้าเว็บ → id โมเดล 3D ในร้าน 3d/
+const P3D = {"flame-aroma-diffuser-air-humidifier-ultrasonic-cool-mist-maker-fogger-led-essential-oil-flame-lamp-difusor":"flame-8mode","best-selling-usb-ultrasonic-flame-humidifier-led-rgb-colorful-essential-oil-fire-flame-aroma-diffuser":"flame-2in1","natural-cone-incense-pagoda-incense-small-box":"pagoda-cone","household-ceramic-incense-stick-backflow-incense-burner":"backflow","japanese-style-ceramic-indoor-view-of-smoke-and-clouds-craft-ornaments":"japan-clouds","layer-mountain-ceramic-incense-burner-incense-holder-creative-decoration-tea-ceremony-worship-antique-incense-holder-incense-burner-household-copy":"layer-mountain","inverted-cone-incense-incense-tower-sandalwood":"cone-tower","removable-house-incense-burner":"house-burner","incense-burner-household-indoor-sandalwood-agilawood-ceramic":"sandalwood-burner","ceramic-wire-incense-burner-home-indoor-incense-holder-incense":"wire-holder","nepal-handmade-incense-aromatherapy-joss-stick-natural-herb":"nepal-incense","double-dragon-incense-plate-incense-burner":"dragon-plate","ceramic-incense-burner-incense-holder-creative-decoration-tea-ceremony-worship-antique-incense-holder-incense-burner-household":"yinyang-burner"};
+// ⚠️ รีวิว: ใส่คำพูด "จริง" จากแชท LINE เท่านั้น — ใส่แล้วส่วนรีวิวจะโผล่เอง (ตอนนี้ว่าง = ยังไม่โชว์ ไม่มีรีวิวปลอม)
+const REVIEWS = [];
+function $(id){ return document.getElementById(id); }
+function applyExtra(t){
+  setText('t-3d-t', t["3d_t"]); setText('t-3d-s', t["3d_s"]);
+  setText('t-pay-t', t.pay_t); setText('t-pay-s', t.pay_s);
+  setText('t-note-gift', t.gift);
+  setText('t-po-t', t.po_t); setText('t-po-s', t.po_s);
+  setText('po-btn', t.po_btn); setText('po-note', t.po_note);
+  setText('t-rev-t', t.rev_t); setText('m3d', t.btn3d);
+  $('po-name').placeholder = t.po_name; $('po-contact').placeholder = t.po_contact;
+  $('po-msg').placeholder = t.po_msg;
+  const sel = $('po-item'), keep = sel.value;
+  sel.innerHTML = '<option value="">' + t.po_item0 + '</option>' +
+    P.map(p => '<option>' + (LANG==='th'?p.th.name:p.en.name) + ' — ฿' + p.price + '</option>').join('');
+  sel.value = keep;
+}
+function go3D(){ const id = P3D[cur]; if (id) window.open('3d/?pick=' + id, '_blank'); }
+function sendPO(e){
+  e.preventDefault();
+  const t = I18N[LANG];
+  const msg = t.po_send.replace('{n}',$('po-name').value.trim()).replace('{c}',$('po-contact').value.trim()).replace('{i}',$('po-item').value||'-').replace('{m}',$('po-msg').value.trim()||'-');
+  window.open('https://line.me/R/oaMessage/@scentical/?text=' + encodeURIComponent(msg), '_blank');
+  return false;
+}
+if (REVIEWS.length) {
+  $('rev-sec').style.display = '';
+  $('revs').innerHTML = REVIEWS.map(r => '<div class="rev"><p>“' + r.q + '”</p><b>' + r.by + '</b></div>').join('');
+}
+applyExtra(I18N[LANG]);
 </script></body></html>
