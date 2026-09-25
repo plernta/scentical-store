@@ -249,6 +249,7 @@ export function buildProduct3D(id) {
   g.add(sp);
   const photos = []; let cur = 0;
   if (files[0]) loadCutout(files[0], t => { mat.map = t; mat.needsUpdate = true; photos[0] = t; });
+  g.userData.sprite = sp;   // คัตเอาต์สำรอง (attachGLB จะซ่อนเมื่อโมเดล 3D เข้า)
   g.userData.photos = photos;
   g.userData.photoCount = files.length;
   g.userData.isCutout = true;
@@ -260,7 +261,9 @@ export function buildProduct3D(id) {
   };
   // AI 3D (TripoSR): โหลดแบบขี้เกียจ — หยิบตัวไหนค่อยดึงโมเดล 3D ตัวนั้น
   g.userData.loadGLB = () => {
-    import('./glb-products.js?v=5').then(m2 => m2.attachGLB(id, g, sp)).catch(() => {});
+    const v = document.getElementById('ver');
+    if (v) v.textContent = 'กำลัง import glb-products…';
+    import('./glb-products.js?v=5').then(m2 => { if (v) v.textContent = 'import ok — กำลังโหลด GLB…'; m2.attachGLB(id, g, sp); }).catch(err => { if (v) v.textContent = 'import FAIL: ' + err.message; });
   };
   // invisible hitbox: จุดคลิกกว้างกว่าตัวสินค้า (มาตรฐานเกม — คลิก/แตะง่าย)
   const hit = new THREE.Mesh(new THREE.BoxGeometry(.8, .75, .5), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
