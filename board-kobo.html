@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="th"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kobo — บอร์ดบ้านโชกุน</title>
+<title>Kobo / Home-Gem — บอร์ดบ้านโชกุน</title>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500&family=Trirong:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#FAFAF9;--ink:#1C1C1A;--mut:#8A877E;--line:#E8E8E3;--gold:#B8933A;--g:#5B8C5A;--r:#C0654F;--y:#C9A227}
@@ -63,8 +63,8 @@ footer{margin-top:56px;padding:22px 0 44px;border-top:1px solid var(--line);colo
 </style></head><body>
 <div class="wrap">
 <div class="top"><a href="board.html">← บอร์ดหลัก</a><span style="float:right">💬 ข้อความถึงโชกุนเซฟในเครื่องนี้อัตโนมัติ</span></div>
-<h1><span class="dot g"></span>Kobo</h1>
-<div class="sub">AI OS ของบ้าน — L17 จบสมบูรณ์ · รอแม่ตัดสินเรื่อง leader integration</div>
+<h1><span class="dot g"></span>Kobo / Home-Gem</h1>
+<div class="sub">AI OS ของบ้าน L17 จบสมบูรณ์ · 🟢 Home-Gem (Gemini บ้านๆ) เฟส 3 ทดสอบผ่านแล้ว</div>
 <button class="copybtn" onclick="cp()">📋 คัดลอกสรุป</button>
 <div class="summary" id="sum"></div>
 <h2>รอแม่ตัดสินใจ</h2>
@@ -88,7 +88,7 @@ function showSum(){
 function cp(){
   const ans = D.filter(d => saved[d.n]).map(d => d.n + ': ' + saved[d.n]);
   if (!ans.length) { alert('ยังไม่ได้เลือกครับแม่'); return; }
-  const t = 'คำตอบบอร์ด Kobo:\n' + ans.join('\n');
+  const t = 'คำตอบบอร์ด Kobo / Home-Gem:\n' + ans.join('\n');
   (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(
     () => alert('คัดลอกแล้ว วางส่งโชกุนได้เลย'),
     () => { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); alert('คัดลอกแล้ว'); });
@@ -104,7 +104,7 @@ D.forEach(d => {
   if (card && i >= 0) card.querySelectorAll('.choices button')[i].classList.add('sel');
 });
 showSum();
-</script><h2>สถานะ / ความคืบหน้า</h2><div class="stat"><b>L17 Dharma Layer</b><span>COMPLETE 24-25 ส.ค. — 5,606 tests ผ่าน</span></div><div class="stat"><b>Shokun Leader</b><span>SOUL.md+agent.yaml เตรียม additive ไว้ ไม่ commit รอแม่</span></div><div class="stat"><b>Dashboard/UI</b><span>company-ui 4 ชุด 137/137 tests · chat bridge 8791 โฉมใหม่</span></div><div class="stat"><b>บทเรียนบ้าน</b><span>orchestrator lock · review gate 95/99 · worktrees จัดแล้ว</span></div>
+</script><h2>โชกุนกำลังทำ</h2><div class="item"><span class="num">B15/16</span><div class="t">Home-Gem เฟส 3 — โชกุนในแชททำงานจริง<span>เชื่อมความจำบ้าน + link github zcode gemini + โหมดทำงานจริง (PIN) ทดสอบผ่าน 2 ข้อ 26 ก.ย. → เก็บงานให้ใช้จริงทุกวัน</span></div></div><h2>สถานะ / ความคืบหน้า</h2><div class="stat"><b>L17 Dharma Layer</b><span>COMPLETE 24-25 ส.ค. — 5,606 tests ผ่าน</span></div><div class="stat"><b>Home-Gem</b><span>เฟส 1-2 เสร็จ (หน้าแชท+เทอร์มินัลเชลล์จริง+PIN) · เฟส 3 วงจรความจำ+ทำงานจริง ทดสอบผ่าน 26 ก.ย. — แท็บทำงาน sess_1b1cc5c3</span></div><div class="stat"><b>Shokun Leader</b><span>SOUL.md+agent.yaml เตรียม additive ไว้ ไม่ commit รอแม่ (B10)</span></div><div class="stat"><b>Dashboard/UI</b><span>company-ui 4 ชุด 137/137 tests · chat bridge 8791 โฉมใหม่</span></div><div class="stat"><b>บทเรียนบ้าน</b><span>orchestrator lock · review gate 95/99 · worktrees จัดแล้ว</span></div>
 <h2>ข้อความถึงโชกุน (เซฟในเครื่องนี้อัตโนมัติ)</h2>
 <textarea id="msgbox" placeholder="พิมพ์ หรือกดไมค์พูดแทนได้เลยครับแม่…" style="width:100%;min-height:80px;border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-family:'Prompt';font-size:14.5px;font-weight:300;background:#fff;resize:vertical;margin-bottom:10px"></textarea>
 <div class="msgbox">
@@ -112,7 +112,7 @@ showSum();
 <button onclick="saveMsg(this)">บันทึกข้อความ</button>
 </div>
 <div id="msgfb" style="display:none;font-size:13.5px;color:var(--g);margin:10px 0 20px">บันทึกแล้วครับแม่ ✓ โชกุนจะอ่านในรายงานเช้า</div>
-<footer>อัปเดต 23 ก.ย. 2026 · ดูแลโดยโชกุน GL ⚫🔺⚪</footer>
+<footer>อัปเดต 26 ก.ย. 2026 · ดูแลโดยโชกุน GL ⚫🔺⚪</footer>
 </div>
 <nav class="dock">
 <a href="board.html"><span class="ic">🏠</span>หน้าแรก</a>

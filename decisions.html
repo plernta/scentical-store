@@ -1,162 +1,163 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>หน้าตัดสินใจ — บอร์ดทั้งบ้าน</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!DOCTYPE html><html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>หน้าตัดสินใจ — บอร์ดบ้านโชกุน</title>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500&family=Trirong:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#FAFAF9;--ink:#1C1C1A;--mut:#6B685E;--line:#E8E8E3;--gold:#8A6D24;--panel:#ffffff}
+:root{--bg:#FAFAF9;--ink:#1C1C1A;--mut:#8A877E;--line:#E8E8E3;--gold:#B8933A;--g:#5B8C5A;--r:#C0654F;--y:#C9A227}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:'Prompt',sans-serif;line-height:1.75;font-weight:300}
-a{color:inherit}
-.wrap{max-width:780px;margin:0 auto;padding:0 20px}
-.top{padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
-.top a{text-decoration:none}
+body{background:var(--bg);color:var(--ink);font-family:'Prompt',sans-serif;line-height:1.8;font-weight:300}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px}
+.top{padding:14px 0;border-bottom:1px solid var(--line);font-size:13.5px;color:var(--mut)}
 .top a:hover{color:var(--gold)}
-h1{font-family:'Trirong',serif;font-weight:500;font-size:30px;margin:30px 0 2px}
-.sub{color:var(--mut);margin-bottom:26px;font-size:14.5px}
-.card{border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:14px;background:#fff}
-.card.done{border-color:var(--gold)}
+h1{font-family:'Trirong',serif;font-weight:500;font-size:34px;margin:44px 0 2px}
+.sub{color:var(--mut);margin-bottom:36px}
+h2{font-size:14px;font-weight:500;letter-spacing:.14em;color:var(--mut);text-transform:uppercase;margin:38px 0 14px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:9px;vertical-align:2px}
+.dot.g{background:var(--g)}.dot.y{background:var(--y)}.dot.r{background:var(--r)}.dot.w{background:#BBB}
+.card{border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:12px;background:#fff}
+.card.done{border-color:var(--g)}
 .row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .num{font-family:'Trirong',serif;color:var(--gold);font-size:19px}
 .tt{font-weight:400;font-size:16.5px}
-.choices{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-.choices button{background:#fff;border:1.5px solid #C9C6BD;color:var(--ink);border-radius:12px;padding:13px 20px;font-family:'Prompt';font-size:15px;font-weight:400;cursor:pointer;min-height:48px;transition:.12s}
-.choices button:hover{border-color:var(--gold)}
-.choices button.sel{background:#1C1C1A;color:#fff;border-color:#1C1C1A}
-.feedback{display:none;margin-top:10px;font-size:14px;color:#3E7C3E}
-.feedback.show{display:block}
-.custom{display:flex;gap:8px;margin-top:12px}
-.custom input{flex:1;border:1.5px solid #C9C6BD;border-radius:12px;padding:12px 16px;font-family:'Prompt';font-size:15px;font-weight:300;min-width:120px;background:#fff}
-.custom input:focus{outline:none;border-color:var(--gold)}
-.custom button{border:1.5px solid #C9C6BD;background:#fff;color:var(--ink);border-radius:12px;padding:10px 16px;font-family:'Prompt';font-size:14px;cursor:pointer;min-height:48px;white-space:nowrap}
-.custom button:hover{border-color:var(--gold);color:var(--gold)}
-.bar{position:sticky;top:0;z-index:60;background:rgba(250,250,249,.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.bar .wrap{display:flex;align-items:center;gap:10px;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
-.bar .btitle{font-family:'Trirong',serif;font-size:19px}
-.bar nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
-.bar nav a{padding:10px 14px;border-radius:999px;font-size:13.5px;color:var(--mut);text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
-.bar nav a.on{background:#1C1C1A;color:#fff}
-.summary{border:1.5px solid var(--gold);border-radius:12px;padding:16px 20px;margin:18px 0;font-size:15px;white-space:pre-wrap;color:#3E3A2E;display:none;background:#FFFDF6;font-weight:400}
+.meta{font-size:13px;color:var(--mut)}
+.choices{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.choices button{background:#fff;border:1px solid var(--line);color:var(--mut);border-radius:999px;padding:6px 16px;font-family:'Prompt';font-size:13.5px;font-weight:300;cursor:pointer}
+.choices button:hover{border-color:var(--gold);color:var(--gold)}
+.choices button.sel{background:var(--ink);color:#fff;border-color:var(--ink)}
+.item{display:flex;gap:12px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .num{flex:none;width:34px}
+.item .t{flex:1;font-weight:400;font-size:15.5px}
+.item .t span{display:block;font-weight:300;font-size:13.5px;color:var(--mut)}
+.stat{display:flex;gap:10px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.stat:last-child{border-bottom:none}
+.stat b{font-weight:400;min-width:150px;flex:none;font-size:15px}
+.stat span{color:var(--mut);font-weight:300}
+.copybtn{position:sticky;top:10px;float:right;background:var(--ink);color:#fff;border:none;border-radius:999px;padding:8px 20px;font-family:'Prompt';font-size:13.5px;cursor:pointer;margin-top:-6px}
+.copybtn:hover{background:var(--gold)}
+.summary{border:1px dashed var(--line);border-radius:10px;padding:14px 18px;margin:0 0 14px;font-size:14px;white-space:pre-wrap;color:#6b6659;display:none;background:#fff}
 .summary.show{display:block}
-.savefile{display:flex;gap:10px;margin:0 0 30px;flex-wrap:wrap}
-.savefile button{background:#5B8C5A;color:#fff;border:none;border-radius:12px;padding:13px 24px;font-family:'Prompt';font-size:15px;cursor:pointer}
-.savefile button:hover{background:#4a7349}
-.rules{border:1px solid var(--line);border-radius:10px;background:#fff;padding:18px 22px}
-.rules li{margin-bottom:8px;font-weight:300}
-.rules li b{font-weight:500}
-footer{margin-top:50px;padding:20px 0 40px;border-top:1px solid var(--line);color:var(--mut);font-size:12.5px}
-</style>
-</head>
-<body>
-<div class="bar"><div class="wrap"><span class="btitle">บอร์ดทั้งบ้าน</span><nav>
-<a href="board.html" style="font-weight:600">← กลับหน้ารวม</a><a href="board-scentical.html">Scentical</a><a href="board-patent.html">สิทธิบัตร</a><a href="board-chip.html">ชิป</a><a href="board-kobo.html">Kobo</a><a href="board-voice.html">เสียง</a>
-</nav></div></div>
+.hubgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.hubcard{display:block;border:1px solid var(--line);border-radius:10px;padding:18px 20px;background:#fff;transition:.12s}
+.hubcard .nm{font-family:'Trirong',serif;font-size:21px;font-weight:500}
+.hubcard .ds{font-size:13px;color:var(--mut);font-weight:300;margin-top:4px;line-height:1.6}
+.hubcard .pend{font-size:12px;color:var(--gold);margin-top:10px}
+.msgbox{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.msgbox textarea{flex:1;min-width:200px;border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-family:'Prompt';font-size:14.5px;font-weight:300;min-height:64px;resize:vertical;background:#fff}
+.msgbox textarea:focus{outline:none;border-color:var(--gold)}
+.msgbox button{border:1px solid var(--line);background:#fff;color:var(--mut);border-radius:10px;padding:8px 14px;font-family:'Prompt';font-size:13.5px;cursor:pointer;white-space:nowrap}
+.msgbox button:hover{border-color:var(--gold);color:var(--gold)}
+.msgbox .mic.on{background:var(--gold);color:#fff;border-color:var(--gold)}
+.feedback{display:none;font-size:13px;color:var(--g);margin-top:8px}
+.feedback.show{display:block}
+.dock{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:9px 6px calc(9px + env(safe-area-inset-bottom));z-index:80}
+.dock a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11.5px;color:#55524a;padding:3px 7px;border-radius:10px;text-decoration:none;font-weight:400}
+.dock a .ic{font-size:21px;line-height:1.2}
+.dock a.on{color:var(--gold);font-weight:500}
+body{padding-bottom:76px}
+@media(min-width:768px){.dock{display:none}body{padding-bottom:0}}
+.hubwrap{max-width:1080px}
+.hubcard:hover{border-color:var(--gold)}
+footer{margin-top:56px;padding:22px 0 44px;border-top:1px solid var(--line);color:var(--mut);font-size:12.5px}
+</style></head><body>
 <div class="wrap">
-<h1>หน้าตัดสินใจ</h1>
-<div class="sub">แตะเลือกคำตอบ หรือพิมพ์/กดไมค์พูดแทนได้ — เสร็จแล้วกด "บันทึกไฟล์สั่งงาน" ด้านล่าง ลูกจะรับไปทำต่อให้ครับ</div>
-<div id="aCards"></div>
-<h2>กฎการใช้บอร์ด</h2>
-<div class="rules"><ul style="padding-left:20px">
-<li><b>เพิ่มงานเข้าโปรเจค เมื่อ:</b> แม่ตัดสินใจแล้ว / เจอบั๊กที่ลูกค้าหรือแม่เห็น / ขั้นถัดไปชัดเจนของงานที่เสร็จ — ทุกงานต้องมีผลลัพธ์วัดได้+ผู้ทำ</li>
-<li><b>ขึ้นโปรเจคใหม่ เมื่อครบ 3 ข้อ:</b> รู้ปลายทาง · ไม่ซ้ำงานที่วิ่งอยู่ · มีผู้ดูแลหลัก+งาน active ยังไม่ล้น (WIP=1 ต่อคน)</li>
-<li><b>พัก/ปิดโปรเจค เมื่อ:</b> เงียบ 7 วัน+ไม่มีผู้รับผิดชอบ → พักอัตโนมัติ (จดเหตุผล แก้คืนได้เสมอ)</li>
-<li><b>ตลอดเวลา:</b> ของจริง &gt; ของแต่ง · เจตนาแม่ถามตัวจริง · จบที่รุ่นที่ผู้รับว่าดีสุด</li>
-</ul></div>
-<div class="savefile"><button onclick="saveFile()">💾 บันทึกไฟล์สั่งงาน (ลงเครื่องบ้าน)</button></div>
-</div>
-<footer><div class="wrap">บอร์ดทั้งบ้าน · ข้อมูลการตัดสินใจเก็บในเครื่องแม่เอง · อัปเดตโดยโชกุน GL 23 ก.ย. 2026</div></footer>
+<div class="top"><a href="board.html">← บอร์ดหลัก</a><span style="float:right">💬 ข้อความถึงโชกุนเซฟในเครื่องนี้อัตโนมัติ</span></div>
+<h1><span class="dot y"></span>หน้าตัดสินใจ (รอแม่)</h1>
+<div class="sub">รวมทุกข้อที่รอแม่ตัดสินจากทุกโปรเจค — แตะเลือกได้เลย · อัปเดต 26 ก.ย. 2026</div>
+<button class="copybtn" onclick="cp()">📋 คัดลอกสรุป</button>
+<div class="summary" id="sum"></div>
+<h2>รอแม่ตัดสินใจ</h2>
+<div class="card" id="cA1" data-n="A1"><div class="row"><span class="num">A1</span><span class="tt">เปิดบัญชีขาย Lazada/Shopee</span><span class="meta">⏱ 30-40 นาที</span></div><div class="choices"><button onclick="pick('A1','นั่งกับโชกุนเลย',this)">นั่งกับโชกุนเลย</button><button onclick="pick('A1','ค่อยทำ',this)">ค่อยทำ</button></div></div>
+<div class="card" id="cA2" data-n="A2"><div class="row"><span class="num">A2</span><span class="tt">ยืนยันราคา THB บนเว็บ (฿129-499)</span><span class="meta">⏱ 5 นาที</span></div><div class="choices"><button onclick="pick('A2','โอเคตามที่เสนอ',this)">โอเคตามที่เสนอ</button><button onclick="pick('A2','ลดราคา',this)">ลดราคา</button><button onclick="pick('A2','ปรับราคาอื่น',this)">ปรับราคาอื่น</button></div></div>
+<div class="card" id="cA3" data-n="A3"><div class="row"><span class="num">A3</span><span class="tt">เปิด LINE OA + QR พร้อมเพย์</span><span class="meta">⏱ 20 นาที</span></div><div class="choices"><button onclick="pick('A3','เปิดเลย',this)">เปิดเลย</button><button onclick="pick('A3','ค่อยทำ',this)">ค่อยทำ</button></div></div>
+<div class="card" id="cA10" data-n="A10"><div class="row"><span class="num">A10</span><span class="tt">งบโฆษณาเปิดร้าน</span><span class="meta">⏱ 1 ประโยค</span></div><div class="choices"><button onclick="pick('A10','มีงบเล็กน้อย',this)">มีงบเล็กน้อย</button><button onclick="pick('A10','ไม่ใช้ organic ก่อน',this)">ไม่ใช้ organic ก่อน</button></div></div>
+<div class="card" id="cA7" data-n="A7"><div class="row"><span class="num">A7</span><span class="tt">ยื่นแฟ้มไหนต่อไป (ควรคุยพ่อประกอบ)</span><span class="meta">⏱ คุยกับพ่อ</span></div><div class="choices"><button onclick="pick('A7','ยื่น OctaV เต็ม',this)">ยื่น OctaV เต็ม</button><button onclick="pick('A7','ยื่น VC-90 petty',this)">ยื่น VC-90 petty</button><button onclick="pick('A7','รอคุยพ่อ',this)">รอคุยพ่อ</button></div></div>
+<div class="card" id="cB10" data-n="B10"><div class="row"><span class="num">B10</span><span class="tt">commit shokun-leader integration เข้า repo หลักไหม</span><span class="meta">⏱ 1 ประโยค</span></div><div class="choices"><button onclick="pick('B10','commit เลย',this)">commit เลย</button><button onclick="pick('B10','ถือไว้ก่อน',this)">ถือไว้ก่อน</button><button onclick="pick('B10','ดูไฟล์ก่อน',this)">ดูไฟล์ก่อน</button></div></div>
+<div class="card" id="cV1" data-n="V1"><div class="row"><span class="num">V1</span><span class="tt">อัดคลิปเสียง ~7 นาที เพื่อเทรน GPT-SoVITS (ฟรี 100% บน Colab)</span><span class="meta">⏱ อัดครั้งเดียว</span></div><div class="choices"><button onclick="pick('V1','อัดเลย',this)">อัดเลย</button><button onclick="pick('V1','ไว้ก่อน',this)">ไว้ก่อน</button><button onclick="pick('V1','ไม่เอา',this)">ไม่เอา</button></div></div>
 <script>
-"use strict";
-var A = [
- {n:"A1", t:"เปิดบัญชีขาย Lazada/Shopee", c:["นั่งกับโชกุนเลย","ค่อยทำ"]},
- {n:"A2", t:"ยืนยันราคา THB บนเว็บ (฿129-499)", c:["โอเคตามที่เสนอ","ลดราคา","ปรับราคาอื่น"]},
- {n:"A3", t:"เปิด LINE OA + QR พร้อมเพย์", c:["เปิดเลย","ค่อยทำ"]},
- {n:"A4", t:"Forex: เปิด gate แก้บั๊ก + 50 ไม้ demo", c:["เปิด gate","ปิดถาวร","คิวก่อน"]},
- {n:"A5", t:"AI-Trend-Engineers: เริ่มรันครั้งแรก", c:["เริ่มรัน","ปิดถาวร","พัก"]},
- {n:"A6", t:"กติกาบ้าน 6 ข้อ", c:["อนุมัติ","ปรับบางข้อ"]},
- {n:"A7", t:"สิทธิบัตร: ยื่นแฟ้มไหนก่อน", c:["ยื่น OctaV เต็ม","ยื่น VC-90 petty","รอคุยพ่อ"]},
- {n:"A8", t:"PhytoMatter: ฟื้น/ปิดถาวร", c:["ปิดถาวร","ฟื้นแบบเบา","พักต่อ"]},
- {n:"A9", t:"จักรเย็บ: ซื้อเลยไหม (เย็บให้พ่อ)", c:["ซื้อเลย","ไม่ซื้อ","คิวก่อน"]},
- {n:"A10", t:"งบโฆษณาเปิดร้าน", c:["มีงบเล็กน้อย","ไม่ใช้ organic ก่อน"]},
- {n:"A11", t:"ยกเลิกแพ็กเกจ Shopify (ประหยัด ~$29-$39/ด.)", c:["ยกเลิกหลังย้าย DNS สำเร็จ","ชะลอไว้ก่อน"]},
- {n:"A12", t:"สมัคร GitHub Copilot + โหลด Autodesk (สิทธิ์นักศึกษา)", c:["สมัครและโหลดเก็บไว้เลย","ยังไม่ทำ"]},
- {n:"A13", t:"โปรเจค 'Gemini บ้านๆ': แอปคุยเสียง+ข้อความ รันในเครื่องเราเอง (Gemma 3 — ฟรีตลอดชีพ ไม่มีโควตา)", c:["ทำเลยแบบครบ (ไมค์พูด + ตอบด้วยเสียง)","ทำแบบเบา (พิมพ์คุยก่อน)","ไว้ก่อน"]}
-];
-var saved = JSON.parse(localStorage.getItem("board24") || "{}");
-var rec = null;
-function el(id){ return document.getElementById(id); }
-function escAttr(s){ return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
-function renderAll(){
-  var grid = el("aCards");
-  grid.innerHTML = "";
-  A.forEach(function(a){
-    var val = saved[a.n] || "";
-    var card = document.createElement("div");
-    card.className = "card" + (val ? " done" : ""); card.id = "c" + a.n;
-    var h = "<div class=\"row\"><span class=\"num\">" + a.n + "</span><span class=\"tt\">" + a.t + "</span></div><div class=\"choices\">";
-    a.c.forEach(function(o){
-      var sel = (val === o) ? " sel" : "";
-      h += "<button class=\"ch" + sel + "\" data-n=\"" + a.n + "\" data-v=\"" + o + "\">" + o + "</button>";
-    });
-    h += "</div><div class=\"custom\"><input data-n=\"" + a.n + "\" placeholder=\"หรือพิมพ์/กดไมค์พูดแทน…\" value=\"" + escAttr(val) + "\">" +
-         "<button class=\"mic\" data-mic=\"" + a.n + "\" title=\"พูดแทนพิมพ์\">🎙</button>" +
-         "<button data-save=\"" + a.n + "\">บันทึก</button></div>";
-    card.innerHTML = h;
-    card.querySelectorAll("button.ch").forEach(function(b){
-      b.addEventListener("click", function(){ pick(b.dataset.n, b.dataset.v, b); });
-    });
-    card.querySelector("button.mic").addEventListener("click", function(){ startSTT(a.n, this); });
-    card.querySelector("button[data-save]").addEventListener("click", function(){ saveCustom(a.n, this); });
-    grid.appendChild(card);
-  });
-}
+const D = [{"n": "A1", "t": "เปิดบัญชีขาย Lazada/Shopee", "time": "30-40 นาที", "c": ["นั่งกับโชกุนเลย", "ค่อยทำ"]}, {"n": "A2", "t": "ยืนยันราคา THB บนเว็บ (฿129-499)", "time": "5 นาที", "c": ["โอเคตามที่เสนอ", "ลดราคา", "ปรับราคาอื่น"]}, {"n": "A3", "t": "เปิด LINE OA + QR พร้อมเพย์", "time": "20 นาที", "c": ["เปิดเลย", "ค่อยทำ"]}, {"n": "A10", "t": "งบโฆษณาเปิดร้าน", "time": "1 ประโยค", "c": ["มีงบเล็กน้อย", "ไม่ใช้ organic ก่อน"]}, {"n": "A7", "t": "ยื่นแฟ้มไหนต่อไป (ควรคุยพ่อประกอบ)", "time": "คุยกับพ่อ", "c": ["ยื่น OctaV เต็ม", "ยื่น VC-90 petty", "รอคุยพ่อ"]}, {"n": "B10", "t": "commit shokun-leader integration เข้า repo หลักไหม", "time": "1 ประโยค", "c": ["commit เลย", "ถือไว้ก่อน", "ดูไฟล์ก่อน"]}, {"n": "V1", "t": "อัดคลิปเสียง ~7 นาที เพื่อเทรน GPT-SoVITS (ฟรี 100% บน Colab)", "time": "อัดครั้งเดียว", "c": ["อัดเลย", "ไว้ก่อน", "ไม่เอา"]}];
+const KEY = 'b_' + location.pathname.split('/').pop();
+const saved = JSON.parse(localStorage.getItem(KEY) || '{}');
 function pick(n, choice, btn){
-  saved[n] = choice; save();
-  var card = el("c" + n);
-  card.querySelectorAll("button.ch").forEach(function(b){ b.classList.remove("sel"); });
-  btn.classList.add("sel"); card.classList.add("done");
-  flash(card, "บันทึกแล้วครับแม่ ✓");
+  saved[n] = choice; localStorage.setItem(KEY, JSON.stringify(saved));
+  const card = btn.closest('.card');
+  card.querySelectorAll('.choices button').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel'); card.classList.add('done'); showSum();
 }
-function saveCustom(n, btn){
-  var inp = btn.parentElement.querySelector('input');
-  var v = inp.value.trim(); if (!v){ inp.focus(); return; }
-  saved[n] = v; save();
-  var card = el("c" + n);
-  card.classList.add("done"); flash(card, "บันทึกแล้วครับแม่ ✓");
+function showSum(){
+  const ans = D.filter(d => saved[d.n]).map(d => d.n + ': ' + saved[d.n]);
+  const box = document.getElementById('sum');
+  if (ans.length) { box.classList.add('show'); box.textContent = 'คำตอบของแม่:\n' + ans.join('\n'); }
+  else box.classList.remove('show');
 }
-function flash(card, msg){
-  var f = card.querySelector(".feedback");
-  if (!f){ f = document.createElement("div"); f.className = "feedback"; card.appendChild(f); }
-  f.textContent = msg; f.classList.add("show");
-  setTimeout(function(){ f.classList.remove("show"); }, 2600);
+function cp(){
+  const ans = D.filter(d => saved[d.n]).map(d => d.n + ': ' + saved[d.n]);
+  if (!ans.length) { alert('ยังไม่ได้เลือกครับแม่'); return; }
+  const t = 'คำตอบบอร์ด บอร์ดทั้งบ้าน:\n' + ans.join('\n');
+  (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(
+    () => alert('คัดลอกแล้ว วางส่งโชกุนได้เลย'),
+    () => { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); alert('คัดลอกแล้ว'); });
 }
-function save(){ localStorage.setItem("board24", JSON.stringify(saved)); }
-function saveFile(){
-  var ans = A.filter(function(a){ return saved[a.n]; }).map(function(a){ return a.n + ": " + saved[a.n]; });
-  if (!ans.length){ alert("ยังไม่มีคำตอบให้บันทึกครับแม่"); return; }
-  var out = "คำสั่งงานจากแม่ " + new Date().toLocaleString("th-TH") + "\n[คำตอบ]\n" + ans.join("\n") + "\n";
-  var blob = new Blob([out], {type:"text/plain;charset=utf-8"});
-  var a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "คำสั่งงานแม่-" + new Date().toISOString().slice(0,10) + ".txt";
-  a.click();
-}
-function startSTT(n, btn){
-  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR){ alert("เบราว์เซอร์นี้ไม่รองรับไมค์ — ใช้ Chrome แล้วพิมพ์แทนครับ"); return; }
-  var input = document.querySelector("#c" + n + " .custom input");
-  if (rec){ rec.stop(); rec = null; btn.textContent = "🎙"; return; }
-  rec = new SR(); rec.lang = "th-TH"; rec.interimResults = true; rec.continuous = true;
-  btn.textContent = "🔴 ฟังอยู่…";
-  rec.onresult = function(e){ var t = ""; for (var i = 0; i < e.results.length; i++) t += e.results[i][0].transcript; input.value = t; };
-  rec.onerror = function(){ btn.textContent = "🎙"; rec = null; };
-  rec.onend = function(){ btn.textContent = "🎙"; rec = null; };
-  rec.start();
-}
-renderAll();
+document.querySelectorAll('.card').forEach(c => {
+  const n = c.dataset.n; if (saved[n]) c.classList.add('done');
+  if (saved[n]) c.querySelectorAll('.choices button').forEach(b => b.classList.contains('b_' + b.dataset.v.replace(/\W/g,'')) || null);
+});
+D.forEach(d => {
+  if (!saved[d.n]) return;
+  const i = d.c.indexOf(saved[d.n]);
+  const card = document.getElementById('c' + d.n);
+  if (card && i >= 0) card.querySelectorAll('.choices button')[i].classList.add('sel');
+});
+showSum();
 </script>
-</body></html>
+<h2>ข้อความถึงโชกุน (เซฟในเครื่องนี้อัตโนมัติ)</h2>
+<textarea id="msgbox" placeholder="พิมพ์ หรือกดไมค์พูดแทนได้เลยครับแม่…" style="width:100%;min-height:80px;border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-family:'Prompt';font-size:14.5px;font-weight:300;background:#fff;resize:vertical;margin-bottom:10px"></textarea>
+<div class="msgbox">
+<button class="mic" onclick="startMsgSTT(this)">🎙 พูดเลยครับ</button>
+<button onclick="saveMsg(this)">บันทึกข้อความ</button>
+</div>
+<div id="msgfb" style="display:none;font-size:13.5px;color:var(--g);margin:10px 0 20px">บันทึกแล้วครับแม่ ✓ โชกุนจะอ่านในรายงานเช้า</div>
+<footer>อัปเดต 26 ก.ย. 2026 · ดูแลโดยโชกุน GL ⚫🔺⚪</footer>
+</div>
+<nav class="dock">
+<a href="board.html"><span class="ic">🏠</span>หน้าแรก</a>
+<a href="board-scentical.html"><span class="ic">🕯</span>ร้าน</a>
+<a href="board-patent.html"><span class="ic">📜</span>สิทธิบัตร</a>
+<a href="board-chip.html"><span class="ic">🔲</span>ชิป</a>
+<a href="board-kobo.html"><span class="ic">🤖</span>Kobo</a>
+<a href="board-voice.html"><span class="ic">🎙</span>เสียง</a>
+</nav>
+<script>
+var MSGKEY = 'msg_' + location.pathname.split('/').pop();
+var savedMsg = localStorage.getItem(MSGKEY) || '';
+document.addEventListener('DOMContentLoaded', function(){
+  var ta = document.getElementById('msgbox');
+  if (ta && savedMsg) ta.value = savedMsg;
+});
+function saveMsg(btn){
+  var ta = document.getElementById('msgbox');
+  if (!ta.value.trim()){ ta.focus(); return; }
+  localStorage.setItem(MSGKEY, ta.value);
+  var fb = document.getElementById('msgfb');
+  fb.textContent = 'บันทึกแล้วครับแม่ ✓ โชกุนจะอ่านในรายงานเช้า';
+  fb.style.display = 'block';
+  setTimeout(function(){ fb.style.display = 'none'; }, 2600);
+}
+function startMsgSTT(btn){
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR){ alert('เบราว์เซอร์นี้ไม่รองรับไมค์ — ใช้ Chrome ครับ'); return; }
+  var ta = document.getElementById('msgbox');
+  if (window._msgRec){ window._msgRec.stop(); window._msgRec = null; btn.textContent = '🎙 พูดเลยครับ'; return; }
+  var r = new SR(); r.lang = 'th-TH'; r.interimResults = true; r.continuous = true;
+  btn.textContent = '🔴 ฟังอยู่…'; window._msgRec = r;
+  r.onresult = function(e){ var t = ''; for (var i = 0; i < e.results.length; i++) t += e.results[i][0].transcript; ta.value = t; saveMsgSilent(); };
+  r.onerror = function(){ btn.textContent = '🎙 พูดเลยครับ'; window._msgRec = null; };
+  r.onend = function(){ btn.textContent = '🎙 พูดเลยครับ'; window._msgRec = null; };
+  r.start();
+}
+function saveMsgSilent(){
+  var ta = document.getElementById('msgbox');
+  if (ta.value.trim()) localStorage.setItem(MSGKEY, ta.value);
+}
+</script></body></html>
