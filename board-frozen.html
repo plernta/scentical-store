@@ -1,0 +1,119 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>แช่แข็ง / หมดอายุ — บอร์ดบ้านโชกุน</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500&family=Trirong:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAF9;--ink:#1C1C1A;--mut:#8A877E;--line:#E8E8E3;--gold:#B8933A;--g:#5B8C5A;--r:#C0654F;--y:#C9A227}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Prompt',sans-serif;line-height:1.8;font-weight:300}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px}
+.top{padding:14px 0;border-bottom:1px solid var(--line);font-size:13.5px;color:var(--mut)}
+.top a:hover{color:var(--gold)}
+h1{font-family:'Trirong',serif;font-weight:500;font-size:34px;margin:44px 0 2px}
+.sub{color:var(--mut);margin-bottom:36px}
+h2{font-size:14px;font-weight:500;letter-spacing:.14em;color:var(--mut);text-transform:uppercase;margin:38px 0 14px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:9px;vertical-align:2px}
+.dot.g{background:var(--g)}.dot.y{background:var(--y)}.dot.r{background:var(--r)}.dot.w{background:#BBB}
+.card{border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:12px;background:#fff}
+.card.done{border-color:var(--g)}
+.row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.num{font-family:'Trirong',serif;color:var(--gold);font-size:19px}
+.tt{font-weight:400;font-size:16.5px}
+.meta{font-size:13px;color:var(--mut)}
+.choices{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.choices button{background:#fff;border:1px solid var(--line);color:var(--mut);border-radius:999px;padding:6px 16px;font-family:'Prompt';font-size:13.5px;font-weight:300;cursor:pointer}
+.choices button:hover{border-color:var(--gold);color:var(--gold)}
+.choices button.sel{background:var(--ink);color:#fff;border-color:var(--ink)}
+.item{display:flex;gap:12px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item .num{flex:none;width:34px}
+.item .t{flex:1;font-weight:400;font-size:15.5px}
+.item .t span{display:block;font-weight:300;font-size:13.5px;color:var(--mut)}
+.stat{display:flex;gap:10px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.stat:last-child{border-bottom:none}
+.stat b{font-weight:400;min-width:150px;flex:none;font-size:15px}
+.stat span{color:var(--mut);font-weight:300}
+.copybtn{position:sticky;top:10px;float:right;background:var(--ink);color:#fff;border:none;border-radius:999px;padding:8px 20px;font-family:'Prompt';font-size:13.5px;cursor:pointer;margin-top:-6px}
+.copybtn:hover{background:var(--gold)}
+.summary{border:1px dashed var(--line);border-radius:10px;padding:14px 18px;margin:0 0 14px;font-size:14px;white-space:pre-wrap;color:#6b6659;display:none;background:#fff}
+.summary.show{display:block}
+.hubgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.hubcard{display:block;border:1px solid var(--line);border-radius:10px;padding:18px 20px;background:#fff;transition:.12s}
+.hubcard .nm{font-family:'Trirong',serif;font-size:21px;font-weight:500}
+.hubcard .ds{font-size:13px;color:var(--mut);font-weight:300;margin-top:4px;line-height:1.6}
+.hubcard .pend{font-size:12px;color:var(--gold);margin-top:10px}
+.msgbox{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.msgbox textarea{flex:1;min-width:200px;border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-family:'Prompt';font-size:14.5px;font-weight:300;min-height:64px;resize:vertical;background:#fff}
+.msgbox textarea:focus{outline:none;border-color:var(--gold)}
+.msgbox button{border:1px solid var(--line);background:#fff;color:var(--mut);border-radius:10px;padding:8px 14px;font-family:'Prompt';font-size:13.5px;cursor:pointer;white-space:nowrap}
+.msgbox button:hover{border-color:var(--gold);color:var(--gold)}
+.msgbox .mic.on{background:var(--gold);color:#fff;border-color:var(--gold)}
+.feedback{display:none;font-size:13px;color:var(--g);margin-top:8px}
+.feedback.show{display:block}
+.dock{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:9px 6px calc(9px + env(safe-area-inset-bottom));z-index:80}
+.dock a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11.5px;color:#55524a;padding:3px 7px;border-radius:10px;text-decoration:none;font-weight:400}
+.dock a .ic{font-size:21px;line-height:1.2}
+.dock a.on{color:var(--gold);font-weight:500}
+body{padding-bottom:76px}
+@media(min-width:768px){.dock{display:none}body{padding-bottom:0}}
+.hubwrap{max-width:1080px}
+.hubcard:hover{border-color:var(--gold)}
+footer{margin-top:56px;padding:22px 0 44px;border-top:1px solid var(--line);color:var(--mut);font-size:12.5px}
+</style></head><body>
+<div class="wrap">
+<div class="top"><a href="board.html">← บอร์ดหลัก</a><span style="float:right">💬 ข้อความถึงโชกุนเซฟในเครื่องนี้อัตโนมัติ</span></div>
+<h1><span class="dot w"></span>🧊 แช่แข็ง · 🗄️ หมดอายุ</h1>
+<div class="sub">ตะกร้า 3-4 ของบ้าน · งานทุกชิ้นต้องมีสถานะ — ไม่มีงานหายในความมืด · อัปเดต 26 ก.ย. 2026</div>
+<h2>🧊 แช่แข็งตามกฎข้ามบ้าน (16 ก.ย. — ห้ามเข้าเครื่องบ้านอื่นถ้าไม่ได้แม่อนุญาต · งานไม่ตาย แค่รอเงื่อนไข)</h2><div class="item"><span class="num">J1</span><div class="t">รีโมตเครื่อง Jetson ข้ามบ้าน<span>ค้าง 3 ฝั่ง: แม่เจได (สมัคร WebUI บัญชีแรก + agy sign-in) · อิคคิว castle (แก้ IP + kernel DM #461) · บ้านเซนยืนยัน kernel (DM #462)</span></div></div><div class="item"><span class="num">J2</span><div class="t">Agent D ตรวจบ้านอิคคิว 13 ข้อ<span>docker 4 ตู้ · โมเดล · RDP · Tailscale · litellm · เคอร์เนลพ่อ · crontab · aider/agy — STATUS-REPORT ยังไม่ได้ทำ</span></div></div><div class="item"><span class="num">J3</span><div class="t">F5 finetune เสียงแม่บนเจได<span>ติดตั้ง+อัปโหลดโมเดลฐาน ✓ · ถอดเสียงกำลังรัน → dataset + เทรน 2-4 ชม. + bat กดคลิกเดียว รอ validate</span></div></div><div class="item"><span class="num">J4</span><div class="t">MacBook remote → DGX Spark<span>grd handover MIC กับ Mac (grd ปิดอยู่ ไม่บล็อกใคร) · รอแม่คลิกยืนยันการ์ด Windows App รอบสุดท้าย</span></div></div><div class="item"><span class="num">J5</span><div class="t">force-test breaker MT5-Gold-Lab v2<span>แม่ปลด kill switch (TEA2_KILL_20260827) → เก็บสถิติ v1 vs v2 ขนาน 2-4 สัปดาห์ · backlog v2.1 risk-based lot / v2.2 entry timing</span></div></div><div class="item"><span class="num">J6</span><div class="t">thinker merge 16-bit V8 บน VM<span>tmux merge8 + ดึง adapter 152MB + GGUF → ollama — ต้องยืนยันก่อนว่า VM ไหน (ถ้าเครื่องเจได = รอตามกฎ)</span></div></div><h2>🗄️ หมดอายุ / ปิดแล้ว — เก็บไว้อ้างอิง ไม่ต้องทำ</h2><div class="item"><span class="num">X1</span><div class="t">คำขอ DIP อัตโนมัติชุดเก่า<span>ลงนาม/เลือกวันยื่น 7-8 ก.ย. — ✅ หมดอายุ: Family 3 ยื่นจริง 3 ก.ย. เลขคำขอ 2601006210 แล้ว</span></div></div><div class="item"><span class="num">X2</span><div class="t">QA สมัย Kobo L16/L17 (subagent ตรวจ)<span>quantas0_os · adversarial Level-4 · M1-S2 pins regression — ✅ หมดอายุ: L17 COMPLETE 5,606 tests</span></div></div><div class="item"><span class="num">X3</span><div class="t">ปรับ UI ของ Kobo (3 ก.ย. — error)<span>✅ หมดอายุ: company-ui ชุดใหม่ 4 ชุด 137/137 tests แทนที่</span></div></div><div class="item"><span class="num">X4</span><div class="t">TTS ปุ่ม ⏹ รอแม่ทดสอบ<span>✅ หมดอายุ: ทดสอบผ่านทั้งสองเคสในแชทเดิม 11 ก.ย.</span></div></div><div class="item"><span class="num">X5</span><div class="t">เฝ้า Task Scheduler เก็บแชท Gemini<span>✅ เดินเองจริงแล้ว — daily 26 ก.ย. มีรายการ auto-capture จริง · ปิดดูแล (ระบบรายงานปกติ)</span></div></div><div class="item"><span class="num">X6</span><div class="t">ตรวจความใหม่ prior-art (สแกน 5 ชุดคำค้น)<span>✅ หมดอายุ: คำขอยื่นแล้ว — เครื่องมือเก็บไว้ใช้รอบ OA ถ้ากรมโต้แย้ง</span></div></div>
+<h2>ข้อความถึงโชกุน (เซฟในเครื่องนี้อัตโนมัติ)</h2>
+<textarea id="msgbox" placeholder="พิมพ์ หรือกดไมค์พูดแทนได้เลยครับแม่…" style="width:100%;min-height:80px;border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-family:'Prompt';font-size:14.5px;font-weight:300;background:#fff;resize:vertical;margin-bottom:10px"></textarea>
+<div class="msgbox">
+<button class="mic" onclick="startMsgSTT(this)">🎙 พูดเลยครับ</button>
+<button onclick="saveMsg(this)">บันทึกข้อความ</button>
+</div>
+<div id="msgfb" style="display:none;font-size:13.5px;color:var(--g);margin:10px 0 20px">บันทึกแล้วครับแม่ ✓ โชกุนจะอ่านในรายงานเช้า</div>
+<footer>อัปเดต 26 ก.ย. 2026 · ดูแลโดยโชกุน GL ⚫🔺⚪</footer>
+</div>
+<nav class="dock">
+<a href="board.html"><span class="ic">🏠</span>หน้าแรก</a>
+<a href="board-scentical.html"><span class="ic">🕯</span>ร้าน</a>
+<a href="board-patent.html"><span class="ic">📜</span>สิทธิบัตร</a>
+<a href="board-chip.html"><span class="ic">🔲</span>ชิป</a>
+<a href="board-kobo.html"><span class="ic">🤖</span>Kobo</a>
+<a href="board-voice.html"><span class="ic">🎙</span>เสียง</a>
+<a href="board-frozen.html"><span class="ic">🧊</span>แช่แข็ง</a>
+</nav>
+<script>
+var MSGKEY = 'msg_' + location.pathname.split('/').pop();
+var savedMsg = localStorage.getItem(MSGKEY) || '';
+document.addEventListener('DOMContentLoaded', function(){
+  var ta = document.getElementById('msgbox');
+  if (ta && savedMsg) ta.value = savedMsg;
+});
+function saveMsg(btn){
+  var ta = document.getElementById('msgbox');
+  if (!ta.value.trim()){ ta.focus(); return; }
+  localStorage.setItem(MSGKEY, ta.value);
+  var fb = document.getElementById('msgfb');
+  fb.textContent = 'บันทึกแล้วครับแม่ ✓ โชกุนจะอ่านในรายงานเช้า';
+  fb.style.display = 'block';
+  setTimeout(function(){ fb.style.display = 'none'; }, 2600);
+}
+function startMsgSTT(btn){
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR){ alert('เบราว์เซอร์นี้ไม่รองรับไมค์ — ใช้ Chrome ครับ'); return; }
+  var ta = document.getElementById('msgbox');
+  if (window._msgRec){ window._msgRec.stop(); window._msgRec = null; btn.textContent = '🎙 พูดเลยครับ'; return; }
+  var r = new SR(); r.lang = 'th-TH'; r.interimResults = true; r.continuous = true;
+  btn.textContent = '🔴 ฟังอยู่…'; window._msgRec = r;
+  r.onresult = function(e){ var t = ''; for (var i = 0; i < e.results.length; i++) t += e.results[i][0].transcript; ta.value = t; saveMsgSilent(); };
+  r.onerror = function(){ btn.textContent = '🎙 พูดเลยครับ'; window._msgRec = null; };
+  r.onend = function(){ btn.textContent = '🎙 พูดเลยครับ'; window._msgRec = null; };
+  r.start();
+}
+function saveMsgSilent(){
+  var ta = document.getElementById('msgbox');
+  if (ta.value.trim()) localStorage.setItem(MSGKEY, ta.value);
+}
+</script></body></html>
