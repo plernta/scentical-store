@@ -13,9 +13,14 @@ let glbLoadedCount = 0;
 const glbCache = new Map();   // id → gltf (แชร์ทั้งร้าน — products3d.js/main.js เรียก attachGLB ตัวเดียวกันนี้)
 const pending = new Map();    // id → [{group, fallbackSprite}] ที่รอไฟล์ใบเดียวกันอยู่
 
-// สัดส่วนความลึกจริง (ลึก ÷ สูง) จากภาพถ่ายจริง — AI เดาลึกเกิน (กลายเป็นทรงกลม) เราจึงบีบตามของจริง
-const DEPTH_RATIO = { 'flame-2in1': .55, 'flame-8mode': .7 };
+// สัดส่วนความลึกจริง (ลึก ÷ สูง) — ใช้กับ "โมเดลรุ่นเก่า" ที่ AI เดาลึกเกิน (กลายเป็นทรงกลม) เท่านั้น
+const DEPTH_RATIO = { 'flame-8mode': .7 };
 const DEFAULT_RATIO = .6;
+// โมเดลรุ่นใหม่ 28 ก.ย. 2026 — GLB 3D จริงจากแม่ (สัดส่วนถูกต้องเอง) ห้ามผ่านการบีบ z
+const TRUE_3D = new Set(['removable-house','nepal-incense','yinyang-burner','layer-mountain','sandalwood-burner','japan-clouds','japan-clouds-alt','pagoda-cone','flame-2in1','wire-holder']);
+// โมเดลรุ่นใหม่ 28 ก.ย. (แม่เจน — สัดส่วนจริงดีอยู่แล้ว) ห้ามบีบแกนลึก: เดิมบีบ 0.6×สูงทั่วไปหมด
+// ทำเจดีย์ทรงกลมกลายเป็นทรงรี + ไฟลาวา 2in1 โดนบีบจนดูเป็นแผ่นยาว
+const NEW_BATCH = new Set(['removable-house','nepal-incense','yinyang-burner','layer-mountain','sandalwood-burner','japan-clouds','japan-clouds-alt','pagoda-cone','flame-2in1','wire-holder']);
 
 export function attachGLB(id, group, fallbackSprite) {
   if (group.userData.glbAttached) return; // กันแนบซ้ำ (main ยัดตอนเปิดร้าน + hover/pick เรียก loadGLB อีกที)
@@ -49,11 +54,14 @@ export function attachGLB(id, group, fallbackSprite) {
 
 function attachFromCache(id, gltf, group, fallbackSprite) {
   const model = gltf.scene;
-  const ratio = DEPTH_RATIO[id] || DEFAULT_RATIO;
-  // ① วัดของเดิม → บีบแกนลึก (z) ให้ = ratio × ความสูง (แก้ AI เดาลึกเกินเป็นทรงกลม)
-  const box0 = new THREE.Box3().setFromObject(model);
-  const sz0 = new THREE.Vector3(); box0.getSize(sz0);
-  if (sz0.z > 1e-6) model.scale.z = ratio * sz0.y / sz0.z;
+  // โมเดลรุ่นใหม่ (แม่เจน GLB จริง 28 ก.ย.) — 3D เต็มรูปแบบ สัดส่วนถูกต้องเอง ห้ามบีบแกน z
+  if (!TRUE_3D.has(id)) {
+    const ratio = DEPTH_RATIO[id] || DEFAULT_RATIO;
+    // ① วัดของเดิม → บีบแกนลึก (z) ให้ = ratio × ความสูง (แก้ AI เดาลึกเกินเป็นทรงกลม — ใช้กับโมเดลรุ่นเก่าเท่านั้น)
+    const box0 = new THREE.Box3().setFromObject(model);
+    const sz0 = new THREE.Vector3(); box0.getSize(sz0);
+    if (sz0.z > 1e-6) model.scale.z = ratio * sz0.y / sz0.z;
+  }
   // ② จัดขนาดรวม: สูง ~.3m เท่าคัตเอาต์บนโต๊ะ
   const box1 = new THREE.Box3().setFromObject(model);
   const sz1 = new THREE.Vector3(); box1.getSize(sz1);
