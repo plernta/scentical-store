@@ -17,10 +17,10 @@ const pending = new Map();    // id → [{group, fallbackSprite}] ที่ร�
 const DEPTH_RATIO = { 'flame-8mode': .7 };
 const DEFAULT_RATIO = .6;
 // โมเดลรุ่นใหม่ 28 ก.ย. 2026 — GLB 3D จริงจากแม่ (สัดส่วนถูกต้องเอง) ห้ามผ่านการบีบ z
-const TRUE_3D = new Set(['removable-house','nepal-incense','yinyang-burner','layer-mountain','sandalwood-burner','japan-clouds','japan-clouds-alt','pagoda-cone','flame-2in1','wire-holder']);
+const TRUE_3D = new Set(['house-burner','nepal-incense','yinyang-burner','layer-mountain','sandalwood-burner','japan-clouds','japan-clouds-alt','pagoda-cone','flame-2in1','wire-holder']);
 // โมเดลรุ่นใหม่ 28 ก.ย. (แม่เจน — สัดส่วนจริงดีอยู่แล้ว) ห้ามบีบแกนลึก: เดิมบีบ 0.6×สูงทั่วไปหมด
 // ทำเจดีย์ทรงกลมกลายเป็นทรงรี + ไฟลาวา 2in1 โดนบีบจนดูเป็นแผ่นยาว
-const NEW_BATCH = new Set(['removable-house','nepal-incense','yinyang-burner','layer-mountain','sandalwood-burner','japan-clouds','japan-clouds-alt','pagoda-cone','flame-2in1','wire-holder']);
+const NEW_BATCH = new Set(['house-burner','nepal-incense','yinyang-burner','layer-mountain','sandalwood-burner','japan-clouds','japan-clouds-alt','pagoda-cone','flame-2in1','wire-holder']);
 
 export function attachGLB(id, group, fallbackSprite) {
   if (group.userData.glbAttached) return; // กันแนบซ้ำ (main ยัดตอนเปิดร้าน + hover/pick เรียก loadGLB อีกที)
