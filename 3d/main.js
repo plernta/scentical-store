@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { PRODUCTS, STORE } from './products.js?v=8';
 import { buildRoom } from './room.js?v=8';
 import { buildProduct3D } from './products3d.js?v=8';
-import { PickupController } from './pickup.js?v=8';
+import { PickupController } from './pickup.js?v=9';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 /* ---------- error toast ---------- */

@@ -49,18 +49,9 @@ export class PickupController {
       g.scale.setScalar(z);
       return;
     }
-    // trackball: หมุนตามมือ 360° ทุกแกน
+    // trackball: หมุนตามมือ 360° ทุกแกน — โมเดล GLB จริง ลากซ้ายขวา = หมุนรอบแกนตั้ง (ไม่สลับรูปอีกต่อไป)
     const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(dy * .011, dx * .011, 0, 'XYZ'));
     g.quaternion.premultiply(q);
-    // ลากขวางสะสม 64px = สลับมุมภาพจริงถัดไป (Holo-Card หลายมุม) แล้วตั้งการ์ดหันหน้าให้ดูภาพชัด
-    if (g.userData.photoCount > 1 && g.userData.setPhoto) {
-      this._acc += dx;
-      const step = 64;
-      let changed = false;
-      while (this._acc >= step) { g.userData._pi = ((g.userData._pi || 0) + 1) % g.userData.photoCount; g.userData.setPhoto(g.userData._pi); this._acc -= step; changed = true; }
-      while (this._acc <= -step) { g.userData._pi = ((g.userData._pi || 0) - 1 + g.userData.photoCount) % g.userData.photoCount; g.userData.setPhoto(g.userData._pi); this._acc += step; changed = true; }
-      if (changed) g.quaternion.setFromEuler(new THREE.Euler(.12, 0, 0));
-    }
   }
   release() {
     if (!this.entry) return;
