@@ -142,7 +142,7 @@ try {
       entries.push(entry);
       // วางโมเดล 3D จริงจาก AI ลงโต๊ะ (โหลดไล่ทีละตัว กันหนัก)
       setTimeout(() => {
-        import('./glb-products.js?v=9').then(m => m.attachGLB(entry.data.id, g, g.userData.sprite)).catch(() => {});
+        import('./glb-products.js?v=10').then(m => m.attachGLB(entry.data.id, g, g.userData.sprite)).catch(() => {});
       }, 900 + i * 650);
     });
   }

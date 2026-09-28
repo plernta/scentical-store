@@ -33,7 +33,7 @@ export function attachGLB(id, group, fallbackSprite) {
   const vEl = document.getElementById('ver');
   if (vEl) vEl.textContent = 'กำลังโหลดไฟล์ GLB…';
   loader.load(
-    'models/' + id + '.glb?v=7',
+    'models/' + id + '.glb?v=8',
     gltf => {
       glbCache.set(id, gltf);
       glbLoadedCount++;
