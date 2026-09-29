@@ -482,6 +482,64 @@ export function buildCity(scene) {
     }
   }
 
+  /* ---------- 8) ดวงจันทร์ใหญ่ + ฮาโลว์ + เมฆบางเคลื่อนช้า (v9 เสริมบรรยากาศ ไม่ทับของเดิม) ---------- */
+  {
+    const ticks = scene.userData.ambientTicks || (scene.userData.ambientTicks = []);
+
+    // เมฆ/หมอกบาง ๆ: canvas ฟุ้งนุ่มแผ่นเดียวใช้ร่วมกันทุกก้อน (ปิด fog กันกลืนหาย)
+    const puff = document.createElement('canvas'); puff.width = 256; puff.height = 128;
+    const gp = puff.getContext('2d');
+    for (let i = 0; i < 9; i++) {
+      const x = 40 + rand() * 176, y = 44 + rand() * 40, r = 24 + rand() * 30;
+      const grd = gp.createRadialGradient(x, y, 2, x, y, r);
+      grd.addColorStop(0, 'rgba(226,232,246,.16)');
+      grd.addColorStop(1, 'rgba(226,232,246,0)');
+      gp.fillStyle = grd; gp.beginPath(); gp.arc(x, y, r, 0, Math.PI * 2); gp.fill();
+    }
+    const puffTex = new THREE.CanvasTexture(puff); puffTex.colorSpace = THREE.SRGBColorSpace;
+
+    const clouds = [];
+    for (let i = 0; i < 5; i++) {
+      const cl = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: puffTex, transparent: true, opacity: range(.14, .3), depthWrite: false, fog: false,
+      }));
+      cl.scale.set(range(9, 15), range(2.6, 4.4), 1);
+      cl.position.set(range(-16, 16), range(13, 20), range(36, 50));
+      cl.userData = { bx: cl.position.x, sp: range(.012, .024), ph: range(0, 6.28), amp: range(2.5, 4.5) };
+      city.add(cl); clouds.push(cl);
+    }
+    ticks.push(t => {   // เมฆล่องช้า ๆ (แกว่งไป-กลับ รอบตำแหน่งเดิม ไม่หลุดฉาก)
+      for (const c of clouds) c.position.x = c.userData.bx + Math.sin(t * c.userData.sp + c.userData.ph) * c.userData.amp;
+    });
+
+    // ดวงจันทร์ใหญ่: จานสว่างเอง (MeshBasic + ปิด fog) ผิวพระจันทร์วาดเอง + ฮาโลว์ฟุ้งรอบ
+    const moonCv = document.createElement('canvas'); moonCv.width = moonCv.height = 128;
+    const gm = moonCv.getContext('2d');
+    const mGrd = gm.createRadialGradient(50, 50, 6, 64, 64, 62);
+    mGrd.addColorStop(0, '#fdf9ec'); mGrd.addColorStop(.8, '#f2e9cf'); mGrd.addColorStop(1, '#e4d8b4');
+    gm.fillStyle = mGrd; gm.beginPath(); gm.arc(64, 64, 62, 0, Math.PI * 2); gm.fill();
+    gm.fillStyle = 'rgba(176,168,146,.4)';   // ทะเลหมึกบนผิวพระจันทร์
+    for (const [mx, my, mr] of [[44, 48, 12], [78, 70, 9], [60, 88, 7], [86, 40, 6]]) {
+      gm.beginPath(); gm.arc(mx, my, mr, 0, Math.PI * 2); gm.fill();
+    }
+    const moonTex = new THREE.CanvasTexture(moonCv); moonTex.colorSpace = THREE.SRGBColorSpace;
+    const moon = new THREE.Mesh(new THREE.CircleGeometry(3.6, 36), new THREE.MeshBasicMaterial({ map: moonTex, transparent: true, fog: false }));
+    moon.position.set(-9, 17, 52); moon.lookAt(0, 1.6, 10);   // หันหน้าเข้าหาร้าน/ทางเดิน
+    city.add(moon);
+
+    const haloCv = document.createElement('canvas'); haloCv.width = haloCv.height = 256;
+    const gh = haloCv.getContext('2d');
+    const hGrd = gh.createRadialGradient(128, 128, 20, 128, 128, 126);
+    hGrd.addColorStop(0, 'rgba(255,244,210,.5)');
+    hGrd.addColorStop(.45, 'rgba(255,238,200,.18)');
+    hGrd.addColorStop(1, 'rgba(255,238,200,0)');
+    gh.fillStyle = hGrd; gh.fillRect(0, 0, 256, 256);
+    const halo = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: new THREE.CanvasTexture(haloCv), transparent: true, opacity: .85, depthWrite: false, fog: false,
+    }));
+    halo.scale.set(17, 17, 1); halo.position.copy(moon.position); city.add(halo);
+  }
+
   city.updateMatrixWorld(true);
   city.matrixAutoUpdate = false; // เมืองนิ่ง ไม่ต้องคำนวณ matrix ใหม่ทุกเฟรม
 

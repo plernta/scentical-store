@@ -1,8 +1,9 @@
 // Scentical 3D Showroom v2 — ร้านห้องเสมือนจริง + หยิบสินค้าหมุน 360° (บัญชาแม่ 24 ก.ย. 2026)
+// v9 แต่งบรรยากาศ "ห้องชงธูปยามค่ำ": มู้ดแสง key/rim + ควันธูป (แก้มู้ดได้ที่ MOOD ด้านล่าง)
 // three.js r165 MIT · vanilla ES module · open-source only · render-on-demand
 import * as THREE from 'three';
 import { PRODUCTS, STORE } from './products.js?v=8';
-import { buildRoom } from './room.js?v=8';
+import { buildRoom } from './room.js?v=9';
 import { buildProduct3D } from './products3d.js?v=8';
 import { PickupController } from './pickup.js?v=9';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
@@ -70,11 +71,20 @@ const SPAWN = { x: 0, z: 8.2 };
 let yaw = 0, pitch = -0.06;
 const player = new THREE.Vector3(SPAWN.x, 1.55, SPAWN.z);
 
-scene.add(new THREE.HemisphereLight(0x9a8a68, 0x141008, .8));
+/* ---------- บรรยากาศแสง "ห้องชงธูปยามค่ำ" (v9) — ค่าปรับมู้ดรวมอยู่ที่ MOOD นี้จุดเดียว ---------- */
+const MOOD = {
+  hemi: .32,           // แสงกลางทั้งห้อง (ลดจาก .8 เดิม ให้ตกค่ำลง)
+  envIntensity: .32,   // แสงสะท้อน PBR รอบทิศ (ลดให้วัสดุไม่ลอยสว่างเกินฉากมืด)
+  keyColor: 0xffb066, keyIntensity: 1.05, keyPos: [7, 8.5, 3.5],   // ไฟคีย์ "ส้มอุ่น" ส่องจากฝั่งขวาหน้า
+  rimColor: 0x224466, rimIntensity: .55, rimPos: [-6, 5.5, -7.5],  // ไฟขอบ "ฟ้าจาง" จากฝั่งตรงข้าม ช่วยตัดซิลูเอ็ต
+};
+scene.add(new THREE.HemisphereLight(0x9a8a68, 0x141008, MOOD.hemi));
 // PBR environment: แสงสะท้อนจริงบนวัสดุเงา/โลหะ (งานดูพรีเมียม)
 const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), .04).texture;
-const sun = new THREE.DirectionalLight(0xffe6b0, 1.1); sun.position.set(4, 9, 6); scene.add(sun);
+if ('environmentIntensity' in scene) scene.environmentIntensity = MOOD.envIntensity;
+const sun = new THREE.DirectionalLight(MOOD.keyColor, MOOD.keyIntensity); sun.position.set(...MOOD.keyPos); scene.add(sun);
+const rim = new THREE.DirectionalLight(MOOD.rimColor, MOOD.rimIntensity); rim.position.set(...MOOD.rimPos); scene.add(rim);
 
 /* ---------- ห้องร้าน (v2) + เมือง (โหลดถ้ามี) ---------- */
 const room = buildRoom(scene);
@@ -86,7 +96,7 @@ for (let wx = -13; wx <= 13; wx += 2) {
   colliders.push({ x: wx, z: 10.6, r: 1.05 });
 }
 try {
-  const m = await import('./city.js');
+  const m = await import('./city.js?v=9');
   const city = m.buildCity(scene);
   if (city && city.walkMaxZ) BOUNDS.zOut = Math.min(city.walkMaxZ, 40);
   if (city && Array.isArray(city.colliders)) colliders.push(...city.colliders);
@@ -154,6 +164,39 @@ try {
     if (_e) setTimeout(() => { pickup.pick(_e); showInspect(_e); $('ver').textContent = 'v5b · จับ: ' + _e.data.name_th; }, 1600);
   }
 } catch (e) { errBox.style.display = 'block'; errBox.textContent = '⚠ ' + e.message; }
+
+/* ---------- ควันธูปบาง ๆ จากเตากลับควัน (v9) — Points เล็ก ๆ ลอยขึ้นโค้ง ๆ จาง ๆ ----------
+   แนบไปกับกลุ่มสินค้า "backflow" บนโต๊ะ: หยิบขึ้นมาดูเมื่อไร ควันก็ลอยตามไปด้วย */
+{
+  const smokeEntry = entries.find(e => e.data.id === 'backflow');
+  if (smokeEntry) {
+    const N = 26, BASE = .34, H = .8, SWAY = .055;   // จุดเริ่มเหนือยอดเตา · สูงล่อง · ความโค้งส่าย
+    const cv = document.createElement('canvas'); cv.width = cv.height = 64;
+    const g2 = cv.getContext('2d');
+    const grd = g2.createRadialGradient(32, 32, 2, 32, 32, 30);
+    grd.addColorStop(0, 'rgba(235,228,214,.9)'); grd.addColorStop(1, 'rgba(235,228,214,0)');
+    g2.fillStyle = grd; g2.fillRect(0, 0, 64, 64);
+    const pos = new Float32Array(N * 3);
+    for (let i = 0; i < N; i++) pos[i * 3 + 1] = BASE + (i / N) * H;   // กันเฟรมแรกช่องว่าง
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    const pts = new THREE.Points(geo, new THREE.PointsMaterial({
+      map: new THREE.CanvasTexture(cv), size: .085, transparent: true, opacity: .32, color: 0xcfc6b6,
+      depthWrite: false, sizeAttenuation: true,
+    }));
+    pts.frustumCulled = false;
+    smokeEntry.group.add(pts);
+    (smokeEntry.group.userData.tick = smokeEntry.group.userData.tick || []).push(t => {
+      for (let i = 0; i < N; i++) {
+        const k = ((t * .09) + i / N) % 1;                 // 0..1 ตามแนวสูง (เต็มเส้น ~11 วิ)
+        pos[i * 3] = Math.sin(k * 7.1 + t * .8 + i) * SWAY * (.25 + k);       // ยิ่งสูงยิ่งส่ายแผ่ว
+        pos[i * 3 + 1] = BASE + k * H;
+        pos[i * 3 + 2] = Math.cos(k * 5.3 + t * .6 + i * 1.7) * SWAY * (.25 + k);
+      }
+      geo.attributes.position.needsUpdate = true;
+    });
+  }
+}
 
 /* ---------- pickup controller ---------- */
 const pickup = new PickupController(camera, canvas, scene);
@@ -337,6 +380,13 @@ function movePlayer(dt) {
   camera.rotation.set(pitch, yaw, 0);
 }
 let raf = 0, lastActive = 0, lastFrame = 0, tAnim = 0;
+/* ---------- ระบบบรรยากาศเคลื่อนไหว (v9): ตะเกียงกะพริบ · ควันธูป · เมฆลอย ----------
+   ต่อยอด render-on-demand เดิม: ผู้ใช้ขยับ = เต็ม fps เหมือนเดิมทุกอย่าง
+   เมื่อ "ไม่มีใครขยับ" แต่ฉากมีของเคลื่อนไหว (room.js/city.js ผลักฟังก์ชันเข้า scene.userData.ambientTicks)
+   จะเรนเดอร์ต่อแบบเว้นเฟรมเหลือ ~AMBIENT_FPS เพื่อไม่หนักเครื่อง */
+const AMBIENT_FPS = 24;
+let ambientAcc = 0;
+const ambientTicks = () => scene.userData.ambientTicks || [];
 function poke(extraMs = 0) {
   lastActive = Math.max(lastActive, performance.now() + extraMs);
   if (!raf) { lastFrame = performance.now(); raf = requestAnimationFrame(loop); }
@@ -345,9 +395,17 @@ function loop(now) {
   raf = 0;
   const dt = Math.min((now - lastFrame) / 1000, .05);
   lastFrame = now; tAnim += dt;
+  const userActive = performance.now() < lastActive || pickup.active || itemDrag || look || joyActive || keys['w'] || keys['a'] || keys['s'] || keys['d'] || keys['arrowup'] || keys['arrowdown'] || keys['arrowleft'] || keys['arrowright'];
+  // โหมดฉากเคลื่อนไหวเงียบ ๆ: เว้นเฟรมให้เหลือราว 24fps พอ (ประหยัดแบต/เครื่องอ่อน)
+  if (!userActive && ambientTicks().length) {
+    ambientAcc += dt;
+    if (ambientAcc < 1 / AMBIENT_FPS) { raf = requestAnimationFrame(loop); return; }
+    ambientAcc = 0;
+  }
   if (!modalOpen && !pickup.active) movePlayer(dt);
   pickup.update(dt);
   hoverWorld();
+  for (const fn of ambientTicks()) fn(tAnim);   // ตะเกียง/เมฆ/ฮาโลว์จันทร์ (room.js, city.js เพิ่มเข้ามาเอง)
   for (const e of entries) {
     if (e.group.userData.tick) for (const fn of e.group.userData.tick) fn(tAnim);
   }
@@ -356,7 +414,7 @@ function loop(now) {
   if (pickup.entry && pickup.entry.group.userData.model3d && pickup.entry.group.userData.autoSpin) {
     pickup.entry.group.userData.model3d.rotation.y += dt * .9;
   }
-  if (performance.now() < lastActive || pickup.active || itemDrag || look || joyActive || keys['w'] || keys['a'] || keys['s'] || keys['d'] || keys['arrowup'] || keys['arrowdown'] || keys['arrowleft'] || keys['arrowright']) raf = requestAnimationFrame(loop);
+  if (userActive || ambientTicks().length) raf = requestAnimationFrame(loop);
 }
 poke(3000);
 
